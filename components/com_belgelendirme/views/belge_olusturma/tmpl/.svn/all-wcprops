@@ -1,0 +1,77 @@
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl
+END
+yapilan_sinavlar.php
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/yapilan_sinavlar.php
+END
+iptal_sinavlar.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/iptal_sinavlar.php
+END
+yapilmayan_sinavlar.php
+K 25
+svn:wc:ra_dav:version-url
+V 119
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/yapilmayan_sinavlar.php
+END
+belge_adaylar.php
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svn/!svn/ver/24423/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/belge_adaylar.php
+END
+belge_duzenleme.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/27264/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/belge_duzenleme.php
+END
+gelecek_sinavlar.php
+K 25
+svn:wc:ra_dav:version-url
+V 116
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/gelecek_sinavlar.php
+END
+sonuc_sinavlar.php
+K 25
+svn:wc:ra_dav:version-url
+V 114
+/svn/!svn/ver/30173/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/sonuc_sinavlar.php
+END
+belgeExcel.php
+K 25
+svn:wc:ra_dav:version-url
+V 110
+/svn/!svn/ver/26072/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/belgeExcel.php
+END
+default.php
+K 25
+svn:wc:ra_dav:version-url
+V 107
+/svn/!svn/ver/29325/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/default.php
+END
+belge_durum.php
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svn/!svn/ver/26855/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/belge_durum.php
+END
+belgenoal.php
+K 25
+svn:wc:ra_dav:version-url
+V 109
+/svn/!svn/ver/21677/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/belgenoal.php
+END
+sinav_belgeleri.php
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svn/!svn/ver/27421/MYK/MYK-Portal_2012/components/com_belgelendirme/views/belge_olusturma/tmpl/sinav_belgeleri.php
+END

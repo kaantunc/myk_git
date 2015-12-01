@@ -1,0 +1,474 @@
+<?php
+define ('SITE_URL' , JURI::root());
+define ('DB_PREFIX','portaldys');
+define ('EK_LETTER', 'Z'); //Shell Baglantisi kurulan yer
+
+if (strpos($_SERVER['SERVER_NAME'],"myk.gov")){
+	define ('EK_FOLDER', 'E:/PortalDokumanlar/Portal_Upload/'); //Butun dosyalarin kayit yeri
+	define ('CAPTCHA_KONTROL', TRUE);//TRUE-FALSE
+} else {
+	define ('EK_FOLDER', 'C:/Portal_Upload/'); //Butun dosyalarin kayit yeri
+	define ('CAPTCHA_KONTROL', FALSE);//TRUE-FALSE
+}
+
+define ('UZMAN_MAX_ISGUNU', 60);
+//DEFINE PARAMETRE
+define ('PM_YETERLILIK_DURUMU__BASVURU', -5);
+define ('PM_YETERLILIK_DURUMU__SILINMIS', -4);
+define ('PM_YETERLILIK_DURUMU__ONTASLAK', '-3,-2,-1, 0');
+define ('PM_YETERLILIK_DURUMU__OLUSTURULMAMIS_ONTASLAK', -3);
+define ('PM_YETERLILIK_DURUMU__SS_ONAYINA_GONDERILMEMIS_ONTASLAK', -2);
+define ('PM_YETERLILIK_DURUMU__SS_ONAYINA_GONDERILMIS_ONTASLAK', -1);
+define ('PM_YETERLILIK_DURUMU__ONAYLANMIS_ONTASLAK', 0);
+define ('PM_YETERLILIK_DURUMU__TASLAK', 1);
+define ('PM_YETERLILIK_DURUMU__ULUSAL_YETERLILIK', 2);
+
+define ('PM_PROTOKOL_SILINMIS', 1);
+define ('PM_PROTOKOL_SILINMEMIS', 0);
+
+define ('PM_TERIM_AKTIFLIK__AKTIF', 1);
+define ('PM_TERIM_AKTIFLIK__PASIF', 2); 
+
+define('PM_BIRIM_EK2_TIPI__YETKINLIK', 1);
+define('PM_BIRIM_EK2_TIPI__ANLAYIS', 2);
+
+define ('PM_MESLEK_STANDART_DURUMU__BASVURU', -5);
+define ('PM_MESLEK_STANDART_DURUMU__SILINMIS', -4);
+define ('PM_MESLEK_STANDART_DURUMU__OLUSTURULMAMIS_ONTASLAK', -3);
+define ('PM_MESLEK_STANDART_DURUMU__SS_ONAYINA_GONDERILMEMIS_ONTASLAK', -2);
+define ('PM_MESLEK_STANDART_DURUMU__SS_ONAYINA_GONDERILMIS_ONTASLAK', -1);
+define ('PM_MESLEK_STANDART_DURUMU__ONAYLANMIS_ONTASLAK', 0);
+define ('PM_MESLEK_STANDART_DURUMU__TASLAK', 1);
+define ('PM_MESLEK_STANDART_DURUMU__ULUSAL_STANDART', 2);
+
+define ('PM_MESLEK_STANDART_DURUMU__ONTASLAK', '-3,-2,-1, 0');
+define ('PM_MESLEK_STANDART_DURUMU__TUMU', '-3,-2,-1, 0, 1, 2'); //Basvuru ve Silinmisler haric
+define ('PM_MESLEK_STANDART_DURUMU__ULUSAL_STANDART_DISINDA_TUMU', '-3,-2,-1, 0, 1'); //Basvuru ve Silinmisler haric
+define ('PM_MESLEK_STANDART_DURUMU__KURULUSCA_CALISILAN', '-2, -1, 0'); //Basvuru ve Silinmisler haric
+
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SILINDI', -3);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_SORUMLUSU_TARAFINDAN_INCELENIYOR', 0);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__YONETIM_KURULU_ONAYLADI',1);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__YONETIM_KURULU_TARAFINDAN_REDDEDILDI',-1);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_KOMITESINE_SUNULDU',2);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__KURULUSTAN_DUZELTME_ISTENDI',3);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__RESMI_GORUSE_KAMUOYUNUN_GORUSUNE_SUNULDU',4);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__GELEN_GORUSLER_DOGRULTUSUNDA_IPTAL_EDILDI',5);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__TASLAK_STANDARTLAR_MYKYA_TESLIM_EDILDI',6);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_KOMITESI_ONCESI_REVIZE_EDILMESI_IÇIN_KURULUSA_GONDERILDI',7);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__KURULUSUN_GORUSLERI_YANSITMASI_BEKLENIYOR',8);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_KOMITESI_KARARLARI_YANSITILIYOR',9);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__YONETIM_KURULUNA_SUNULDU',10);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_KOMITESI_TARAFINDAN_BEKLETILIYOR',11);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__YONETIM_KURULU_TARAFINDAN_BEKLETILIYOR',12);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__HUKUK_MUSAVIRLIGINE_GONDERILDI',13);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__RESMI_GAZETEDE_YAYINLANDI',14);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__SEKTOR_KOMITESI_TARAFINDAN_REDDEDILDI',15);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__KURULUSTAN_ISLAK_IMZALI_DOKUMAN_GONDERILMESI_BEKLENIYOR',-2);
+define ('PM_MESLEK_STANDART_SUREC_DURUMU__ONTASLAK',-4);
+
+define ('PM_BIRIM_ONAY_DURUMU__SSNA_YOLLANMAMIS', 1);
+define ('PM_BIRIM_ONAY_DURUMU__SSNA_YOLLANMIS', 2);
+define ('PM_BIRIM_ONAY_DURUMU__SS_ONAYLAMIS', 3);
+define ('PM_BIRIM_ONAY_DURUMU__SS_REDDETMIS', 4);
+
+define ('PM_BAGLAM_TIPI__BIRIM_BAGLAMI', 1);
+define ('PM_BAGLAM_TIPI__OGRENME_CIKTISI_BAGLAMI', 2);
+define ('PM_BAGLAM_TIPI__BASARIM_OLCUTU_BAGLAMI', 3);
+
+define ('PM_UYGUNSUZLUK_TURU__BUYUK', 1 );
+define ('PM_UYGUNSUZLUK_TURU__KUCUK', 2 );
+
+define ('PM_OLCME_DEGERLENDIRME_TIPI__TEORIK_SINAV', 'T');
+define ('PM_OLCME_DEGERLENDIRME_TIPI__PERFORMANS_SINAVI', 'P');
+define ('PM_OLCME_DEGERLENDIRME_TIPI__DIGER_KOSULLAR', 'D');
+
+define ('PM_UYGUNSUZLUK_SUREC__UYGUNSUZLUK_TANIMLANDI', 1 );
+define ('PM_UYGUNSUZLUK_SUREC__DUZELTICI_FAALIYET_TAMAMLANDI', 2 );
+define ('PM_UYGUNSUZLUK_SUREC__UYGUNSUZLUK_SONUCLANDI', 3 );
+
+define ('PM_BIRIM_BAGIMSIZLIK_DURUMU__BAGIMLI', 0);
+define ('PM_BIRIM_BAGIMSIZLIK_DURUMU__BAGIMSIZ', 1);
+
+define ('PM_DENETIM_EKIBI_ROLU__BAS_DENETCI', 1);
+define ('PM_DENETIM_EKIBI_ROLU__DENETCI', 2);
+define ('PM_DENETIM_EKIBI_ROLU__YARDIMCI_DENETCI', 3);
+define ('PM_DENETIM_EKIBI_ROLU__TEKNIK_UZMAN', 4);
+
+define ('PM_YETKILENDIRME_KURULUS_TURU__ASIL', 1);
+define ('PM_YETKILENDIRME_KURULUS_TURU__YARDIMCI', 2);
+
+define ('PM_YETKILENDIRME_TURU__PROTOKOL', 1);
+define ('PM_YETKILENDIRME_TURU__TEKNIK_CALISMA_GURUBU', 2);
+define ('PM_YETKILENDIRME_TURU__REVIZYON', 3);
+
+define ('PM_TASLAK_YORUM_TIPI__YETERLILIK_YORUMU', 2);
+define ('PM_TASLAK_YORUM_TIPI__STANDART_YORUMU', 1);
+
+define ('PM_YETKI_ETKINLIGI__ETKIN', 1);
+define ('PM_YETKI_ETKINLIGI__ETKISIZ', 2);
+//PROTOKOL
+define ('PM_PROTOKOLTURU_MESLEKSTANDARDI', 1);
+define ('PM_PROTOKOLTURU_YETERLILIK', 2);
+define ('YETKILI_MS_KURULUS_DURUMLARI', "2,6,7,8,12,13,14,16");
+define ('YETKILI_YET_KURULUS_DURUMLARI', "3,6,9,10,12,13,15,16");
+
+
+define ('PM_UZMAN_CALISMA_TIPI__BAS_DENETCI', 1);
+define ('PM_UZMAN_CALISMA_TIPI__DENETCI', 2);
+define ('PM_UZMAN_CALISMA_TIPI__YARD_DENETCI', 3);
+define ('PM_UZMAN_CALISMA_TIPI__TEKNIK_UZMAN', 4);
+define ('PM_UZMAN_CALISMA_TIPI__TEKNIK_CALISMA_GRUBU', 5);
+
+//YETKILENDIRME
+define ('PM_YETKILENDIRMETURU_MESLEKSTANDARDIYETKILENDIRME', 1);
+define ('PM_PROTOKOLTURU_YETERLILIKPROTOKOLU', 2);
+define ('YETERLILIK_SUREC_DURUMU_ID_SILINDI', -3);
+define ('STANDART_DURUMU_ID_SILINDI', -3);
+
+define ('PARENT_BIRIM_ID'	, 1);
+define ('DIS_HABER_KODU'	, 'yok');
+define ('DIS_KURUM_MU'		, 1);
+
+define ('PERSONEL_DURUM'	, 0);
+define ('KURULUS_DURUM_ID'	, 1);
+
+define ('GELIS_SEKLI_ID'	, 1);
+define ('EVRAK_TUR_ID'		, 1);
+define ('ICERIK_ID'			, 1);
+define ('KOSUL_ID'			, 1);
+
+define ('DIS_KURUM_DEGIL_ID'	, 0);
+define ('ADMIN_ID'				, 287);
+define ('BIRIM_YETKILISI_DEGIL'	, 0);
+
+//P_BASVURU_SEKLI -> EVRAK
+define ('KAYDEDILMEMIS_TASLAK_ADAYI_SEKLI_ID', -3);
+define ('ONAYLANMAMIS_TASLAK_ADAYI_SEKLI_ID' , -2);
+define ('KAYDEDILMEMIS_BASVURU_SEKLI_ID'	 , -1);
+define ('KAYDEDILMIS_BASVURU_SEKLI_ID'		 , 1);
+
+define ('KAYDEDILMEMIS_BASVURU'	, -1);
+define ('ONAYLANMAMIS_BASVURU'	, 0);
+define ('ONAYLANMIS_BASVURU'	, 6);
+define ('REDDEDILMIS_BASVURU'	, 7);
+define ('IMZA_BEKLENEN_BASVURU'	, 0);
+
+//Islak Imza Beklenen
+define ('IMZA_BEKLENEN_STANDART'				, -2);
+//Goruse Gonderilmis Taslak
+define ('GORUSE_GONDERILMIS_STANDART'			, 4);
+//Onaylanmamis
+define ('ONAYLANMAMIS_STANDART'					, 0);
+//Onaylanmis
+define ('ONAYLANMIS_STANDART'					, 1);
+define ('RESMI_GAZETEDE_YAYINLANMIS_STANDART'	, 14);
+define ('RESMI_GAZETEDE_YAYINLANMIS_YETERLILIK'	, 14);
+//Reddedilmisler
+define ('GELEN_GORUSLE_REDDEDILMIS_STANDART'	, 5);
+define ('KOMITE_TARAFINDAN_REDDEDILMIS_STANDART', 15);
+define ('KURUL_TARAFINDAN_REDDEDILMIS_STANDART'	, -1);
+define ('REDDEDILMIS_STANDART'					, '-1,-3, 5, 15');
+//Sektor Komitesine Gonderilmis
+define ('SEKTOR_KOMITESINE_GONDERILMIS_STANDART', 2);
+//Yonetim Kuruluna Gonderilmis
+define ('YONETIM_KURULUNA_GONDERILMIS_STANDART' , 10);
+
+define('PROTOKOL_LISTE_REDDEDILMIS_STANDART'	, -3);
+//Guncellemeye kapali
+define ('GUNCELLEME_KAPALI_STANDART'			, '[1,2,10,12 ,-1, 5, 15]');
+
+//Islak Imza Beklenen
+define ('IMZA_BEKLENEN_YETERLILIK'		, -2);
+//Goruse Gonderilmis Taslak
+define ('GORUSE_GONDERILMIS_YETERLILIK'	, 4);
+//Onaylanmamis
+define ('ONAYLANMAMIS_YETERLILIK'		, 0);
+//Onaylanmis
+define ('ONAYLANMIS_YETERLILIK'			, 1);
+//Yonetim Kurulunda bekletiliyor
+define ('YONETIM_KURULUNDA_BEKLETILIYOR', 9);
+//Reddedilmis
+define ('REDDEDILMIS_YETERLILIK'		, '-1,-3');
+//Kuruluştan düzeltme istenen yeterlilik
+define ('KURULUSTAN_DUZELTME_ISTENEN_YETERLILIK'	, 3);
+//Kuruluşun Görüşleri Yansıtması istenen yeterlilik
+define ('KURULUSTAN_GORUS_YANSITMA_ISTENEN_YETERLILIK'	, 5);
+define ('PROTOKOL_LISTE_REDDEDILMIS_YETERLILIK'	, -3);
+//Guncellemeye kapali
+define ('GUNCELLEME_KAPALI_YETERLILIK'	, '[1,-1]');
+//Sektor Komitesine Gonderilmis
+define ('SEKTOR_KOMITESINE_GONDERILMIS_YETERLILIK', 2);
+
+//Yonetim Kuruluna Gonderilmis
+define ('YONETIM_KURULUNA_GONDERILMIS_YETERLILIK' , 7);
+
+//define ('ONAYLANMAMIS_YETERLILIK' , 4);
+//define ('ONAYLANMIS_YETERLILIK'	 , 1);
+//define ('REDDEDILMIS_YETERLILIK'  , -1);
+//define ('IMZA_BEKLENEN_YETERLILIK', 2);
+
+define ('T1_SAYI_ID'			, 29548);
+define ('T2_SAYI_ID'			, 29564);
+define ('T3_SAYI_ID'			, 29580);
+define ('T4_SAYI_ID'			, 29588);
+define ('YT1_SAYI_ID'			, 29553);
+define ('YT2_SAYI_ID'			, 29569);
+define ('MS_PROTOKOL_SAYI_ID'	, 29551);
+define ('YET_PROTOKOL_SAYI_ID'	, 29567);
+define ('SB_PROTOKOL_SAYI_ID'	, 29583);
+define ('AKR_PROTOKOL_SAYI_ID'	, 29591);
+
+define ('KULLANILMAYAN_BASVURU_TIP_ID', "5,6,7,8,9,10,4");
+
+define ('T1_BASVURU_TIP'		  , 1);
+define ('T2_BASVURU_TIP'		  , 2);
+define ('T3_BASVURU_TIP'		  , 3);
+define ('T4_BASVURU_TIP'		  , 4);
+define ('YT1_BASVURU_TIP'		  , 5);
+define ('YT2_BASVURU_TIP'		  , 6);
+define ('YT3_BASVURU_TIP'		  , 7);
+define ('MS_PROTOKOL_BASVURU_TIP' , 9);
+define ('YET_PROTOKOL_BASVURU_TIP', 10);
+define ('UZMAN_BASVURU_TIP', 20);
+
+define ('MESLEK_STD_KURULUS_DURUM_IDS'  		, '2, 6, 7, 8, 12, 13, 14, 16');
+define ('YETERLILIK_KURULUS_DURUM_IDS'  		, '3, 6, 9, 10,12, 13, 15, 16');
+define ('SINAV_BELGELENDIRME_KURULUS_DURUM_IDS' , '4, 7, 9, 11,12, 14, 15, 16');
+define ('AKREDITASYON_KURULUS_DURUM_IDS' 		, '5, 8, 10,11,13, 14, 15, 16');
+define ('TUM_KURULUS_DURUM_IDS', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16');
+//Yeterlilik hazirlayan kuruluslarin id'leri yok
+define ('SADECE_MESLEK_STD_KURULUS_DURUM_IDS'	, '2,7,8,14');
+//Meslek Std hazirlayan kuruluslarin id'leri yok
+define ('SADECE_YETERLILIK_KURULUS_DURUM_IDS'	, '3,9,10,15');
+
+define ('YET_STANDART_OLMAYAN_KURULUS_IDS'		, '4,5,11');
+
+define ('OKUMA_ID'			, 1); 
+define ('KONUSMA_ID'		, 2); 
+define ('YAZMA_ID'			, 3); 
+define ('ANLAMA_ID'			, 4);
+
+define ('SECMELI_ALT_BIRIM'	, 0);
+define ('ZORUNLU_ALT_BIRIM'	, 1);
+
+define ('TEORIK_OLCME_ARAC_TUR'		, 0);
+define ('PERFORMANS_OLCME_ARAC_TUR'	, 1);
+
+define ('YETERLILIK_BILGI'		, 0);
+define ('YETERLILIK_BECERI'		, 1);
+define ('YETERLILIK_YETKINLIK'	, 2);
+
+define ('KAYNAK_STANDART_TUR'		, 0);
+define ('KAYNAK_YETERLILIK_TUR'		, 1);
+
+define ('YET_BECERI_YETKINLIK'		, 0);
+define ('ALT_BIRIM_BECERI_YETKINLIK', 1);
+
+define ('YET_GELISTIREN_KURULUS'		, 0);
+define ('YET_KATKI_SAGLAYAN_KURULUS'	, 1);
+define ('YET_GORUSE_GONDERILEN_KURULUS'	, 2);
+
+define('ARA_SERTIFIKA_DURUM_ID',1);
+define('ARA_YETERLILIK_SUREC_DURUM_ID',1);
+
+define('SINAV_TAKVIM_TASLAK', 0);
+define('SINAV_TAKVIM_KAYDEDILDI', 1);
+
+define('KAPSAM_BASARISIZ', 'BAŞARISIZ');
+
+define('SINAV_ONCESI_SAYI_ID'	, 137);
+define('TAKVIM_SAYI_ID'			, 137);
+define('SERTIFIKA_SAYI_ID'		, 137);
+define('TAKVIM_BASVURU_TIP'		, 8);
+define('TAKVIM_BASVURU_BASLANGIC_DURUM', 0);
+
+define('BASARILI_ADAY_EKLENMEDI', -1);
+
+define('BASARILI_ADAY_EKLENDI', -2);
+define('SERTIFIKA_BASVURULDU', 0);
+
+define('TEORIK_SINAV_ID'       , 1);
+define('PRATIK_SINAV_ID'       , 2);
+
+define('MS_SEKTOR_TIPI'        , 2);
+define('YET_SEKTOR_TIPI'       , 1);
+
+//DEFINE CACL GROUP IDS
+//Meslek Standardi Basvurusu Yapma Yetkisi
+define ('T1_GROUP_ID'	,	2);
+define ('T1_ROLE_ID'	,	2);
+define ('T1_FUNCTION_ID',	6);
+//Yeterlilik Basvurusu Yapma Yetkisi
+define ('T2_GROUP_ID'	,	5);
+define ('T2_ROLE_ID'	,	5);
+define ('T2_FUNCTION_ID',	5);
+//Sinav ve Belgelendirme Basvurusu Yapma Yetkisi
+define ('T3_GROUP_ID'	,	11);
+define ('T3_ROLE_ID'	,	10);
+define ('T3_FUNCTION_ID',	10);
+//Akreditasyon Basvurusu Yapma Yetkisi
+define ('T4_GROUP_ID'	  ,	18);
+define ('T4_ROLE_ID'	  ,	17);
+define ('T4_FUNCTION_ID',	17);
+//Meslek Standardi Hazirlamaya Yetkili
+define ('YT1_GROUP_ID'	,	13);
+define ('YT1_ROLE_ID'	,	12);
+define ('YT1_FUNCTION_ID',	12);
+//Yeterlilik Hazirlamaya Yetkili
+define ('YT2_GROUP_ID'	,	14);
+define ('YT2_ROLE_ID'	,	13);
+define ('YT2_FUNCTION_ID',	13);
+//Sinav Belgelendirme Islemlerine Yetkili
+define ('YT3_GROUP_ID'	,	12);
+define ('YT3_ROLE_ID'	,	11);
+define ('YT3_FUNCTION_ID',	11);
+//Yetkili Akreditasyon Islemlerine Yetkili
+define ('YT4_GROUP_ID'	,	16);
+define ('YT4_ROLE_ID'	,	15);
+define ('YT4_FUNCTION_ID',	15);
+//Meslek Standardi Sektor Sorumlusu
+define ('MS_SEKTOR_SORUMLUSU_GROUP_ID'	  ,	15);
+define ('MS_SEKTOR_SORUMLUSU_ROLE_ID'	  ,	14);
+define ('MS_SEKTOR_SORUMLUSU_FUNCTION_ID',	14);
+//Yeterlilik Sektor Sorumlusu
+define ('YET_SEKTOR_SORUMLUSU_GROUP_ID'	  ,	17);
+define ('YET_SEKTOR_SORUMLUSU_ROLE_ID'	  ,	16);
+define ('YET_SEKTOR_SORUMLUSU_FUNCTION_ID',	16);
+//Özel Kullanıcı Grubu
+define ('OZEL_KULLANICI_GRUP_ID'	  ,	28);
+
+
+//Itembank Kullanıcıları
+define ('ITEMBANK_GROUP_ID'	  ,	23);
+define ('ITEMBANK_ROLE_ID'	  ,	23);
+//Itembank Kullanıcıları
+define ('MUHASEBECI_GROUP_ID'	  ,	24);
+
+//Basvuru Durum Guncelleyici
+define ('BASVURU_DURUM_GUNCELLEYICI_GROUP_ID', 19);
+define ('BASVURU_DURUM_GUNCELLEYICI_ROLE_ID' , 18);
+//Admin
+define ('YONETICI_GROUP_ID', 22);
+define ('YONETICI_ROLE_ID'	,	22);
+
+//Uzman
+define ('UZMAN_GROUP_ID', 21);
+define ('UZMAN_ROLE_ID'	,	20);
+define ('UZMAN_FUNCTION_ID',	19);
+
+//Uzman Önizleyici
+define ('UZMAN_ONIZLEYICI_GROUP_ID', 25);
+define ('UZMAN_ONIZLEYICI_ROLE_ID'	,	25);
+
+//Kuruluş Kaydı Olmayan Kullanıcı
+define ('KURULUS_KAYDI_OLMAYAN_GROUP_ID', 10);
+define ('KURULUS_KAYDI_OLMAYAN_ROLE_ID'	,	9);
+
+//DEFINE MESAJ
+define ('PDF_MESAJ'		, "Asağıda linki verilen PDF dökümanını, ıslak imzali olarak Mesleki Yeterlilik Kurumu'na ulaştırınız.");
+define ('YETKI_MESAJ'	, "Bu alanı görmek için yetkiniz yok");
+define ('UZMAN_HAVUZU_FORMU_MESAJ'		, "Başvurunuzun çıktısını alıp cv ve diğer belge eklerinizle birlikte MYK'ya ıslak imzalı olarak teslim ediniz.");
+
+//DEFINE SEQUENCE ADLARI
+define ('AKREDITE_YETKI_ID_SEQ'		, 'AKREDITE_YETKI_ID_SEQ');
+define ('FINANS_DEKONT_SEQ'			, "FINANS_DEKONT_SEQ");
+define ('USER_SEQ'					, "USER_ID_seq");
+define ('BIRIM_SEQ'					, "BIRIM_ID_seq");
+define ('EVRAK_SEQ'					, "EVRAK_ID_seq");
+define ('IRTIBAT_SEQ'				, "IRTIBAT_ID_seq");
+define ('MESLEK_STD_SEQ'			, "MESLEK_STD_ID_seq");
+define ('PERSONEL_SEQ'				, "PERSONEL_ID_seq");
+define ('EGITIM_SEQ'				, "PERSONEL_EGITIM_ID_seq");
+define ('SERTIFIKA_SEQ'				, "PERSONEL_SERTIFIKA_ID_seq");
+define ('DENEYIM_SEQ'				, "PERSONEL_DENEYIM_ID_seq");
+define ('DIL_SEQ'					, "PERSONEL_DIL_ID_seq");
+define ('YETERLILIK_SEQ'			, "YETERLILIK_ID_seq");
+define ('YETERLILIK_TALEBI_SEQ'		, "YETERLILIK_TALEBI_ID_seq");
+define ('SINAV_MERKEZI_SEQ'			, "SINAV_MERKEZI_ID_seq");
+define ('TASLAK_MESLEK_SEQ'			, "TASLAK_MESLEK_ID_seq");
+define ('TERIM_SEQ'					, "TERIM_ID_seq");
+define ('STANDART_SEQ'				, "STANDART_ID_seq");
+define ('PROFIL_SEQ'				, "PROFIL_ID_seq");
+define ('EKIPMAN_SEQ'				, "EKIPMAN_ID_seq");
+define ('BILGI_BECERI_SEQ'			, "BILGI_BECERI_ID_seq");
+define ('TUTUM_DAVRANIS_SEQ'		, "TUTUM_DAVRANIS_ID_seq");
+define ('GOREV_ALAN_SEQ'			, "GOREV_ALAN_ID_seq");
+define ('AKREDITASYON_SEQ'			, "AKREDITASYON_ID_seq");
+define ('BIRLIKTE_KURULUS_SEQ'		, "BIRLIKTE_KURULUS_ID_seq");
+define ('YETERLILIK_ALT_BIRIM_SEQ'	, "YETERLILIK_ALT_BIRIM_ID_seq");
+define ('DEGERLENDIRME_ARAC_SEQ'	, "DEGERLENDIRME_ARAC_ID_seq");
+define ('BECERI_YETKINLIK_SEQ' 		, "BECERI_YETKINLIK_ID_seq");
+define ('YETERLILIK_KURULUS_SEQ'	, "YETERLILIK_KURULUS_ID_seq");
+define ('YET_TERIM_SEQ'				, "TERIM_ID_seq");
+define ('YET_STANDART_SEQ'			, "STANDART_ID_seq");
+define ('OGRENME_CIKTISI_SEQ'		, "OGRENME_CIKTISI_ID_SEQ");
+define ('BASARIM_OLCUTU_SEQ'		, "BASARIM_OLCUTU_ID_SEQ");
+define ('TARIFE_ID_SEQ'  			, 'TARIFE_ID_SEQ');
+define ('EK2_KNTRL_LISTELI_DEG_ARAC_SEQ', "EK2_KNTRL_LISTELI_DEG_ARAC_SEQ");
+
+define ('FINANS_BELGE_MASRAFI_ID_SEQ'	, 'FINANS_BELGE_MASRAFI_ID_SEQ');
+define ('FINANS_YILLIK_AIDAT_ID_SEQ'	, 'FINANS_YILLIK_AIDAT_ID_SEQ');
+
+define ('BIRIM_OLCME_DEGERLENDIRME_SEQ', 'BIRIM_OLCME_DGRL_ID_SEQ');
+//define ('BIRIM_BECERI_YETKINLIK_SEQ', "BECERI_YETKINLIK_ID_seq");
+define ('BASVURU_EK_SEQ'			, "BASVURU_EK_ID_seq");
+define ('DENETIM_PERSONEL_ID_SEQ'	, "DENETIM_PERSONEL_ID_seq");
+define ('DENETIM_ID_SEQ'			, "DENETIM_ID_SEQ");
+define ('UYGUNSUZLUK_ID_SEQ'		, "UYGUNSUZLUK_ID_SEQ");
+
+define ('KURULUS_YETKILENDIRME_NO_SEQ', "KURULUS_YETKILENDIRME_NO_seq");
+define ('STANDART_HAZIRLAYAN_SEQ'	, "STANDART_HAZIRLAYAN_ID_seq");
+define ('YETKI_SEQ'					, "YETKI_ID_seq");
+define ('PROTOKOL_SEQ'				, "PROTOKOL_ID_seq");
+define ('UZATMA_SEQ'				, "UZATMA_ID_seq");
+define ('KAYNAK_SEQ'				, "KAYNAK_ID_seq");
+define ('BAGLAM_SEQ'				, "BAGLAM_ID_seq");
+define ('BASARIM_SEQ'				, "BASARIM_ID_seq");
+define ('OGRENME_SEQ'				, "OGRENME_ID_seq");
+define ('YONETIM_KURULU_ID_SEQ'		, "YONETIM_KURULU_ID_seq");
+define ('UYARI_ID_SEQ'				, 'UYARI_ID_SEQ');
+
+define ('SERTIFIKA_BASVURU_ID_SEQ'	, 'SERTIFIKA_BASVURU_ID_SEQ');
+
+define ('UZMAN_CALISMA_SURESI_ID_SEQ', 'UZMAN_CALISMA_SURESI_ID_SEQ');
+
+
+// UYARI SİSTEMİ
+define ('MESLEK_STANDARTI'			, '2');
+define ('YETERLILIK'				, '1');
+
+define ('MESLEK_STANDARTI_REVIZYONU'			, '2-1');
+define ('YETERLILIK_REVIZYONU'				, '1-1');
+
+//define ('BELGELENDIRME_DURUM', "BELGELENDIRME_DURUM_ID");
+define ('ON_BASVURU_GONDERILMEDI', 2);
+define ('ON_BASVURU_INCELENIYOR', 4);
+define ('ON_BASVURU_DUZELTME', 6);
+define ('ON_BASVURU_BEKLIYOR', 8);
+define ('ON_BASVURU_ONAYLANDI', 10);
+define ('YETKI_INCELENIYOR', 12);
+define ('YETKI_DUZELTME', 14);
+define ('YETKI_BEKLIYOR', 16);
+define ('DENETIM_DEVAM', 18);
+define ('YETKI_ONAYLANDI', 20);
+
+// UZMAN HAVUZU
+define ('UZMAN_HAVUZU__BASVURU_DURUMU__REDDEDILDI'			, '-1');
+define ('UZMAN_HAVUZU__BASVURU_DURUMU__ONAYLANDI'			, '2');
+define ('UZMAN_HAVUZU__BASVURU_DURUMU__BASVURU_TAMAMLANMAMIS'			, '0');
+define ('UZMAN_HAVUZU__BASVURU_DURUMU__'			, '2');
+define ('UZMAN_HAVUZU__DURUMU__KULLANICI_KAYDI'			, '1');
+define ('UZMAN_HAVUZU__DURUMU__SS_KAYDI'			, '2');
+
+// TEBLİĞ TARİHİ
+define ('TEBLIG_TARIH'			, '25/05/2015');
+define ('ZIRAAT_FTP_HOST'			, '195.177.206.3');
+define ('ZIRAAT_FTP_USER'			, 'myk');
+define ('ZIRAAT_FTP_PASS'			, '*/bvG6e5+3Vd');
+// define ('ZIRAAT_FTP_HOST'			, '10.6.30.9');
+// define ('ZIRAAT_FTP_USER'			, 'portal');
+// define ('ZIRAAT_FTP_PASS'			, 'mykportal');
+define ('ZIRAAT_MYK_KURUM_KODU'		, '2818');
+define ('ZIRAAT_MYK_KURUM_ALT_KODU'	, '011');
+?>

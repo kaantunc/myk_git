@@ -1,0 +1,332 @@
+10
+
+dir
+30238
+http://www.boryazilim.com/svn/MYK/MYK-Portal_2012/components
+http://www.boryazilim.com/svn
+
+
+
+2015-11-26T14:48:26.884394Z
+30238
+suleyman
+has-props
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+d1be6f73-77f1-4058-8299-264363d0589a
+
+com_acajoom
+dir
+
+com_admin
+dir
+
+com_ajax
+dir
+
+com_akreditasyon
+dir
+
+com_akreditasyon_basvur
+dir
+
+com_akredite_kurulus_ara
+dir
+
+com_banners
+dir
+
+com_basvuru_ara
+dir
+
+com_belge_sorgula
+dir
+
+com_belgelendirme
+dir
+
+com_belgelendirme_abhibe
+dir
+
+com_belgelendirme_basvur
+dir
+
+com_belgelendirme_tesvik
+dir
+
+com_belgelendirme_yetki
+dir
+
+com_birim_yonetimi
+dir
+
+com_blob_dene
+dir
+
+com_chronocontact
+dir
+
+com_community_acl
+dir
+
+com_contact
+dir
+
+com_content
+dir
+
+com_datatable
+dir
+
+com_denetim
+dir
+
+com_denetim_ara
+dir
+
+com_denetim_duzenle
+dir
+
+com_egbcaptcha
+dir
+
+com_file_upload
+dir
+
+com_finans
+dir
+
+com_istatistik
+dir
+
+com_istatistik_meslek
+dir
+
+com_itembank
+dir
+
+com_joomap
+dir
+
+com_joomfish
+dir
+
+com_jsecure
+dir
+
+com_jsecure_yedek
+dir
+
+com_kayit_tamamlama
+dir
+
+com_kexport
+dir
+
+com_kimport
+dir
+
+com_kisi
+dir
+
+com_kunena
+dir
+
+com_kurulus_akredite_et
+dir
+
+com_kurulus_ara
+dir
+
+com_kurulus_edit
+dir
+
+com_kurulus_kayit
+dir
+
+com_linkr
+dir
+
+com_mailto
+dir
+
+com_matbaa
+dir
+
+com_media
+dir
+
+com_meslek_std_ara
+dir
+
+com_meslek_std_basvur
+dir
+
+com_meslek_std_giris
+dir
+
+com_meslek_std_taslak
+dir
+
+com_meslek_std_taslak_ara
+dir
+
+com_mesleki_yeterlilik_belge_ara
+dir
+
+com_newsfeeds
+dir
+
+com_oracon
+dir
+
+com_poll
+dir
+
+com_profile
+dir
+
+com_protokol_ms
+dir
+
+com_protokol_yet
+dir
+
+com_scheduled_tasks
+dir
+
+com_search
+dir
+
+com_sektor_sorumlusu_ms_listele
+dir
+
+com_sektor_sorumlusu_yet_listele
+dir
+
+com_sertifika_ara
+dir
+
+com_sertifika_sorgula
+dir
+
+com_sinav
+dir
+
+com_sinav_ara
+dir
+
+com_sinav_sonuc
+dir
+
+com_teknik_calisma
+dir
+
+com_terim_sozlugu
+dir
+
+com_test
+dir
+
+com_tesvik
+dir
+
+com_tesvik_abhibe
+dir
+
+com_user
+dir
+
+com_uzman_basvur
+dir
+
+com_uzman_kayit
+dir
+
+com_veritabani
+dir
+
+com_weblinks
+dir
+
+com_wrapper
+dir
+
+com_yeterlilik_ara
+dir
+
+com_yeterlilik_basvur
+dir
+
+com_yeterlilik_birim
+dir
+
+com_yeterlilik_giris
+dir
+
+com_yeterlilik_taslak
+dir
+
+com_yeterlilik_taslak_ara
+dir
+
+com_yeterlilik_taslak_yeni
+dir
+
+com_yetkilendirilmis_kurulus_ara
+dir
+
+com_yetkilendirme_ms
+dir
+
+com_yetkilendirme_yet
+dir
+
+com_yonetim_kurulu
+dir
+
+index.html
+file
+
+
+
+
+2015-11-14T21:55:12.905000Z
+9c1c685a9162b461ecf6ddb69d03f96c
+2012-03-08T13:11:42.971144Z
+13625
+ozlem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+50
+
