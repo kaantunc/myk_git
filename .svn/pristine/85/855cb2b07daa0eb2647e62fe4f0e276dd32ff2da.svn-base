@@ -1,0 +1,113 @@
+@CHARSET "ISO-8859-1";
+
+#yeniTerimDiv{
+	border: 1px solid #00A7DE;	
+	padding: 15px;
+	
+}
+
+#yeniTerim_AciklamaTextArea
+{
+	width:300px;
+	height:70px;
+	padding-left:5px;
+	vertical-align: top;
+	margin-right:30px;
+}
+#yeniTerim_AdTextbox
+{
+	width:200px;
+	padding-left:5px;
+	margin-bottom:5px;
+	margin-right:45px;
+}
+.buttonOnTheBottom
+{
+	vertical-align: bottom;
+}
+#yeniButton{
+	background-image: url('../../../images/ekle.png'); 
+	background-position: left center;
+	background-repeat: no-repeat;
+	width:30; 
+	height:30;
+	padding: 2px 5px 2px 18px;
+	cursor:pointer;
+}
+
+#aktiflestirButton{
+	background-image: url('../../../images/etkin.png'); 
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 18px;
+	cursor:pointer;
+}
+
+#pasiflestirButton{
+	background-image: url('../../../images/etkisiz.png'); 
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 18px;
+	cursor:pointer;
+}
+
+#silButton{
+	background-image: url('../../../images/sil.png'); 
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 18px;
+	cursor:pointer;
+}
+
+#duzenleButton{
+	background-image: url('../../../images/duzenle.png'); 
+	background-position: left center;
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 18px;
+	cursor:pointer;
+}
+
+hr{
+	color: #00A7DE;
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+
+
+/* LOADER HERE!!!!!*/
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 ) 
+                url('../../../images/ajax-loader.gif') 
+                50% 50% 
+                no-repeat;
+}
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden */
+body.loading {
+    overflow: hidden;   
+}
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+body.loading .modal {
+    display: block;
+}
+/* LOADER ENDS!!!!!*/
+
+.greenTextClass{
+	color: green;
+}
+
+.redTextClass{
+	color: red;
+}

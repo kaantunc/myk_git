@@ -1,0 +1,394 @@
+<?php
+
+defined('_JEXEC') or die('Restricted access');
+require_once('libraries/form/form.php');
+require_once('libraries/form/form_config.php');
+require_once('libraries/form/form_parametrik.php');
+require_once("libraries/joomla/utilities/browser_detection.php");
+
+require_once('libraries/form/captcha.php');
+
+$isProtokol = JRequest::getVar("protokol") == "1";
+$protokolStr = $isProtokol?"&protokol=1":"";
+$isGorus = JRequest::getVar("gorus") == "1";
+$gorusStr = $isGorus?"&gorus=1":"";
+$baslik = "Ulusal Yeterlilik Taslakları";
+
+if($isProtokol){
+	$baslik = "Protokol Kapsamındaki Yeterlilikler";
+}
+Else if($isGorus){
+	$baslik = "Görüş Aşamasındaki Yeterlilikler";
+}
+define('M_TASLAK_WHERE_STR', "YETERLILIK_SUREC_DURUM_ID = ".GORUSE_GONDERILMIS_YETERLILIK  
+		. " AND BASVURU_SEKLI_ID = ".KAYDEDILMIS_BASVURU_SEKLI_ID);
+
+$document = &JFactory::getDocument();
+$document->addScript( SITE_URL.'/templates/elegance/js/paginate.min.js' );
+$document->addScript( SITE_URL.'/templates/elegance/js/tablesort.min.js' );
+
+?>
+<div class="sinavGirisBaslik"><?php echo $baslik;?></div>
+<?php
+
+
+$gorev = isset($_POST['gorev']) ? $_POST['gorev'] : "goster";
+
+$itemId = JRequest::getVar('Itemid');
+$itemId = isset($itemId) ? $itemId : JRequest::getVar('prevItemId');
+$itemIdStr = isset($itemId) ? ('&amp;prevItemId='.$itemId) : '';
+$itemIdStrOrj = isset($itemId) ? ('&amp;Itemid='.$itemId) : '';
+
+if($gorev == "goster"){
+	formGoster($itemIdStr, $protokolStr, $gorusStr);
+}
+else if($gorev == "hepsi"){
+	captcha::check("index.php?option=com_yeterlilik_taslak_ara&gorev=goster$protokolStr&Itemid=$itemId");
+	hepsiIleListele($itemIdStrOrj, $isProtokol, $protokolStr, $isGorus, $gorusStr);
+}
+
+function formGoster($itemIdStr, $protokolStr, $gorusStr){
+	$db = & JFactory::getOracleDBO();
+	?>
+	<form action="index.php?option=com_yeterlilik_taslak_ara<?php echo $protokolStr?><?php echo $gorusStr?><?php echo $itemIdStr?>" method="post">
+		<input type="hidden" value="hepsi" name="gorev" />
+		<table>
+			<tr>
+				<td width="200">Sektöre göre ara</td>
+				<td width="130"><?php echo sektorleriGoster($db)?></td>
+			</tr>
+			<tr>
+				<td width="200">Yeterlilik adına göre ara</td>
+				<td width="130"><input type="text" name="yeterlilik_adi" /></td>
+			</tr>
+			<tr>
+				<td width="200">Seviyeye göre ara</td>
+				<td width="130"><?php echo seviyeleriGoster($db)?></td>
+			</tr>
+			<tr>
+				<td width="200">Oluşturan Kuruluşa göre ara</td>
+				<td width="130"><input type="text" name="olusturan" /></td>
+			</tr>
+			<tr>
+				<td width="200"><?php echo JText::_("CAPTCHA_INFO");?></td>
+				<td width="130">
+					<img src="index.php?option=com_egbcaptcha&width=150&height=50&characters=5" />
+					<div class="captchaInfo"><?php echo JText::_("CAPTCHA_PIC_INFO");?></div>
+					<input id="verify_code" name="verify_code" type="text" />
+				</td>
+			</tr>
+			</table>
+			<input type="submit" value="Ara" />
+	</form>
+	<?php
+	
+}
+
+function hepsiIleListele($itemIdStrOrj, $isProtokol, $protokolStr, $isGorus, $gorusStr){
+	$db = & JFactory::getOracleDBO();
+	
+	$yeterlilik_adi = JRequest::getVar('yeterlilik_adi');
+	$sektor_id = JRequest::getVar('sektor_id');
+	$seviye_id = JRequest::getVar('seviye_id');
+	$olusturan = JRequest::getVar('olusturan');
+	
+	$sonuclar = hepsiIleAra($db, $yeterlilik_adi, $sektor_id, $seviye_id, $olusturan, $isProtokol, $protokolStr, $isGorus, $gorusStr);
+	
+	listele($sonuclar, $itemIdStrOrj, $isProtokol, $protokolStr, $isGorus, $gorusStr);
+}
+
+function listele($sonuclar, $itemIdStrOrj, $isProtokol, $protokolStr, $isGorus, $gorusStr){
+	
+	if(empty($sonuclar)){
+		
+		echo '<div class="sonucBulunamadi">Uygun sonuç bulunamadı.</div>';
+		
+	}
+	else{
+		?>
+		<div class="tableWrapper">
+		<table cellspacing="0" class="paginate-10 sortable">
+			<tr class="tablo_header">
+				<th>#</th>
+				<!--<th class="sortable-numeric">Yeterlilik Id</th>-->
+				<th class="sortable-text">Seviye</th>
+				<th class="sortable-text">Yeterlilik Adı</th>
+				<th class="sortable-text">Kuruluş Adı</th>
+				<?php if($isGorus){?>
+				<th class="sortable-text">Görüş Bildir</th>
+				
+				<th>PDF</th>
+				<?php }?>
+			</tr>
+			
+			<?php
+				$user_browser = browser_detection('browser');
+				$rowCount=1;
+				$rowClass="";
+				$currentYeterlilikID = '';
+				foreach($sonuclar AS $satir){
+					if ($satir['YETERLILIK_ID'] == $currentYeterlilikID)
+					{//AYNI YETERLILIK, 
+						$kurulusAdiText .= (FormFactory::toUpperCase($satir['KURULUS_ADI']).'<br>');
+					}
+					else
+					{
+						$currentYeterlilikID = $satir['YETERLILIK_ID'];
+						$kurulusAdiText .= (FormFactory::toUpperCase($satir['KURULUS_ADI']).'<br>');
+						
+						if($rowCount%2==0)
+							$rowClass = "even_row";
+						else
+							$rowClass = "odd_row";
+						
+						/*if (strripos($user_browser, 'msie') !== FALSE) {
+							$clickHTML = 'target="_blank" href="index.php?option=com_yeterlilik_taslak&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$satir['YETERLILIK_ID'].'"';
+						} else {
+							$clickHTML = 'onclick="window.open(\'index.php?option=com_yeterlilik_taslak&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$satir['YETERLILIK_ID'].'\',\'\',\'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,directories=no,location=no\');"';
+						}*/
+						$taslakUrl = generatePDFPathForYeterlilik($satir['YETERLILIK_ID']);
+						$clickHTML = ' href="'.$taslakUrl.'"';
+							
+							
+						echo '<tr class="'.$rowClass.'">';
+						echo '<td>'.$rowCount.'</td>';
+						//	echo '<td>'.$satir['YETERLILIK_ID'].'</td>';
+						echo '<td>'.$satir['SEVIYE_ADI'].'</td>';
+						echo '<td>'.FormFactory::toUpperCase($satir['YETERLILIK_ADI']).'</td>';
+						echo '<td>'.$kurulusAdiText.'</td>';
+						if($isGorus) echo '<td><a href="index.php?option=com_yeterlilik_taslak&amp;view=gorus_bildir&amp;yeterlilikId='.$satir['YETERLILIK_ID'].'">Görüs Bildir</a></td>';
+						if($isGorus) echo '<td><a '.$clickHTML.' rel="nofollow" ><img alt="PDF" src="'.SITE_URL.'/templates/elegance/images/pdf_button.png" /></a></td>';
+						
+						echo '</tr>';
+						$kurulusAdiText = '';
+						$rowCount++;
+					}
+				}			
+			
+			?>
+			
+		</table>
+		</div>
+		<?php
+	}
+	?>
+	<br />
+	<a href="index.php?option=com_yeterlilik_taslak_ara<?php echo $protokolStr?><?php echo $gorusStr?><?php echo $itemIdStrOrj?>">Geri</a>
+	<?php
+}
+
+function  hepsiIleAra($db, $yeterlilik_adi, $sektor_id, $seviye_id, $olusturan, $isProtokol, $isGorus){
+
+	$isGorus = JRequest::getVar("gorus") == "1";
+	$yetAdiStr = $yeterlilik_adi ? 'TURKCE_UPPER(YETERLILIK_ADI) LIKE TURKCE_UPPER(?)' : '';  
+	$olusturanStr = $olusturan ? 'TURKCE_UPPER(KURULUS_ADI) LIKE TURKCE_UPPER(?)' : ''; 		
+	$sektorIdStr = $sektor_id != 'Seçiniz' ? 'SEKTOR_ID = ?' : ''; 
+	$seviyeIdStr = $seviye_id != 'Seçiniz' ? 'SEVIYE_ID = ?' : ''; 
+	
+
+	if($isProtokol){
+/*
+	$sql = "SELECT M_YETERLILIK.YETERLILIK_ID,
+				   PM_SEVIYE.SEVIYE_ADI,
+				   M_YETERLILIK.YETERLILIK_ADI,
+				   M_KURULUS.KURULUS_ADI,
+				   M_YETERLILIK_EVRAK.EVRAK_ID
+			FROM M_YETERLILIK 
+			JOIN PM_SEVIYE ON (PM_SEVIYE.SEVIYE_ID=M_YETERLILIK.SEVIYE_ID)
+			JOIN M_YETERLILIK_EVRAK ON (M_YETERLILIK_EVRAK.YETERLILIK_ID=M_YETERLILIK.YETERLILIK_ID)
+			JOIN M_BASVURU ON (M_BASVURU.EVRAK_ID=M_YETERLILIK_EVRAK.EVRAK_ID)
+			JOIN M_KURULUS ON (M_KURULUS.USER_ID=M_BASVURU.USER_ID)
+		WHERE YETERLILIK_SUREC_DURUM_ID<>-3 AND 
+                        YET_LISTE_ONAY=1   AND BASVURU_DURUM_ID=6
+
+		".($yetAdiStr ? ("AND ". $yetAdiStr) : '')."
+		".($sektorIdStr ? ("AND ". $sektorIdStr) : '')." 
+		".($olusturanStr ? ("AND ". $olusturanStr) : '')."
+		".($seviyeIdStr ? ("AND ". $seviyeIdStr) : '')."
+		 ORDER BY YETERLILIK_ADI"; */
+		$sql = "SELECT YETERLILIK_ID,
+						SEVIYE_ADI,
+						YETERLILIK_ADI,
+						KURULUS_ADI,
+						EVRAK_ID
+				FROM M_YETERLILIK
+					JOIN M_YETKI_YETERLILIK USING (YETERLILIK_ID)
+					JOIN M_YETKI USING (YETKI_ID)
+					JOIN M_KURULUS_YETKI USING (YETKI_ID)
+					JOIN PM_SEVIYE USING (SEVIYE_ID)
+					JOIN M_YETERLILIK_EVRAK USING (YETERLILIK_ID)
+					JOIN M_BASVURU USING (EVRAK_ID)
+					JOIN M_KURULUS ON (M_KURULUS.USER_ID=M_BASVURU.USER_ID)
+				
+				WHERE PROTOKOL_MU=1 AND
+					YETERLILIK_SUREC_DURUM_ID<>-3 AND
+					YET_LISTE_ONAY=1   AND BASVURU_DURUM_ID=6
+					
+					".($yetAdiStr ? ("AND ". $yetAdiStr) : '')."
+					".($sektorIdStr ? ("AND ". $sektorIdStr) : '')."
+					".($olusturanStr ? ("AND ". $olusturanStr) : '')."
+					".($seviyeIdStr ? ("AND ". $seviyeIdStr) : '')."
+				ORDER BY YETERLILIK_ADI";
+		
+	}
+	
+	else if($isGorus){
+		$olusturanStr = $olusturan ? 'TURKCE_UPPER(YETERLILIK_KURULUS_ADI) LIKE TURKCE_UPPER(?)' : '';
+		
+		$sql = "SELECT DISTINCT YETERLILIK_ID,
+				   SEVIYE_ADI,
+				   YETERLILIK_ADI,
+				   YETERLILIK_KURULUS_ADI AS KURULUS_ADI
+			FROM M_TASLAK_YETERLILIK 
+			JOIN M_YETERLILIK USING (YETERLILIK_ID)
+			JOIN PM_YETERLILIK_SUREC_DURUM USING (YETERLILIK_SUREC_DURUM_ID)
+			JOIN PM_SEVIYE USING (SEVIYE_ID) 
+			LEFT JOIN M_YETERLILIK_KURULUS USING (YETERLILIK_ID)
+		WHERE YETERLILIK_SUREC_DURUM_ID = 4 AND YETERLILIK_KURULUS_TIPI=0 	
+		".($yetAdiStr ? ("AND ". $yetAdiStr) : '')."
+		".($sektorIdStr ? ("AND ". $sektorIdStr) : '')." 
+		".($olusturanStr ? ("AND ". $olusturanStr) : '')."
+		".($seviyeIdStr ? ("AND ". $seviyeIdStr) : '')."
+		 ORDER BY YETERLILIK_ADI, YETERLILIK_ID";
+	}
+
+	
+	else{
+		$sql = "SELECT YETERLILIK_ID,
+				   SEVIYE_ADI,
+				   YETERLILIK_ADI,
+				   KURULUS_ADI,
+				   EVRAK_ID 
+			FROM M_TASLAK_YETERLILIK 
+			JOIN M_YETERLILIK USING (YETERLILIK_ID)
+			JOIN PM_YETERLILIK_SUREC_DURUM USING (YETERLILIK_SUREC_DURUM_ID)
+			JOIN PM_SEVIYE USING (SEVIYE_ID) 
+			LEFT JOIN ".DB_PREFIX.".EVRAK USING (EVRAK_ID) 
+			JOIN M_KURULUS USING (USER_ID) 
+		WHERE ".M_TASLAK_WHERE_STR." 	
+		".($yetAdiStr ? ("AND ". $yetAdiStr) : '')."
+		".($sektorIdStr ? ("AND ". $sektorIdStr) : '')." 
+		".($olusturanStr ? ("AND ". $olusturanStr) : '')."
+		".($seviyeIdStr ? ("AND ". $seviyeIdStr) : '')."
+		 ORDER BY YETERLILIK_ADI";
+	}
+		
+	$params = array();
+	
+	if($yetAdiStr != '')
+		$params[] = "%".$yeterlilik_adi."%";
+	if($sektorIdStr != '')
+		$params[] = $sektor_id;
+	if($olusturan != '')
+		$params[] = "%".$olusturan."%";
+	if($seviyeIdStr != '')
+		$params[] = $seviye_id;
+		
+	return $db->prep_exec($sql, $params);
+	
+}
+
+//function sektorleriAl($db){
+//		
+//	$sql = "SELECT *
+//			FROM PM_SEKTORLER ORDER BY SEKTOR_ADI ASC";
+//	
+//	return $db->prep_exec($sql, array());
+//}
+
+function sektorleriGoster($db){
+	
+	$sektorler = FormParametrik::getSektor();
+	?>
+	
+	<select name="sektor_id">
+		<option selected="selected" value="Seçiniz">Seçiniz</option>
+		<?php 
+		foreach($sektorler AS $sektor)
+			echo '<option value="'.$sektor['SEKTOR_ID'].'">'.$sektor['SEKTOR_ADI'].'</option>';
+		?>
+	</select>
+	<?php
+}
+
+function seviyeleriAl($db){
+		
+	$sql = "SELECT *
+			FROM PM_SEVIYE ORDER BY SEVIYE_ADI ASC";
+	
+	return $db->prep_exec($sql, array());
+}
+
+function seviyeleriGoster($db){
+	
+	$seviyeler = seviyeleriAl($db);
+	?>
+	
+	<select name="seviye_id">
+		<option selected="selected" value="Seçiniz">Seçiniz</option>
+		<?php 
+		foreach($seviyeler AS $seviye)
+			echo '<option value="'.$seviye['SEVIYE_ID'].'">'.$seviye['SEVIYE_ADI'].'</option>';
+		?>
+	</select>
+	<?php
+}
+
+function generatePDFPathForYeterlilik($yeterlilik_id)
+{
+	$_db = &JFactory::getOracleDBO();
+
+	$sql= "SELECT *
+	FROM m_yeterlilik
+	WHERE yeterlilik_id = ?";
+	$params = array ($yeterlilik_id);
+	$data = $_db->prep_exec($sql, $params);
+
+	if($data[0]['YENI_MI']=='1')
+		$componentName = 'com_yeterlilik_taslak_yeni';
+	else
+		$componentName = 'com_yeterlilik_taslak';
+
+
+	$sql= "SELECT *
+	FROM m_yeterlilik_revizyon
+	WHERE yeterlilik_id = ? AND REVIZYON_DURUMU=14 ORDER BY REVIZYON_NO DESC";
+	$params = array ($yeterlilik_id);
+	$data = $_db->prep_exec($sql, $params);
+
+	if(count($data)>0)
+	{
+		if($data[0]['RESMI_GORUS_ONCESI_PDF']=='')//yani en ustteki revizyon
+			// YOKSA PDF ÜRET
+			$taslakUrl = 'index.php?option='.$componentName.'&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$yeterlilik_id;
+			//$taslakUrl = "index.php?option=".$componentName."&amp;layout=pdf&amp;format=pdf&amp;form=5&amp;id=".getTaslakYeterlilikEvrakId($_db, $yeterlilik_id)."&amp;yeterlilik_id=".$yeterlilik_id;
+		else
+			$taslakUrl= 'index.php?dl='.$data[0]['RESMI_GORUS_ONCESI_PDF'];
+	}
+	else
+	{
+		$sql= "SELECT *
+		FROM m_taslak_yeterlilik
+		WHERE yeterlilik_id = ?";
+		$params = array ($yeterlilik_id);
+		$data = $_db->prep_exec($sql, $params);
+
+		if(count($data)>0 && $data[0]['RESMI_GORUS_ONCESI_PDF']!='')
+			$taslakUrl = 'index.php?dl='.$data[0]['RESMI_GORUS_ONCESI_PDF'];
+		else
+			$taslakUrl = 'index.php?option='.$componentName.'&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$yeterlilik_id;
+			//"index.php?option=".$componentName."&amp;layout=pdf&amp;format=pdf&amp;form=5&amp;id=".getTaslakYeterlilikEvrakId($_db, $yeterlilik_id)."&amp;yeterlilik_id=".$yeterlilik_id;
+	}
+	
+	/*if (strripos($user_browser, 'msie') !== FALSE) {
+							$clickHTML = 'index.php?option=com_yeterlilik_taslak&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$satir['YETERLILIK_ID'];
+						} else {
+							$clickHTML = 'onclick="window.open(\'index.php?option=com_yeterlilik_taslak&amp;task=indir&amp;id=1&amp;yeterlilik_id='.$satir['YETERLILIK_ID'].'\',\'\',\'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,directories=no,location=no\');"';
+						}
+						*/
+
+	return $taslakUrl;
+}
+
+
+?>

@@ -438,21 +438,7 @@ class ProfileController extends JController {
 		$return = $model->AjaxKurProGetir($post);
 		echo json_encode($return);
 	}
-
-    function AjaxGetKurVergiNo(){
-        $model 		 = $this->getModel('profile');
-        $post 		 = JRequest::get( 'post' );
-        $return = $model->AjaxGetKurVergiNo($post);
-        echo json_encode($return);
-    }
-
-    function AjaxKurVergiNoGuncelle(){
-        $model 		 = $this->getModel('profile');
-        $post 		 = JRequest::get( 'post' );
-        $return = $model->AjaxKurVergiNoGuncelle($post);
-        echo json_encode($return);
-    }
-
+	
 	function display() {	
         parent::display();
     }

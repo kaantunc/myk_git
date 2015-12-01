@@ -43,6 +43,7 @@ function Hesapla($alinacak){
 			<tr>
 				<th width="10%">Protokol Tarihi</th>
 				<th width="20%">Protokol Dökümanı</th>
+                <th width="30%">Vergi Kimlik No</th>
 				<th width="10%">KDV</th>
 				<th width="20%">Dezavantaj</th>
 				<?php if($this->canEdit){
@@ -55,6 +56,7 @@ function Hesapla($alinacak){
 			echo '<tr>';
 			echo '<td>'.$row['PRO_TARIH'].'</td>';
 			echo '<td><a href="index.php?dl=kurulus/'.$kurulus['USER_ID'].'/ab_protokol/'.$row['PRO_DOK'].'" class="btn btn-xs btn-warning">Protokol Dökümanı</a></td>';
+            echo '<td>'.$row['VERGI_KIMLIK_NO'].'</td>';
 			echo '<td>%'.$row['KDV'].'</td>';
 			if($this->canEdit){
 				if($row['DEZAVANTAJ']){
@@ -127,21 +129,6 @@ function Hesapla($alinacak){
 <?php } ?>
 <div class="anaDiv">
 <hr>
-</div>
-<div class="anaDiv fontBold font18 hColor text-center">
-    Kuruluş Vergi Kimlik No
-</div>
-<div class="anaDiv">
-    <div class="div30 font16 fontBold hColor">
-        Vergi Kimlik No:
-    </div>
-    <div class="div70">
-        <div class="divYan font16 fontBold"></div>
-        <div class="divYan"><button type="button" class="btn btn-sm btn-düzenle" onclick="FuncVergiNoDuzenle(<?php echo $kurulus['KURULUS_ID'];?>)">Düzenle</button></div>
-    </div>
-</div>
-<div class="anaDiv">
-    <hr>
 </div>
 <?php if($donem && $pro){ ?>
 <div class="anaDiv">
@@ -367,27 +354,6 @@ jQuery(document).ready(function(){
 			dateFormat: 'dd/mm/yy'
 		});
 	});
-
-    jQuery('#VergiNoKaydet').live('click',function(e){
-        e.preventDefault();
-        var kId = jQuery('#VergiNoDiv input[name="kId"]').val();
-        var vergino = jQuery('#VergiNoDiv input[name="vergino"]').val();
-        jQuery.ajax({
-            async:false,
-            type:"POST",
-            url:"index.php?option=com_profile&task=AjaxKurVergiNoGuncelle&format=raw",
-            data:"kId="+kId+"&vergino="+vergino
-        }).done(function(data){
-            var dat = jQuery.parseJSON(data);
-            if(dat){
-                alert('Kuruluş Vergi Numarası Başarıyla Düzenlendi.');
-                window.location.reload();
-            }else{
-                alert('Bir hata meydana geldi. Lütfen tekrar deneyin.');
-                window.location.reload();
-            }
-        });
-    });
 });
 
 function FuncProDuzenle(pId){
@@ -402,6 +368,7 @@ function FuncProDuzenle(pId){
 			jQuery('#ProForm input[name="proTar"]').val(dat['PRO_TARIH']);
 			jQuery('#ProForm input[name="proKDV"]').val(dat['KDV']);
 			jQuery('#ProForm input[name="pId"]').val(dat['ID']);
+            jQuery('#ProForm input[name="proVergiKimlik"]').val(dat['VERGI_KIMLIK_NO']);
 			jQuery('.proYuklu #proDok').attr('href','index.php?dl=kurulus/'+dat['KURULUS_ID']+'/ab_protokol/'+dat['PRO_DOK']);
 			jQuery('.proYuklu').show();
 			jQuery('.proYuksuz').hide();
@@ -495,27 +462,6 @@ function ProDokSil(){
 		return false;
 	}
 }
-
-function FuncVergiNoDuzenle(kId){
-    jQuery.ajax({
-        async:false,
-        type:"POST",
-        url:"index.php?option=com_profile&task=AjaxGetKurVergiNo&format=raw",
-        data:"kId="+kId
-    }).done(function(data){
-        var dat = jQuery.parseJSON(data);
-        if(dat){
-            jQuery('#VergiNoDiv input[name="vergino"]').val(dat['VERGI_KIMLIK_NO']);
-            jQuery('#VergiNoDiv').lightbox_me({
-                centered: true,
-                closeClick:false,
-                closeEsc:false
-            });
-        }else{
-            alert('Bir hata meydana geldi. Lütfen tekrar deneyin.');
-        }
-    });
-}
 </script>
 
 <div id="ProDiv" style="max-width: 50%; max-height:600px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px; overflow: auto;">
@@ -526,6 +472,10 @@ function FuncVergiNoDuzenle(kId){
     <div class="anaDiv">
     	<div class="div30 font16 hColor fontBold">Protokol Tarihi:</div>
     	<div class="div70"><input type="text" class="input-sm tarih" name="proTar"/></div>
+    </div>
+    <div class="anaDiv">
+        <div class="div30 font16 hColor fontBold">Vergi Kimlik Numarası:</div>
+        <div class="div70"><input type="number" class="input-sm" name="proVergiKimlik"/></div>
     </div>
     <div class="anaDiv">
     	<div class="div30 font16 hColor fontBold">Protokol Dökümanı:</div>
@@ -589,24 +539,4 @@ function FuncVergiNoDuzenle(kId){
     <input type="hidden" name="kId" value="<?php echo $kurulus['USER_ID'];?>"/>
     <input type="hidden" name="dId" value="0"/>
 </form>
-</div>
-
-<!-- Kuruluş Vergi Kimlik NO -->
-<div id="VergiNoDiv" style="max-width: 50%; max-height:600px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px; overflow: auto;">
-        <div class="anaDiv font18 fontBold hColor">
-            Kuruluş Vergi Kimlik No
-        </div>
-        <div class="anaDiv">
-            <div class="div30 font18 hColor">Vergi Kimlik No:</div>
-            <div class="div70"><input type="text" class="input-sm" name="vergino"/></div>
-        </div>
-        <div class="anaDiv">
-            <div class="div50">
-                <button type="button" class="btn btn-xs btn-danger" onclick="jQuery('#VergiNoDiv').trigger('close');">İptal</button>
-            </div>
-            <div class="div50 text-right">
-                <button type="button" class="btn btn-xs btn-success" id="VergiNoKaydet">Kaydet</button>
-            </div>
-        </div>
-        <input type="hidden" name="kId" value="<?php echo $kurulus['USER_ID'];?>"/>
 </div>

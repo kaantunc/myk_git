@@ -1,0 +1,38 @@
+@CHARSET "ISO-8859-1";
+table#terimKisaltma{
+	table-layout:fixed;
+	width:100%;
+	overflow:hidden;
+	word-wrap:break-word;
+}
+
+div#terimKisaltma_wrapper{
+	margin-top:10px;
+}
+th.siraNo{
+	width: 8%;
+}
+th.sil{
+	width: 9%;
+}
+td.ortala{
+    text-align: center;
+}
+th.aciklama{
+	width: 50%;
+}
+input[type="button"]:hover{
+	background-color: #B0C0DD;
+}
+table thead tr td
+{
+	font-weight: bold;
+}
+.revizyonTable tbody tr td
+{
+	border-bottom:1px solid #aeaeae;
+}
+.revizyonTable thead tr td
+{
+	padding-bottom:10px;
+}

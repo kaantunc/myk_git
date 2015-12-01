@@ -1,0 +1,81 @@
+@CHARSET "UTF-8";
+
+/* CSS Document */
+
+/*-----------Form Styles--------------*/
+
+.form_item {
+	height:auto;
+	padding:5px;
+}
+
+.form_item span{
+	padding-left: 2px;
+}
+
+.form_table{
+	width:100%;
+}
+.header {
+background-color:#52728D;
+color:#FEFFFE;
+}
+
+.formheader{
+	color: #52728D;
+	font-size:18px;
+	border-bottom:1px solid #42627D;
+}
+
+.form_td_header{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	width:35%;
+}
+
+.form_element {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	float: left;
+	margin-left:30px;
+	margin-top:4px;
+	margin-bottom:4px;
+	width:85%;
+}
+
+.form_element td {
+	padding:0px 15px 0px 0px;
+	line-height: 22px;
+}
+
+.tablo {
+font-size:11px;
+width:100%;
+padding-left: 10px;
+padding-right: 10px;
+}
+.tablo td {
+border-bottom-width:thin;
+border-style:none none dotted;
+text-align:center;
+padding-top: 5px;
+padding-bottom: 5px;
+line-height: 22px;
+}
+
+.tablo tr:hover {
+background-color:#EFFFEF;
+color:#000000;
+}
+
+.spacer{
+	border-bottom:1px solid #42627D;
+	margin-top: 10px; 
+	margin-bottom: 10px;
+}
+
+.contentheading{
+	margin-top:15px;
+	font-size:15px;
+	border-bottom:1px solid #42627D;
+}

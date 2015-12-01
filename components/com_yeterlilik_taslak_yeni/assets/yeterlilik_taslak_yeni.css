@@ -1,0 +1,84 @@
+@CHARSET "ISO-8859-1";
+
+.birim_wrapper{
+	padding-bottom: 20px;
+}
+
+.existing_birim_wrapper{
+	border: 1px solid #898989;
+}
+
+#varolanBirimlerContainer{
+	padding: 5px;
+}
+
+.gridview_wrapper{
+	padding: 10px 5px;
+}
+
+.submit_button{
+	text-align:right;
+}
+
+.arama_wrapper{
+	background-color: #CDCDCD; 
+	padding: 5px;
+}
+
+.dataTables_wrapper {
+	float:left;
+	width:100%;
+}
+.tablo_EklenmisBirimlerGrid
+{
+	float:left;
+	width:100%;
+}
+.blueBackgrounded
+{
+	background-color: #C6D9F1;
+	font-weight: bold;
+}
+.darkGrayBackgrounded
+{
+	background-color: #A7A7A7;
+}
+#tablo_kurulus_length
+{
+	display:none;
+
+}
+#tablo_kurulus_filter
+{
+	display:none;
+}
+.siraNoTD
+{
+	width:40px;
+}
+.silButtonTD
+{
+	width:40px;
+}
+.revizyonNoTextBox[readonly="readonly"]
+{
+	background-color: #EEEEEE;
+	border: 1px solid #AEAEAE;
+}
+.tumBasvuruBaslik
+{
+	background-color: #C6D9F1;
+	font-weight: bold;
+}
+table thead tr td
+{
+	font-weight: bold;
+}
+.revizyonTable tbody tr td
+{
+	border-bottom:1px solid black;
+}
+.revizyonTable thead tr td
+{
+	padding-bottom:10px;
+}

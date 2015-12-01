@@ -57,15 +57,6 @@ echo '<h3 style="margin-bottom:10px;">Bilgileri buradan güncelleyebilirsiniz.</
 	  </div>
 	  <div class="cfclear">&nbsp;</div>
 	</div>
-
-    <div class="form_item">
-        <div class="form_element cf_textbox">
-            <label class="cf_label" style="width: 150px;">Vergi Kimlik Numarası</label>
-            <input class="cf_inputbox" maxlength="150" size="30"  id="text_5" name="vergino_edit" type="text" value="<?php echo $kurulus_bekleyen["VERGI_KIMLIK_NO"];?>" />
-
-        </div>
-        <div class="cfclear">&nbsp;</div>
-    </div>
 	
 	<div class="form_item">
 	  <div class="form_element cf_textbox">

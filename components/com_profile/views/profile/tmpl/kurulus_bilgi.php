@@ -41,15 +41,6 @@ $iller	 = $this->iller;
 	  </div>
 	  <div class="cfclear">&nbsp;</div>
 	</div>
-
-    <div class="form_item">
-        <div class="form_element cf_textbox">
-            <label class="cf_label" style="width: 150px;">Vergi Kimlik No:</label>
-            <input class="cf_inputbox required" maxlength="150" size="30"  id="text_25" name="kisa_ad_edit" type="text" value="<?php echo $kurulus["VERGI_KIMLIK_NO"];?>" readonly="readonly"/>
-
-        </div>
-        <div class="cfclear">&nbsp;</div>
-    </div>
 	
 	<div class="form_item">
 	  <div class="form_element cf_textbox">

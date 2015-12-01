@@ -1,46 +1,0 @@
-10
-
-dir
-30238
-http://www.boryazilim.com/svn/MYK/MYK-Portal_2012/components/com_belgelendirme/views
-http://www.boryazilim.com/svn
-
-
-
-2015-11-26T14:42:56.140560Z
-30237
-suleyman
-
-
-svn:special svn:externals svn:needs-lock
-
-
-
-
-
-
-
-
-
-
-
-d1be6f73-77f1-4058-8299-264363d0589a
-
-belge_olusturma
-dir
-
-belge_sorgula
-dir
-
-belgelendirme_islemleri
-dir
-
-eski_sinav
-dir
-
-sonuc_bildirim
-dir
-
-tekrar_basim
-dir
-

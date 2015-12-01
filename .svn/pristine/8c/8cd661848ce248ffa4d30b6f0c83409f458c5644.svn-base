@@ -1,0 +1,14 @@
+{\rtf1\ansi\ansicpg1252\deff0\deftab720
+{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+{\colortbl ;}
+{\*\generator PhpWord;}
+\viewkind4\uc1\pard\nowidctlpar\lang1036\kerning1\fs20
+\pard\nowidctlpar\f0\fs20 By default, when you insert an image, it adds a textbreak after its content.\cf0\f0\fs20\par
+\f0\fs20 If we want a simple border around an image, we wrap the image inside a table->row->cell\cf0\f0\fs20\par
+\pard\nowidctlpar\f0\fs20 On the image with the red border, even if we set the row height to the height of the image, the textbreak is still there:\cf0\f0\fs20\par
+\par
+\pard\nowidctlpar\f0\fs20 But if we set the rowStyle 'exactHeight' to true, the real row height is used, removing the textbreak:\cf0\f0\fs20\par
+\par
+\pard\nowidctlpar\f0\fs20 In this example, image is 250px height. Rows are calculated in twips, and 1px = 15twips.\cf0\f0\fs20\par
+\f0\fs20 So: $table2->addRow(3750, array('exactHeight'=>true));\cf0\f0\fs20\par
+}

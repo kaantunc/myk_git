@@ -1,0 +1,102 @@
+.cf_tool-tip {
+	color: #fff;
+	width: 139px;
+	z-index: 13000;
+}
+ 
+.cf_tool-title {
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0;
+	color: #9FD4FF;
+	padding: 8px 8px 4px;
+	background: url(bubble.png) top left;
+}
+ 
+.cf_tool-text {
+	font-size: 11px;
+	padding: 4px 8px 8px;
+	background: url(bubble.png) bottom right;
+}
+ 
+.custom-tip {
+	color: #000;
+	width: 130px;
+	z-index: 13000;
+}
+ 
+.custom-title {
+	font-weight: bold;
+	font-size: 11px;
+	margin: 0;
+	color: #3E4F14;
+	padding: 8px 8px 4px;
+	background: #C3DF7D;
+	border-bottom: 1px solid #B5CF74;
+}
+ 
+.custom-text {
+	font-size: 11px;
+	padding: 4px 8px 8px;
+	background: #CFDFA7;
+}
+
+.tooltipimg{
+display:inline;
+margin:0px 0px 0px 10px;
+border:0px solid #000;
+}
+.tooltipdiv{
+display:none;
+}
+<<<<<<< .mine
+
+.up_submitbtn    {
+	background-image: url(images/button.gif);
+	border: 1px solid #000033;
+	width: 82px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+}
+.up_silbtn    {
+	background-image: url(images/buttonred.gif);
+	background-repeat: repeat-x;
+	border: 1px solid #000033;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 6px;
+}
+
+.up_success{
+	background-image: url(images/ok.gif);
+	background-position: left;
+	padding-left: 25px;
+	padding-top: 4px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	color: #449944;
+	height: 24px;
+}
+
+.up_error{
+	background-image: url(images/nok.gif);
+	background-position: left;
+	padding-left: 25px;
+	padding-top: 4px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	color: #994444;
+	height: 24px;
+}

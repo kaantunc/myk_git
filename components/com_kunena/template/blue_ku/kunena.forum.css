@@ -1,0 +1,1128 @@
+/* Font Size */
+#Kunena .fbxs {
+	font-size: 9px;
+}
+
+#Kunena .fbs {
+	font-size: 10px;
+}
+
+#Kunena .fbm {
+	font-size: 11px;
+}
+
+#Kunena .fbm a {
+	color: #000000;
+}
+
+#Kunena .fbm a:hover, #Kunena .fbm a:active, #Kunena .fbm a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+#Kunena .fbl {
+	font-size: 12px;
+}
+
+#Kunena .fbxl {
+	font-size: 13px;
+}
+
+#Kunena .fbxxl {
+	font-size: 14px;
+}
+
+/* Header */
+#Kunena .fb_header {
+	background: url(images/header-bg.png);
+	height: 40px;
+}
+
+#Kunena .fb_header_th_1 {
+	padding: 5px;
+}
+
+#Kunena .fb_header .fb_title  {
+	color: #FFFFFF;
+}
+
+td.fb_profileboxcnt {
+	width: 100%;
+}
+
+/* Top Menu */
+#Kunena .fb_header div#fb_topmenu {
+}
+
+#Kunena .fb_header div#fb_topmenu a {
+	color: #FFFFFF;
+	padding: 1px 10px;
+	display: block;
+	text-decoration: none;
+	font-weight: bold;
+	float: left;
+}
+
+#Kunena .fb_header div#fb_topmenu a:hover, #Kunena .fb_header div#fb_topmenu a:active, #Kunena .fb_header div#fb_topmenu a:focus {
+	color: #000000;
+	background: url(images/button-bg.png);
+}
+
+/* Search */
+#fb_searchbox {
+	width: auto;
+	white-space: nowrap;
+}
+
+#fb_searchbox form {
+	margin: 0;
+	padding: 0;
+}
+
+#fb_searchbox .fb_search_inputbox {
+	padding: 3px;
+	border: 1px solid #000000;
+	background: url(images/form-bg.png) repeat-x top;
+	font-weight: bold;
+	margin-right: 2px;
+}
+
+#fb_searchbox .fb_search_button {
+	padding: 2px 8px;
+	border: 1px solid #000000;
+	background: url(images/button-bg.png) repeat-x top;
+	color: #000000;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+.fb_search-results {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+/* Category */
+#Kunena table.fb_blocktable {
+	width: 100%;
+	margin: 5px 0;
+	border-style: solid;
+	border-color: #DDDDDD;
+	border-width: 0px 0px 0px 0px;
+	text-align: left;
+}
+
+#Kunena table.fb_blocktable thead tr th {
+	background: url(images/header-bg.png);
+	padding:6px 5px 3px 9px;
+	color: #FFFFFF;
+	font-weight: normal;
+	height: 30px;
+}
+
+#Kunena div.fb_title_cover {
+	float: left;
+	text-align: left;
+	color: #FFFFFF;
+	font-weight: normal;
+	line-height: normal;
+	padding: 2px;
+}
+
+#Kunena div.fb_title_cover a {
+	padding: 3px;
+	color: #FFFFFF;
+}
+
+#Kunena div.fb_title_cover a:hover, #Kunena div.fb_title_cover a:active, #Kunena div.fb_title_cover a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+#Kunena a.fb_title, #Kunena .fb_title {
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	display: block;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+#Kunena img.hideshow {
+	float: right;
+	margin: 0;
+	padding:0;
+	cursor: pointer;
+	position: relative;
+	z-index: 1;
+}
+
+#Kunena tr.fb_sth {
+	background: url(images/forum-bg.png);
+	font-size: 12px;
+	font-weight: bold;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+th.fb_sectiontableheader {
+	padding: 3px 5px;
+	text-align: left;
+	border: 1px solid #DDDDDD;
+	font-size: 12px;
+}
+
+#Kunena tr.fb_sectiontableentry1 td {
+	background: #F1F1F1;
+	padding: 10px;
+	border-bottom: 1px solid #DDDDDD;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #DDDDDD;
+}
+
+#Kunena tr.fb_sectiontableentry1 td.td-1 {
+	border-left: 1px solid #DDDDDD;
+}
+
+#Kunena tr.fb_sectiontableentry2 td {
+	background: #FFFFFF;
+	padding: 10px;
+	border-bottom: 1px solid #DDDDDD;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #DDDDDD;
+}
+
+#Kunena tr.fb_sectiontableentry2 td a {
+	color: #000000;
+}
+
+#Kunena tr.fb_sectiontableentry2 td a:hover, #Kunena tr.fb_sectiontableentry2 td a:active, #Kunena tr.fb_sectiontableentry2 td a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+#Kunena tr.fb_sectiontableentry2 td.td-1 {
+	border-left: 1px solid #DDDDDD;
+}
+
+#Kunena div.fb_thead-title a {
+	font-weight: bold;
+	color: #000000;
+}
+
+#Kunena div.fb_thead-title a:hover, #Kunena div.fb_thead-title a:active, #Kunena div.fb_thead-title a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+div.fb_thead-desc {
+	color: #000000;
+}
+
+#Kunena div.fb_thead-child {
+	border-top: 1px dotted #D4C9AD;
+	margin-top: 4px;
+}
+
+#Kunena table.fb_cc-table tr td {
+	border: 0px solid #FFFFFF;
+}
+
+#Kunena div.fb_cc-childcat-title {
+	width: 90px;
+	float: left;
+}
+
+table.fb_cc-table {
+}
+
+tr.fb_cc-sectiontableentry1 {
+}
+
+tr.fb_cc-sectiontableentry2 {
+}
+
+span.fb_childcount {
+}
+
+#Kunena div.fb_latest-subject a {
+	font-weight: bold;
+}
+
+div.fb_latest-subject-by a {
+	color: #000000;
+}
+
+div.fb_latest-subject-by a:hover, div.fb_latest-subject-by a:active, div.fb_latest-subject-by a:focus {
+	color: #FF0000;
+	text-decoration: none;
+}
+
+span.newchar {
+	color: #FF6600;
+	font-weight: bold;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size:8px;
+}
+
+/* Show Category */
+#Kunena  a.fb-topic-title {
+	font-weight: bold;
+}
+
+#Kunena img.stickyicon, #Kunena img.attachicon {
+	float: right;
+	border: 0;
+	margin: 2px;
+}
+
+#Kunena img.catavatar {
+	width: 20px;
+	height: 20px;
+	margin-left: 4px;
+	border: 1px solid #DDDDDD;
+}
+
+.fb_contentheading {
+	background: #ECE9D8;
+	font-weight: bold;
+	color: #990000;
+	border-bottom: 3px solid #DDD5BF;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+	border-top:  1px solid #FFFFFF;
+}
+
+.fb_contentheading span {
+	background: url(images/spoticon.gif) no-repeat left center;
+	padding-left: 16px;
+}
+
+.fb_sectiontableentry1_stickymsg {
+	background: #FFFFCE;
+}
+
+.fb_sectiontableentry2_stickymsg {
+	background: #FFFFE6;
+}
+
+.fb_sectiontableentry2_stickymsg a {
+	color: #FF0000;
+	margin-left: 5px;
+}
+
+.fb_sectiontableentry2_stickymsg a:hover, .fb_sectiontableentry2_stickymsg a:active, .fb_sectiontableentry2_stickymsg a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+tr.fb_sectiontableentry1_stickymsg td, tr.fb_sectiontableentry2_stickymsg td {
+	border-bottom: 1px solid #DDDDDD;
+	border-left: 1px solid #FFFFFF;
+	border-right: 1px solid #DDDDDD;
+	padding: 2px;
+}
+
+tr.fb_sectiontableentry1_stickymsg td.td-1, tr.fb_sectiontableentry2_stickymsg td.td-1 {
+	border-left: 1px solid #DDDDDD;
+}
+
+/* View Page */
+#fb_views {
+}
+
+th.view-th {
+	text-align: right;
+	padding-right: 10px;
+}
+
+th.view-th a {
+	color: #FF0000;
+}
+
+th.view-th a:hover, th.view-thm a:active, th.view-th a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+th.fb_sectiontableheader {
+}
+
+td.fb-msgview-left {
+	background: #e7e7e7 url(images/gradient.jpg) repeat-x top;
+	vertical-align: top;
+	width: 170px;
+	border-bottom: 0px solid #DDDDDD;
+	border-left: 1px solid #DDDDDD;
+}
+
+td.fb-msgview-right {
+	border-right: 1px solid #DDDDDD;
+	padding: 5px 10px 5px 30px ;
+	vertical-align: top;
+}
+
+div.fb-msgview-l-cover {
+	overflow: auto;
+	text-align: center;
+	padding :5px;
+}
+
+span.view-username {
+}
+
+span.view-username a {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+span.view-username a:hover, span.view-username a:active, span.view-username a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+span.view-username a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
+span.msgusertype {
+	font-weight: normal;
+	text-decoration: none;
+	text-decoration: none;
+	font-style: italic;
+}
+
+span.fb_avatar{
+}
+
+span.fb_avatar img {
+	border: none;
+	padding: 1px;
+	margin: 5px;
+}
+
+div.viewcover {
+	border: none;
+	background: transparent;
+	color:#333333;
+	text-align: center;
+	margin: 2px 5px;
+}
+
+span.msgtitle,span.msgtitle_new {
+	font-weight: bold;
+	text-decoration: none;
+	font-size:11px;
+	color:#937373;
+	background: url(images/msgtitleicon.gif) no-repeat left center;
+	padding-left: 25px;
+	line-height: 26px;
+}
+
+span.msgtitle_new {
+	background: url(images/msgtitlenew.gif) no-repeat left center;
+}
+
+span.msgdate {
+	color:#937373;
+	font-weight: normal;
+	text-decoration: none;
+	font-size:11px;
+	padding-left: 10px;
+}
+
+span.msgkarma {
+	font-weight: bold;
+	color: #937373;
+	font-size:11px;
+	text-decoration: none;
+	padding-right: 10px;
+}
+
+div.msgtext {
+	overflow: hidden; 
+	max-width: 100%;
+	border-top: 1px solid #DDDDDD;
+	padding-top: 10px;
+}
+
+div.fbcode {
+	overflow: auto;
+}
+
+div.msgtext pre, div.msgtext .code {
+	border-left: 5px solid #F4A94F;
+	border-right: 1px solid #CCC; 
+	border-top: 1px solid #CCC; 
+	border-bottom: 1px solid #CCC;
+	font-family: "Courier News", monospace;
+	line-height: 1.0;
+	margin: 5px 0pt 15px;
+	padding: 10px 15px;
+	width: 90%;
+	overflow: auto;
+}
+
+div.fb_file_attachment {
+	background: #CFDCEB;
+	border: 1px dotted #7F9DB9;
+	padding: 10px;
+	margin-bottom: 10px;
+}
+
+span.contentheading {
+}
+
+div.switchcontent {
+}
+
+input.fb_qm_btn {
+	padding: 2px 8px;
+	border: 1px solid #000000;
+	background: url(images/button-bg.png) repeat-x top;
+	color: #000000;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+input.fb_qm_cncl_btn{
+}
+
+td.fb-msgview-left-c {
+	background: #e7e7e7;
+	vertical-align: top;
+	border-left: 1px solid #D4C9AD;
+}
+
+td.fb-msgview-right-c {
+	border-right: 1px solid #DDDDDD;
+	padding: 1px 5px 1px 5px;
+	vertical-align: top;
+}
+
+div.fb_smalltext {
+}
+
+div.fb_smalltext a {
+	color: #FF0000;
+}
+
+div.fb_smalltext a:hover, div.fb_smalltext a:active, div.fb_smalltext a:focus {
+	color: #000000;
+	text-decoration: none;
+	font-size:11px;
+}
+
+td.fb-msgview-right-c div.fb_smalltext {
+	padding: 5px;
+	font-size:11px;
+	color:#937373;
+	text-align: right;
+}
+
+div.fb_message_editMarkUp_cover {
+	padding-top: 5px;
+	text-align: right;
+}
+
+span.fb_message_editMarkUp {
+	background: #f7f7f7 url(images/edit.gif) no-repeat left center;
+	border-left: 1px dotted #999;
+	border-right: 1px dotted #999;
+	border-top: 1px dotted #999;
+	padding: 2px 5px 2px 20px;
+	font-size: 9px;
+	color: #666666;
+}
+
+div.msgsignature {
+	border-top: dotted 1px #ccc;
+	text-align: left;
+	color: #999;
+	padding-top: 10px;
+}
+
+td.fb-msgview-left-b {
+	background: #e7e7e7;
+	vertical-align: top;
+	width:170px; 
+	border-bottom: 1px solid #DDDDDD; 
+	border-left: 1px solid #DDDDDD;
+}
+
+td.fb-msgview-right-b {
+	border-right: 1px solid #DDDDDD;
+	border-bottom: 1px solid #DDDDDD;
+	padding: 1px 5px 1px 5px;
+	vertical-align: top;
+}
+
+span.fb_qr_fire {
+}
+
+.switchcontent {
+	display: none;
+}
+
+span.fb_quote {
+	display: block;
+	border: 1px dotted #CCC;
+	margin: 5px 0pt;
+	padding: 5px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-style: italic;
+	background: #F7F7F7;
+}
+
+#Kunena div.fbhide {
+	background: #FFF8F2 url(images/bullet-tips.gif) no-repeat scroll 5px center;
+	border: 1px dotted #F2CAB7;
+	font-size: 12px;
+	padding: 10px 10px 10px 25px;
+}
+
+/* View Topic */
+#fb_threadview {
+	border: 1px solid #DDDDDD;
+}
+
+div#fb_threadview table.fb_blocktable {
+	margin: 0;
+}
+
+.fb_threadview_row td {
+	border-top: 1px  dotted #DDDDDD;
+}
+
+.fb_threadview_row td table tr td {
+	border-top: 0px solid #DDDDDD;
+}
+
+/* Post Page */
+#fb_postmessage {
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+table#fb_postmessage .fb_button {
+	padding: 2px;
+	border: 1px solid #000000;
+	background: url(images/button-bg.png) repeat-x top;
+	color: #000000;
+	font-weight: bold;
+	margin-right: 5px;
+}
+
+table#fb_postmessage .fb_slcbox {
+	padding: 2px;
+	border: 1px solid #000000;
+	background: url(images/form-bg.png) repeat-x top;
+	font-weight: bold;
+	margin-right: 2px;
+}
+
+#fb_post_message .postinput {
+	width:  94%;
+	border: 1px solid #ccc;
+	padding: 3px 5px;
+}
+
+#fb_postmessage tr.fb_sectiontableentry2 td.fb-topicicons td {
+	border-bottom: 0px solid #DDDDDD;
+}
+
+#fb_postmessage tr.fb_sectiontableentry1 .fb-postbuttonset td.fb_posthint {
+	background: #FFFFCC;
+	border: 1px solid #CFC1A9;
+	padding: 2px 5px;
+}
+
+table#fb_postmessage .fb_posthint .fb_inputbox {
+	background: #FFFFCC;
+	border: 0px solid #FFFFCC;
+	width: 100%;
+}
+
+.fb-postbuttonset {
+	width: 95%;
+}
+
+.fb-postbuttons {
+}
+
+table#fb_postmessage .fb_txtarea { 
+	width: 95%;
+	overflow: auto;
+	height: 300px;
+	border: 1px solid #ccc;
+}
+
+.fb_txtarea {
+	height: 300px;
+	width: 95%;
+}
+
+#fb_postmessage tr.fb_sectiontableentry1 .fb-postbuttonset td, #fb_postmessage tr.fb_sectiontableentry2 .fb-postbuttonset td {
+	border-bottom: 0px solid #DDDDDD;
+}
+
+table#fb_postmessage .button {
+	border: 1px solid #999;
+	color: #333;
+	font-weight: bold;
+	padding: 3px 10px;
+	margin: 3px;
+}
+
+.fb_leftcolumn {
+	width: 160px;
+	text-align: right;
+}
+
+.fb_leftcolumn a {
+	color: #FF0000;
+}
+
+.fb_leftcolumn a:hover, .fb_leftcolumn a:active, .fb_leftcolum a:focus {
+	color: #000000;
+	text-decoration: none;
+}	
+
+/* Post History */
+.fb_review_table {
+	text-align: left;
+	border-spacing: 1px;
+	background: #DDDDDD;
+}
+
+.fb_review_header {
+	color: #000000;
+}
+
+.fb_review_body0 {
+	color: #404040;
+	background-color: #FFFFCC;
+	line-height:100%;
+	padding:3px 10px;
+}
+
+.fb_review_body1 {
+	color: #404040;
+	background-color: #FFFFFF;
+	padding: 3px 10px;
+	line-height: 140%;
+}
+
+.fb_review_quote {
+	padding: 5px;
+	border: dotted 1px #ccc;
+	background-color: #FFF;
+	color: #999;
+	display: block;
+}
+/* Pathway */
+.fb_forum-pathway {
+	padding: 3px;
+	margin: 5px 0 5px 0;
+	border: 1px solid #DDDDDD; 
+	background: #F1F1F1;
+}
+
+.path-element-first {
+	font-weight: normal;
+	height: 18px;
+	line-height: 18px;
+	padding-left: 22px;
+	background: url(images/pathway_start.gif) no-repeat left center;
+	float: left;
+	padding-right: 3px;
+}
+
+.path-element-first a {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.path-element-first a:hover, .path-element-first a:active, .path-element-first a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+.path-element-last, .path-element-last a:link {
+	font-weight: bold;
+	text-decoration: none;
+	text-indent: 5px;
+	clear: left;
+	float: left;
+}
+
+.fb_forum-pathway .path-element {
+	background: url(images/arrow.png) no-repeat left center;
+	padding-left: 12px;
+	float: left;
+	font-weight: normal;
+	height: 18px;
+	line-height: 18px;
+	padding-right: 3px;
+}
+
+.fb_forum-pathway .path-element-last {
+	height: 18px;
+	line-height: 18px;background: url(images/pathway_finallink.gif) no-repeat left center; 
+	padding-left: 30px; 
+	padding-right: 5px;
+}
+
+.fb_forum-pathway a {
+	font-size:11px;
+	color: #333333;
+}
+
+.fb_forum-pathway a:hover, .fb_forum-pathway a:active, .fb_forum-pathway a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+.path-element-users {
+	font-size:10px;
+	margin-top: 21px;
+}
+
+/* Pagenav */
+table.jr-topnav {
+	width: 100%;
+}
+
+table.jr-bottomnav {
+	width: 100%;
+}
+
+td.jr-topnav-left {
+	text-align: left;
+	padding-bottom:6px;
+	padding-top:6px;
+	width: 70%;
+	vertical-align: middle;
+}
+
+td.jr-topnav-right {
+	text-align: right;
+	width: 50%;
+	vertical-align: middle;
+}
+
+div.jr-pagenav {
+font-size:11px;
+}
+
+div.jr-pagenav ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	float: right;
+}
+
+div.jr-pagenav ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0 4px;
+	display: block;
+	float: left;
+	background: none;
+}
+
+div.jr-pagenav ul li.jr-pagenav-text {
+	font-weight: normal;
+	list-style: none;
+	margin: 0;
+	padding: 0 4px;
+	display: block;
+	float: left;
+}
+
+div.jr-pagenav-nb, div.jr-pagenav-nb-act {
+	display: inline;
+}
+
+a.jr-pagenav-nb:link, a.jr-pagenav-nb:visited {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+a.jr-pagenav-nb:hover {
+	text-decoration: underline;
+}
+
+li.jr-pagenav-nb span.pagenav, li.jr-pagenav-nb a.pagenav:link, li.jr-pagenav-nb a.pagenav:visited {
+	font-weight: normal;
+	text-decoration: none;
+	background: none;
+	border: 0px;
+	line-height: normal;
+	margin: 0;
+	padding: 0;
+}
+
+/* Bottom patway */
+.fb_bottom_pathway {
+	display: none;
+}
+
+/* Header Description */
+.fb_forum-headerdesc {
+	padding: 3px; 
+	line-height: 18px; 
+	margin: -6px 0 0 0; 
+	border: 1px solid #DDDDDD; 
+	color: #000000; 
+	background: #F7F7F7;
+}
+
+/* Forum Tools */
+#fb_ft-cover {
+	float: right;
+	position: relative;
+	text-align: right;
+}
+
+table.jr-ft {
+	width: 100%;
+}
+
+td.ft-td1 {
+	width: 100%;
+}
+
+td.ft-td2 {
+	width: 150px;
+}
+
+#forumtools_control {
+	width: 150px;
+}
+
+.forumtools_contentBox {
+	background: #FFFFFF;
+	border: 1px solid #DDDDDD;
+	display: none;
+	overflow: hidden;
+	position: absolute;
+	right: 0px;
+	width: 150px;
+}
+
+.forumtools_content {
+	padding: 1px;
+	position: relative;
+	text-align: left;
+	width: 100%;
+}
+
+#subBox1 ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#subBox1 ul li {
+	background: none;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#subBox1 ul li a {
+	color: #000000;
+	font-weight: bold;
+	display: block;
+	text-decoration: none;
+	font-size: 11px;
+	padding: 3px 5px;
+	border-bottom: 1px solid #DDDDDD;
+}
+
+#subBox1 ul li a:hover, #subBox1 ul li a:active, #subBox1 ul li a:focus {
+	color: #000000;
+	background: url(images/button-bg.png);
+	font-weight: bold;
+}
+
+a.forumtools:link, a.forumtools:visited {
+	background: url(images/menu_open.gif) no-repeat right center;
+	color: #FFFFFF;
+	font-weight: bold;
+	padding-right: 20px;
+	text-align: center;
+	text-decoration: none;
+}
+
+a.forumtools:hover {
+	color: #000000;
+}
+
+/* FAQ, Rules, Upload Avatar and Announcement */
+td.fb_faqdesc, td.fb_rulesdesc, td.fb_uadesc, td.fb_anndesc, td.fb_creditsdesc {
+	vertical-align: top;
+	padding: 5px;
+	border: 1px solid #DDDDDD;
+	background: #FFFFFF;
+}
+
+.fb_credits_intro {
+	padding: 10px 0 10px 0;
+}
+
+.fb_team {
+	margin: 0; 
+	padding: 0; 
+	border-top: 1px solid #DDDDDD;
+}
+
+.fb_teammember { 
+	padding: 7px 10px 7px 10px; 
+	border-bottom: 1px solid #DDDDDD; 
+	list-style: inside;
+	margin: 0;
+}
+
+.fb_credits_more {
+	padding: 10px 0 10px 20px;
+}
+
+.fb_credits_intro a, .fb_team a, .fb_credits_intro a, .fb_teammember a, .fb_credits_more a {
+	color: #FF0000;
+}
+
+.fb_credits_intro a:hover, .fb_credits_intro a:active, .fb_credits_intro a:focus, .fb_team a:hover, .fb_team a:active, .fb_team a:focus, .fb_credits_intro a:hover, .fb_credits_intro a:active, .fb_credits_intro a:focus, .fb_teammember a:hover, .fb_teammember a:active, .fb_teammember a:focus, .fb_credits_more a:hover, .fb_credits_more a:active, .fb_credits_more a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+/* User Profile */
+.fb_profile-left {
+	padding-right: 5px;
+}
+
+.fb_profile-right {
+}
+
+.fb_profileinfo {
+	background: #FFFFFF;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+.fb-usrprofile-misc {
+	text-align: center;
+	margin: 0 auto;
+}
+
+#fb_userprfmsg td.td-6 {
+	border-right: 1px solid #DDDDDD;
+}
+
+.fb_profile-bottomnav {
+	background: #FFFFFF;
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+/* My Profile */
+.fb_myprofile_menu td {
+	border: 1px solid #DDDDDD;
+}
+
+.fb_myprofile_menu a {
+	display: block;
+	padding: 2px 5px 3px 10px;
+	text-decoration: none;
+	font-weight: bold;
+	color: #FF0000;
+}
+
+.fb_myprofile_menu a:hover, .fb_myprofile_menu a:active, .fb_myprofile_menu a:focus {
+	color: #FFFFFF;
+	background: url(images/profile-bg.png);
+	text-decoration: none;
+}
+
+.fb_myprofile_menu_title {
+	font-weight: bold;
+}
+
+.fb_myprofile_menu_staff {
+	padding: 5px 10px;
+	border-bottom: 4px solid #DDDDDD;
+}
+
+.fb_myprofile_general td {
+	padding: 3px 5px; 
+	border-left: 1px solid #DDDDDD;
+	border-right: 1px solid #DDDDDD;
+}
+
+/* Recent Posts */
+#Kunena a.fbrecent { 
+	font-weight: bold;
+}
+
+/* Whos Online */
+#Kunena .fbgrouplist {
+	padding: 10px;
+}
+
+/* Footer */
+.fb_credits {
+	position: relative; 
+	text-align:center; 
+	margin-top: 5px;
+}
+
+.fb_credits a {
+	color: #FF0000;
+}
+
+.fb_credits a:hover, .fb_credits a:active, .fb_credits a:focus {
+	color: #000000;
+	text-decoration: none;
+}
+
+
+.fb_footer {
+	text-align: center;
+}
+
+.fb_footer a {
+	color: #FF0000;
+}
+
+.fb_footer a:hover, .fb_footer a:active, .fb_footer a:focus {
+	color: #000000;
+}
+
+img.rsslink {
+	position: absolute; 
+	right:3px; 
+	top:0px; 
+}
+
+#jumpto input, #jumpto select {
+	float: right;
+}
+
+#jumpto input {
+	padding: 2px 8px;
+	border: 1px solid #000000;
+	background: url(images/button-bg.png) repeat-x top;
+	color: #000000;
+	font-weight: bold;
+	margin-right: 5px;
+	margin-bottom:5px;
+}
+
+#jumpto select {
+	padding: 2px;
+	border: 1px solid #000000;
+	background: url(images/form-bg.png) repeat-x top;
+	font-weight: bold;
+	margin-right: 2px;
+	margin-top:0;
+}

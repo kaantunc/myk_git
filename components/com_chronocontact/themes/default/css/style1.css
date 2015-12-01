@@ -1,0 +1,150 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+/*-----------Form Styles--------------*/
+
+.form_item {
+ /*border:1px #CCCCCC solid;*/
+	height:auto;
+}
+
+.form_element {
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:14px;
+	/*float: left;*/
+	margin-left:30px;
+	margin-top:4px;
+	margin-bottom:4px;
+	width:90%;
+}
+
+.form_element input, .form_element select, .form_element textarea{
+	float: left;
+	border: 1px solid silver;
+}
+
+.cf_placeholder{
+	/*padding-bottom:15px;*/
+}
+
+.form_element label {
+	/*width:150px;*/
+	padding:0px 10px 0px 0px;
+	display: block;
+	float: left;
+	line-height: 22px;
+	vertical-align: middle;
+}
+
+.form_element input.error, .form_element textarea.error, .form_element select.error{
+    border: 1px solid red;
+    padding: 2px;
+}
+
+.form_element label.error {
+    color: red;
+    padding-left: 10px;
+}
+
+.form_element .check_label {
+	/*width:150px;*/
+	padding:0px 10px 0px 0px;
+	float:none;
+	display:inline;
+	line-height: 22px;
+	vertical-align: middle;
+}
+.form_element .radio_label {
+	/*width:150px;*/
+	padding:0px 10px 0px 0px;
+	float:none;
+	display:inline;
+	line-height: 22px;
+	vertical-align: middle;
+}
+
+.cf_fileinput{
+	width:auto!important;
+}
+
+.delete_icon { float:right; /*border-left:1px #CCCCCC solid; padding:10px;*/}
+
+.delete_icon1 { float:right; border-left:1px #CCCCCC solid; border-bottom:1px #CCCCCC solid; padding:10px;}
+
+.no_delete { border:none;}
+
+.cf_button1 {
+	width:70px!important;
+}
+
+.radio { width:20px!important;}
+
+.float_left { float:left;}
+.cfclear { clear:both; font-size:0px; line-height:0px;}
+
+/*.width1 { width:571px;}*/
+
+
+
+.headerDiv {
+background-color:#344859;
+color:#FFFFFF;
+font-size:14px;
+height:20px;
+}
+.tablo {
+font-size:11px;
+}
+.tablo td {
+border-bottom-width:thin;
+border-style:none none dotted;
+text-align:center;
+padding:0px;
+}
+.tablo tr:hover {
+background-color:#EFFFEF;
+color:#000000;
+}
+.header {
+background-color:#52728D;
+color:#FEFFFE;
+}
+.tablo.none {
+border-style:none;
+}
+
+/*
+.btn {
+-moz-background-clip:border;
+-moz-background-inline-policy:continuous;
+-moz-background-origin:padding;
+background:transparent url(/yatirimyeri/modules/mod_s5_tabshow/s5_tabshow/repeatback.jpg) repeat scroll 0 0;
+border:1px solid #CFCDCD;
+color:#4161A8;
+cursor:pointer;
+float:left;
+font-size:12px;
+height:21px;
+line-height:2.2em;
+margin-bottom:5px;
+margin-left:1px;
+margin-right:6px;
+padding-left:7px;
+padding-right:7px;
+width:121px;
+}
+*/
+
+.contentheading{
+	color: #52728D;
+	font-size:18px;
+	border-bottom:1px solid #42627D;
+
+}
+
+.read_only{
+	background-color:#EFEFE8;
+	color:#000000;
+	border:0px; 
+}
+

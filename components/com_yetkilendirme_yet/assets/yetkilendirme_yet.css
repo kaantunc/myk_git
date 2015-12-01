@@ -1,0 +1,132 @@
+@CHARSET "ISO-8859-1";
+td.enabled {
+    color: green;
+}
+
+td.disabled {
+    color: red;
+}
+
+th.protokolHead{
+	width: 65%;
+}
+
+th.aktifHead{
+	width: 9%;
+}
+
+table#protokolListe{
+	width: 100%;
+}
+
+tr.checkedRow td{
+	background-color:#627BAC !important;
+	color:white;
+}
+
+div#protokolListe_wrapper{
+	margin-top:10px;
+}
+
+#yeniButton{
+	background-image: url('../../../images/ekle.png'); 
+	background-repeat: no-repeat;
+	width:30; 
+	height:30;
+	padding: 2px 5px 2px 15px;
+	cursor:pointer;
+}
+
+#etkinlestirButton{
+	background-image: url('../../../images/etkin.png'); 
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 15px;
+	cursor:pointer;
+}
+
+#etkisizlestirButton{
+	background-image: url('../../../images/etkisiz.png');  
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 15px;
+	cursor:pointer;
+}
+
+#silButton{
+	background-image: url('../../../images/sil.png');  
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 15px;
+	cursor:pointer;
+}
+
+#duzenleButton{
+	background-image: url('../../../images/duzenle.png');  
+	background-repeat: no-repeat;
+	padding: 2px 5px 2px 15px;
+	cursor:pointer;
+}
+
+div.toolbar{
+	text-align:right;
+}
+
+.form_content{
+	padding: 15px;
+}
+
+.kurulus_wrapper{
+	padding-top: 20px; 
+	padding-bottom: 20px;
+}
+
+.standart_wrapper{
+	padding-bottom: 20px;
+}
+
+.form_row{
+	padding-bottom: 2px; 
+	padding-top: 2px;
+}
+
+.leftCol{
+	width:16%;
+	float:left;
+}
+
+.rightCol{
+	width:80%;
+	float:left;
+}
+
+.tablo_row, .tablo_row:hover{
+	background:none;
+}
+
+.gridview_wrapper{
+	border:1px solid #898989;
+	padding: 10px 5px;
+}
+
+.submit_button{
+	text-align:right;
+}
+
+.kucukMinikAciklamaYazisiClassi
+{
+	font-size: 8pt;
+	color: #00A7DE;
+}
+
+.protokolSilErrorLinkleri
+{
+	color:#8E0000;
+	font-size: 8pt;
+	text-decoration:underline;
+}
+
+input.error {
+    border: 1px solid red;
+}
+
+label.error {
+    color: red;
+}

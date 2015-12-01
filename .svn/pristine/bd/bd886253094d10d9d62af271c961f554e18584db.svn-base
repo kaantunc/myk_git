@@ -1,0 +1,146 @@
+@CHARSET "ISO-8859-1";
+
+.genel_wrapper{
+	margin-top:10px;
+}
+
+.kaynak_wrapper{
+ 	margin-top:20px;
+ 	margin-bottom:20px;
+}
+
+.kaynak_tablo{
+	margin-top:20px;
+}
+
+#kaynak_meslek_standartlari{
+	width:100% !important;	
+}
+
+.gridview_wrapper{
+	border:1px solid #898989;
+	padding: 10px 5px;
+}
+
+.existing_standart_wrapper{
+	display: none; 
+	border: 1px solid #898989;
+}
+
+#varolanStandartlarContainer{
+	padding: 5px; 
+	display: none;
+}
+
+.varolanStandartlariEkleDiv{
+	width: 100%; 
+	padding-bottom: 10px;
+}
+
+.varolanStandartlariEkleButton{
+	display: none;
+}
+
+#existing_meslekStandartlari{
+	display: none; 
+	width: 100%;
+}
+
+.search_container{
+	background-color: #CDCDCD; 
+	padding: 5px;
+}
+
+.yeni_kaynak{
+	width: 100%; 
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+/* OGRENME CIKTISI */
+.ui-icon {
+    float: left;
+}
+
+.ogrenme_ciktisi_wrapper{
+	border:1px solid silver;
+	margin-bottom:15px;
+	background-color:white;
+	position:relative;
+	padding: 10px;
+}
+
+.basarim_olcutu_wrapper{
+	/*border:1px solid silver;*/
+	border-top: 1px solid #063B5E;
+	margin-bottom:10px;
+	margin-left:30px;
+	margin-right:15px;
+	background-color:white;
+	position: relative;
+}
+
+.basarim_olcutu{
+	margin-top:10px;
+	margin-bottom:10px;
+}
+
+.sort_button{
+	background:url("img/ogrenme-cikti-ucgen.png") no-repeat;
+	width:39px;
+	height:31px;
+	position:absolute;
+	right:0;
+	top: 0;
+}
+
+.ogrenme_ciktisi{
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
+.baglam{
+	margin-top:5px;
+	margin-bottom:5px;
+	margin-left:45px;
+}
+
+.siraNo{
+	float:left;
+	font-weight:bold;
+	margin-left:5px;
+	margin-right:5px;
+	font-size:14px;
+}
+
+.ui-icon-plusthick {
+    background-position: -32px -128px !important;
+}
+
+.baglam_ekle_button{
+	background:url("img/baglam-ekle-ok.png") no-repeat;
+	width:32px;
+	height:24px;
+	float: left;
+	margin-left: 12px; 
+	margin-top: -4px;
+}
+
+.ogrenme-ekle-button{
+	margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.ogrenme_kaydet, .ogrenme_iptal, .basarim_kaydet, .basarim_iptal, .baglam_kaydet, .baglam_iptal, 
+.basarim_ekle_iptal, .baglam_ekle, .baglam_ekle_iptal, .ogrenme_ekle_kaydet, .ogrenme_ekle_iptal{
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.submit_button_bo{
+	margin-right:15px;
+}
+
+.submit_button_bo, .submit_button_oc{
+	text-align:right;
+}

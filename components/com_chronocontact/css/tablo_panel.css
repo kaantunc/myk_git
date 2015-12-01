@@ -1,0 +1,127 @@
+@CHARSET "UTF-8";
+
+.up_submitbtn    {
+	background-image: url(images/button.gif);
+	border: 1px solid #000033;
+	width: 82px;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+}
+.up_silbtn    {
+	background-image: url(images/buttonred.gif);
+	background-repeat: repeat-x;
+	border: 1px solid #000033;
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-position: center;
+	padding: 0px;
+	margin-right: 10px;
+	margin-bottom: 0px;
+	margin-left: 6px;
+}
+
+.up_success{
+	background-image: url(images/ok.gif);
+	background-position: left;
+	padding-left: 25px;
+	padding-top: 5px;
+	padding-bottom: 10px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	color: #449944;
+	height: 24px;
+}
+
+.up_error{
+	background-image: url(images/nok.gif);
+	background-position: left;
+	padding-left: 25px;
+	padding-top: 4px;
+	background-repeat: no-repeat;
+	font-weight: bold;
+	color: #994444;
+	height: 24px;
+}
+
+.panel_main_div{
+	background-color: #EEEEEE;
+	margin-top: 20px;
+}
+
+.panel_clear{
+	clear:both;
+}
+
+.panel_heading{
+	font-weight: bold;
+	font-size: 13pt;
+	/*float:left;*/
+}
+
+.panel_kaldir_button_div{
+	float:left;
+	margin-left: 20px;
+}
+
+
+input, select { /*font-size: 10px;*/  border: 1px solid silver; }
+textarea      { font-size: 11px;  border: 1px solid silver; }
+button        { font-size: 10px;  }
+
+input.disabled { background-color: #F0F0F0; }
+
+input.button  { cursor: pointer;   }
+
+input:focus,
+select:focus,
+textarea:focus { background-color: #ffd }
+
+.tablo_header{
+	background-color:#F0F0FA;
+}
+
+.tablo_row{
+	background-color:#E8E8E8;
+	text-align:left;
+}
+
+.tablo_row2{
+	background-color:#FFFFFF;
+	text-align:left;
+}
+
+.tablo_row:hover, .tablo_row2:hover{
+	background-color:#E0E0E0;
+}
+
+.tablo_row td, .tablo_row2 td{
+	padding:3px;
+}
+
+.tablo_sil_hucre{
+	text-align:center;
+}
+
+.tablo_radio_hucre{
+	text-align:left;
+}
+
+td.panelTd{
+	width:150px;
+}
+
+td.panelInputTd{
+	width:640px;
+}
+
+td.colspanTd{
+	width:790px;
+}

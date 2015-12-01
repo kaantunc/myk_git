@@ -1,0 +1,10 @@
+{\rtf1\ansi\ansicpg1252\deff0\deftab720
+{\fonttbl{\f0\fnil\fcharset0 Arial;}}
+{\colortbl ;\red255\green128\blue128;\red0\green0\blue255;}
+{\*\generator PhpWord;}
+\viewkind4\uc1\pard\nowidctlpar\lang1036\kerning1\fs20
+\pard\nowidctlpar
+{ This is some lead text in a paragraph with a following footnote. }
+\par
+\pard\nowidctlpar\f0\fs20 You can also create the footnote directly from the section making it wrap in a paragraph like the footnote below this paragraph. But is is best used from within a textrun.\cf0\f0\fs20\par
+}

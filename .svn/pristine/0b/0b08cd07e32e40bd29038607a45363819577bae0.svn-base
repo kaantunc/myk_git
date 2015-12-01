@@ -1,0 +1,133 @@
+<?php 
+$editable  = $this->yet_liste_durum;
+
+if ($editable){
+	$name  = "Liste Onaylandı";
+	$style = 'style="background-color:rgb(100,150,100);color:rgb(255,255,255);height: 35px;"';
+}else{
+	$name  = "Liste Onaylanmadı";
+	$style = 'style="background-color:rgb(170,0,0);color:rgb(255,255,255);height: 35px;"';
+}
+?>
+
+<form onsubmit="return validate('kurulus_edit_form')"
+	  action="index.php?option=com_kurulus_edit&amp;layout=yeterlilik_liste&amp;task=yeterlilikKaydet&amp;id=<?php echo $this->user_id?>&amp;tur=<?php echo $this->kurulus_tur?>"
+	  enctype="multipart/form-data" method="post"
+	  id="kurulus_edit_form"
+	  name="kurulus_edit_form">
+
+	<?php echo $this->pageTree;?>
+	
+	<div class="form_item" style="text-align:center; padding-bottom: 15px;">
+		<input <?php echo $style;?> value="<?php echo $name;?>" id="duzenleme" name="duzenleme" type="button" onclick="changeEditStatus ()"/>
+		<input value="<?php echo $editable;?>" id="editable" name="editable" type="hidden" />
+		<div class="cfclear">&nbsp;</div>
+	</div>
+	
+	<div class="form_item">
+		<div class="form_element cf_placeholder">
+			<div id="yeterlilik_div" style="overflow-x:scroll;overflow-y:hidden;"></div>
+		</div>
+		<div class="cfclear">&nbsp;</div>
+	</div>
+
+	<div class="form_item" style="padding-top: 25px;">
+		<div class="form_element cf_button">
+			<input value="Kaydet" name="kaydet" type="submit" />
+		</div>
+		<div class="cfclear">&nbsp;</div>
+	</div>
+	
+</form>
+
+<script type="text/javascript">
+
+//Ongorulen Yeterlilik Tablosu
+<?php
+$param = array ($this->pm_seviye, $this->pm_meslek_standart, $this->pm_sektor);
+$k = array ('),"comboReq"), new Array("text","","15"), new Array("combo",new Array(', '),"comboReq", "", "210"),new Array("combo",new Array(' , '),"comboReq", "", "220"), new Array("text","","10","date"), new Array("text","","10","date"));');
+$r = 'dTables.yeterlilik = new Array(new Array("text"),new Array("combo",	new Array(';
+$p = '';
+$count = count ($param);
+for ($i = 0; $i < $count; $i++){
+	$data = $param[$i];
+	
+	$s = 'new Array ("Seçiniz", "Seçiniz"),';
+	if(isset($data)){
+	    foreach ($data as $row){
+	        $id = $row[0];
+	        $value = $row[1];
+	        if ($i == 1)
+	            $value = $row[1]." - ".$row[2]; //M_MESLEK_STANDARTLARI
+	        if ($id != 0)
+	            $s .= 'new Array ("'.$id.'","'.FormFactory::normalizeVariable ($value).'"),';
+	    }
+	}
+	
+	$s = substr ($s, 0, strlen($s)-1);
+	
+	$p .= $s.$k[$i];
+}
+$r .= $p;
+echo $r;
+?>
+
+function createTables (){
+	var tableName = "yeterlilik";
+	var headers   = new Array('Yeterliliğin<br />Adı',
+						      'Seviyesi*',
+						      'Yeterliliğe İlişkin<br />Yasal Düzenleme<br />(varsa)',
+						      'Yeterliliğe Kaynak <br /> Teşkil Eden <br /> Meslek Standardı,<br />Meslek Standardı<br />Birimleri/Görevleri<br />Veya Yeterlilik<br />Birimleri',
+						      'Yeterliliğin İlgili<br />Olduğu Sektör',
+						      'Yeterliliklerin<br />Geliştirilmesi/<br />Hazırlanması<br />İçin Öngörülen<br />Başlangıç Tarihi',
+						      'Yeterliliklerin<br />Geliştirilmesi/<br />Hazırlanması<br />İçin Öngörülen<br />Bitiş Tarihi'
+							);
+	createTable(tableName, headers);
+
+	patchEkleForDatePick(tableName, new Array ("6", "7"), headers);
+	addYeterlilikValues (dTables.yeterlilik, tableName);
+}
+
+function addYeterlilikValues (yeterlilik, name){
+	var length = yeterlilik.length;
+	var params = new Array ();
+	var arr    = new Array ();
+	var arrId  = new Array ();
+	
+	for (var i = 0; i < length; i++){
+		params[i] = yeterlilik[i][0];
+	}
+	
+	<?php	
+	$data = $this->yeterlilik;	
+	$tableCount = count ($data);
+	
+	$c = 0;
+	$id = 0;
+	for ($i=0; $i< $tableCount; $i++) {
+		$arr = $data[$i];
+		echo 'arrId['.$id++.']= "'. $arr["YETERLILIK_ID"] .'";';
+		
+	    echo 'arr['.$c++.']= "'. FormFactory::normalizeVariable ($arr["YETERLILIK_ADI"]) .'";';
+	    echo 'arr['.$c++.']= "'. $arr["SEVIYE_ID"] .'";';
+	    echo 'arr['.$c++.']= "'. FormFactory::normalizeVariable ($arr["YETERLILIK_YASAL"]) .'";';
+	    echo 'arr['.$c++.']= "'. $arr["STANDART_ID"] .'";';
+	    echo 'arr['.$c++.']= "'. $arr["SEKTOR_ID"] .'";';
+	    echo 'arr['.$c++.']= "'. $arr["YETERLILIK_BASLANGIC"] .'";';
+	    echo 'arr['.$c++.']= "'. $arr["YETERLILIK_BITIS"] .'";';
+	}
+	?>
+
+	if (isset (arr))
+		addTableValues (arr,arrId, params, name);
+}
+</script>
+
+<script type="text/javascript">//<![CDATA[
+//bu script inputtan sonra konmalı, mümünse en alta </body> den önce
+	
+var cal = Calendar.setup({
+	onSelect: function(cal) { cal.hide() }
+});
+
+//]]></script>
