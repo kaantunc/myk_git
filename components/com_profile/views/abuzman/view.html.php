@@ -32,10 +32,9 @@ class ProfileViewAbuzman extends JView
 		}
 		
 		if($layout == "default"){
-			$allSBKurulus = $model->getAllKurulus(SINAV_BELGELENDIRME_KURULUS_DURUM_IDS);
+			$allSBKurulus = $model->getAllKurulusWithoutPro(SINAV_BELGELENDIRME_KURULUS_DURUM_IDS);
 			$this->assign('AllSBKurulus',$allSBKurulus);
-			$this->assignRef('ProKur', $model->ProkoluOlanKuruluslar());
-			$this->assignRef('DonKur', $model->ProkoluDonemiOlanKuruluslar());
+			$this->assignRef('ProKur', $model->ProtokoluOlanKuruluslar());
 		}else if($layout == "abdonem"){
 			$kId = 0;
 			if(array_key_exists('kId', $post) && $post['kId'] != null && $post['kId'] != 0){

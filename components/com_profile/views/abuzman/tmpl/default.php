@@ -6,7 +6,6 @@ foreach($SBkurulus as $row){
 }
 
 $ProKur = $this->ProKur;
-$DonKur = $this->DonKur;
 $topHibe = 0;
 
 function UcretDuzenle($ucret){
@@ -32,21 +31,17 @@ function Hesapla($alinacak){
 		</tr>
 	</thead>
 	<tbody class="text-center fontBold">
-	<?php foreach($SBkurulus as $row){
+	<?php foreach($ProKur as $row){
 		echo '<tr>';
 		echo '<td>'.$row['USER_ID'].'</td>';
 		echo '<td>'.$row['KURULUS_ADI'].'</td>';
-		if(array_key_exists($row['USER_ID'], $ProKur)){
-			echo '<td>'.$ProKur[$row['USER_ID']]['PRO_TARIH'].'</td>';
+        echo '<td>'.$row['PRO_TARIH'].'</td>';
+
+		if(!empty($row['UCRET'])){
+			echo '<td>'.Hesapla($row['UCRET']).' €</td>';
+			$topHibe += UcretDuzenle($row['UCRET']);
 		}else{
-			echo '<td class="text-warning">-</td>';
-		}
-		
-		if(array_key_exists($row['USER_ID'], $DonKur)){
-			echo '<td>'.Hesapla($DonKur[$row['USER_ID']]['UCRET']).' €</td>';
-			$topHibe += UcretDuzenle($DonKur[$row['USER_ID']]['UCRET']);
-		}else{
-			echo '<td class="text-warning">-</td>';
+			echo '<td class="text-warning">0</td>';
 		}
 		
 		echo '<td><a target="_blank" class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=abuzman&layout=abdonem&kId='.$row['USER_ID'].'">Düzenle</a></td>';
@@ -63,9 +58,26 @@ function Hesapla($alinacak){
 		<?php echo Hesapla($topHibe);?> €
 	</div>
 </div>
+<div class="anaDiv">
+    <hr>
+</div>
+<div class="anaDiv text-center font20 fontBold hColor">
+    AB Protokolü İmzalanmamış Kuruluşlar
+</div>
+<div class="anaDiv">
+    <div class="div30 font16 fontBold hColor">
+        Kuruluşlar:
+    </div>
+    <div class="div70">
+        <select id="selectKur" class="input-sm"><?php echo $SBkuruluslar; ?></select>
+    </div>
+</div>
+<div class="anaDiv">
+    <button type="button" class="btn btn-sm btn-success" id="ProEkle">Yeni Protokol Ekle</button>
+</div>
 <script type="text/javascript">
 jQuery(document).ready(function(){
-	var oTables = jQuery('#kurTable').dataTable({
+	/*var oTables = jQuery('#kurTable').dataTable({
 		"aaSorting": [[ 2, "desc" ]],
 		"aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 		"bInfo": true,
@@ -85,6 +97,15 @@ jQuery(document).ready(function(){
 				"sLast":     "<?php echo JText::_("LAST");?>"
 			}
 		}
-	});
+	});*/
+
+    jQuery('#ProEkle').live('click',function(e){
+        e.preventDefault();
+        if(jQuery('#selectKur').val() == 0){
+            alert('Lütfen Protokol Eklemek İstediğiniz Kuruluş Seçiniz.');
+        }else{
+            window.location.href = "index.php?option=com_profile&view=abuzman&layout=abdonem&kId="+jQuery('#selectKur').val();
+        }
+    });
 });
 </script>
