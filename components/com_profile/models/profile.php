@@ -376,9 +376,9 @@ class ProfileModelProfile extends JModel {
 		$sql = "SELECT DISTINCT TC_KIMLIK, ADI, SOYADI, BEYAN, CV, ONAY_BEKLEYEN FROM M_BELGELENDIRME_DGRLNDRC_KRLS 
 				JOIN M_BELGELENDIRME_DEGERLENDIRICI USING(TC_KIMLIK) 
 				JOIN M_YETERLILIK USING(YETERLILIK_ID) 
-				WHERE ETKIN = 1 AND KURULUS_ID = ?
+				WHERE ETKIN = 1 AND ONAY_BEKLEYEN_DGRLNDRC!=-1 AND KURULUS_ID = ?
         		ORDER BY ADI ASC, SOYADI ASC";
-		
+
 		$data = $db->prep_exec($sql, array($kurulusId));
 		
 		if($data){
@@ -1192,8 +1192,8 @@ using(YETERLILIK_ID)";
 	}
 	function degerlendiriciSubmitForYeterlilik($post) {
 		$db  = &JFactory::getOracleDBO();
-		$sql = "UPDATE M_BELGELENDIRME_DGRLNDRC_KRLS SET ONAY_BEKLEYEN_DGRLNDRC = ?,ONAY_TARIHI = ? WHERE YETERLILIK_ID = ? AND TC_KIMLIK = ?";
-		$db->prep_exec_insert($sql, array($post['durum'],date('d/m/Y'),$post['yetid'],$post['tcno']));
+		$sql = "UPDATE M_BELGELENDIRME_DGRLNDRC_KRLS SET ONAY_BEKLEYEN_DGRLNDRC = ?,ONAY_TARIHI = ?,ACIKLAMA = ? WHERE YETERLILIK_ID = ? AND TC_KIMLIK = ?";
+		$db->prep_exec_insert($sql, array($post['durum'],date('d/m/Y'),$post['aciklama'],$post['yetid'],$post['tcno']));
 		
 		if($post['durum'] == "0"){
 			$datas['STATUS'] = "1";
@@ -1201,6 +1201,9 @@ using(YETERLILIK_ID)";
 		}else if($post['durum'] == "1"){
 			$datas['STATUS'] = "1";
 			$datas['RESULT'] = "Yeterlilik için değerlendirici onay işlemi başarıyla gerçekleşti";
+		}else if($post['durum'] == "-1"){
+			$datas['STATUS'] = "1";
+			$datas['RESULT'] = "Yeterlilik için değerlendirici başarıyla reddedildi.";
 		}
 		return $datas;
 	}

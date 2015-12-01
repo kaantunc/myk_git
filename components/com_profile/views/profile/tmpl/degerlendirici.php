@@ -51,43 +51,45 @@ $degerYets = $this->deger[1];
 		}
 		
 		$yetSay = 0;
-		foreach($degerYets[$row['TC_KIMLIK']] as $cow){
-			if($yetSay == 0){
-				echo '<td><a href="javascript:void(0)" tcno="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'" class="yetdetay"/>'.trim($cow['YETERLILIK_KODU']).'/'.$cow['REVIZYON'].' '.$cow['YETERLILIK_ADI'].'</a></td>';
-				
-			}else{
-				if(($yetSay+$say)%2 == 0){
-					echo '<tr '.$bgcolor.'>';
-				}else{
+		foreach($degerYets[$row['TC_KIMLIK']] as $cow) {
+			if ($cow['ONAY_BEKLEYEN_DGRLNDRC'] != "-1") {
+			if ($yetSay == 0) {
+				echo '<td><a href="javascript:void(0)" tcno="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '" class="yetdetay"/>' . trim($cow['YETERLILIK_KODU']) . '/' . $cow['REVIZYON'] . ' ' . $cow['YETERLILIK_ADI'] . '</a></td>';
+
+			} else {
+				if (($yetSay + $say) % 2 == 0) {
+					echo '<tr ' . $bgcolor . '>';
+				} else {
 					echo '<tr>';
 				}
 
-				echo '<td><a href="javascript:void(0)" tcno="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'" class="yetdetay"/>'.trim($cow['YETERLILIK_KODU']).'/'.$cow['REVIZYON'].' '.$cow['YETERLILIK_ADI'].'</a></td>';
-				
+				echo '<td><a href="javascript:void(0)" tcno="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '" class="yetdetay"/>' . trim($cow['YETERLILIK_KODU']) . '/' . $cow['REVIZYON'] . ' ' . $cow['YETERLILIK_ADI'] . '</a></td>';
+
 			}
-			echo '<td align="center">'.$cow['OLUSTURMA_TARIHI'].'</td>';
-			echo '<td align="center">'.($cow['ONAY_TARIHI'] == "" ? "-" : $cow['ONAY_TARIHI']).'</td>';
-			if($cow['ETKIN'] == 1){
+			echo '<td align="center">' . $cow['OLUSTURMA_TARIHI'] . '</td>';
+			echo '<td align="center">' . ($cow['ONAY_TARIHI'] == "" ? "-" : $cow['ONAY_TARIHI']) . '</td>';
+			if ($cow['ETKIN'] == 1) {
 				echo '<td align="center"><button style="background-color:green;color:white;" type="button" title="Etkin">Aktif</button></td>';
-			}else{
+			} else {
 				echo '<td align="center"><button style="background-color:red;color:white;" type="button" title="Etkisiz">Pasif</button></td>';
 			}
-			
-			if($cow['ONAY_BEKLEYEN_DGRLNDRC'] == "" || $cow['ONAY_BEKLEYEN_DGRLNDRC'] == "0"){
-				if($this->canEdit){
-					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" class="submituserforyeterlilik" type="button" title="Onayla" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'">Onayla</button></td>';
-				}else{
-					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" class="submitusererror" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
+
+			if ($cow['ONAY_BEKLEYEN_DGRLNDRC'] == "" || $cow['ONAY_BEKLEYEN_DGRLNDRC'] == "0") {
+				if ($this->canEdit) {
+					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" class="submituser" type="button" title="Onayla/Reddet" tcid="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '">Onayla/Reddet</button></td>';
+				} else {
+					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\')" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
 				}
-			}else{
-				if($this->canEdit){
-					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" class="canceluserforyeterlilik" type="button" title="Onaylandı" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'">Onaylandı</button></td>';
-				}else{
-					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" type="button" title="Onaylandı" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'">Onaylandı</button></td>';
+			} else {
+				if ($this->canEdit) {
+					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" class="canceluserforyeterlilik" type="button" title="Onaylandı" tcid="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '">Onaylandı</button></td>';
+				} else {
+					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" type="button" title="Onaylandı" tcid="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '">Onaylandı</button></td>';
 				}
 			}
 			echo '</tr>';
 			$yetSay++;
+		}
 			}
 		
 		$say++;
@@ -96,6 +98,8 @@ $degerYets = $this->deger[1];
 	</tbody>
 </table>
 <div id="loaderGif" style=" min-width: 10px; min-height:10px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px">
+	<input type="hidden" id="tc" value="">
+	<input type="hidden" id="yetid" value="">
     <table id="changeddatas">
     	<tr>
     		<td><input type="hidden" name="willconfirmeduser" id="willconfirmeduser"/>Adı :</td>
@@ -113,11 +117,15 @@ $degerYets = $this->deger[1];
     		<td>Cv</td>
     		<td></td>
     	</tr>
+		<tr>
+			<td>Açıklama</td>
+			<td><textarea id="degerlendiriciaciklama"></textarea></td>
+		</tr>
     	<tr>
     		<td colspan="2">
 	  			<div style="float:right; padding:10px;">
-		    		<button value="Onayla" id="confirmuser" style="background-color:grey;color:white;">Onayla</button>
-		    		<button value="Reddet" id="declineuser" style="background-color:grey;color:white;">Reddet</button>
+		    		<button value="Onayla" id="submituserforyeterlilik" style="background-color:grey;color:white;">Onayla</button>
+		    		<button value="Reddet" id="reduserforyeterlilik" style="background-color:grey;color:white;">Reddet</button>
 		    		<button value="İptal" id="canceluser" style="background-color:grey;color:white;">İptal</button>
 	  			</div>
   			</td>
@@ -163,6 +171,9 @@ jQuery(document).ready(function(){
 // 		});	
 
 	jQuery(".submituser").click(function(){
+		jQuery.blockUI();
+		jQuery('#loaderGif #tc').val(jQuery(this).attr('tcid'));
+		jQuery('#loaderGif #yetid').val(jQuery(this).attr('yetid'));
 		jQuery.ajax({
 			asycn:false,
 			type:'POST',
@@ -197,6 +208,7 @@ jQuery(document).ready(function(){
 						 
 						 jQuery("#changeddatas #willconfirmeduser").val(value2['TC_KIMLIK']);
 				});
+				jQuery.unblockUI();
 				jQuery('#loaderGif').lightbox_me({
 					centered: true,
 			        closeClick:false,
@@ -207,20 +219,25 @@ jQuery(document).ready(function(){
 	
 	});
 
-	jQuery(".submituserforyeterlilik").click(function(){
+	jQuery("#submituserforyeterlilik").click(function(){
 		if (confirm("İlgili yeterlilik için aktif değerlendirici onaylanacak emin misiniz!") == true) {
-			submitOrCancelUserForYeterlilik(jQuery(this).attr('tcid'),jQuery(this).attr('yetid'),"1");
+			submitOrCancelUserForYeterlilik(jQuery('#loaderGif #tc').val(),jQuery('#loaderGif #yetid').val(),"1",jQuery('#loaderGif #degerlendiriciaciklama').val());
 		}
 	});
 	jQuery(".canceluserforyeterlilik").click(function(){
 		if (confirm("İlgili yeterlilik için aktif değerlendirici onayı iptal edilecek emin misiniz!") == true) {
-			submitOrCancelUserForYeterlilik(jQuery(this).attr('tcid'),jQuery(this).attr('yetid'),"0");
+			submitOrCancelUserForYeterlilik(jQuery(this).attr('tcid'),jQuery(this).attr('yetid'),"0", '');
 		}
 	});
-	jQuery(".submitusererror").click(function(){
-		alert("İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.");
-		return false;
+	jQuery("#reduserforyeterlilik").click(function(){
+		if (confirm("İlgili yeterlilik için aktif değerlendirici reddedilecek emin misiniz!") == true) {
+			submitOrCancelUserForYeterlilik(jQuery('#loaderGif #tc').val(),jQuery('#loaderGif #yetid').val(),"-1",jQuery('#loaderGif #degerlendiriciaciklama').val());
+		}
 	});
+//	jQuery("#submitusererror").click(function(){
+//		alert("İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.");
+//		return false;
+//	});
 	jQuery("#confirmuser").click(function(){
 		submitOrCancelUser(jQuery("#changeddatas #willconfirmeduser").val(),"1");
 	});
@@ -278,13 +295,13 @@ function submitOrCancelUser(tcno,status){
 	 });
 }
 
-function submitOrCancelUserForYeterlilik(tcno,yetid,status){
+function submitOrCancelUserForYeterlilik(tcno,yetid,status,aciklama){
 	jQuery.ajax({
 		asycn:false,
 		type:'POST',
 		dataType: "json",
 		url:"index.php?option=com_profile&task=degerlendiriciSubmitForYeterlilik&format=raw",
-		data:'tcno='+tcno+'&yetid='+yetid+'&durum='+status,
+		data:'tcno='+tcno+'&yetid='+yetid+'&durum='+status+'&aciklama='+aciklama,
 		success:function(data){
 			if(data.STATUS && data.STATUS != ""){
 				alert(data.RESULT);
