@@ -137,7 +137,7 @@ function Hesapla($alinacak){
     </div>
     <div class="div70">
         <div class="divYan font16 fontBold"><?php echo $kurulus['VERGI_KIMLIK_NO'];?></div>
-        <div class="divYan"><button type="button" class="btn btn-sm btn-düzenle" onclick="FuncVergiNoDuzenle(<?php echo $kurulus['KURULUS_ID'];?>)">Düzenle</button></div>
+        <div class="divYan" style="margin-left: 10px;"><button type="button" class="btn btn-sm btn-primary" onclick="FuncVergiNoDuzenle(<?php echo $kurulus['KURULUS_ID'];?>)">Düzenle</button></div>
     </div>
 </div>
 <div class="anaDiv">
