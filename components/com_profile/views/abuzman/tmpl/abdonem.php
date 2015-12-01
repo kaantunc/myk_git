@@ -132,12 +132,12 @@ function Hesapla($alinacak){
     Kuruluş Vergi Kimlik No
 </div>
 <div class="anaDiv">
-    <div class="div30 font16 fontBold hColor">
+    <div class="div20 font16 fontBold hColor">
         Vergi Kimlik No:
     </div>
-    <div class="div70">
-        <div class="divYan font16 fontBold"><?php echo $kurulus['VERGI_KIMLIK_NO'];?></div>
-        <div class="divYan" style="margin-left: 10px;"><button type="button" class="btn btn-sm btn-primary" onclick="FuncVergiNoDuzenle(<?php echo $kurulus['KURULUS_ID'];?>)">Düzenle</button></div>
+    <div class="div80">
+        <div class="divYan font18 fontBold"><?php echo $kurulus['VERGI_KIMLIK_NO'];?></div>
+        <div class="divYan" style="margin-left: 50px;"><button type="button" class="btn btn-sm btn-primary" onclick="FuncVergiNoDuzenle(<?php echo $kurulus['KURULUS_ID'];?>)">Düzenle</button></div>
     </div>
 </div>
 <div class="anaDiv">
