@@ -1,6 +1,3 @@
-
-
-
 <style>
 #denetimListesiGrid thead tr td
 {
@@ -31,13 +28,22 @@ $document->addStyleSheet( SITE_URL.'/templates/elegance/css/jscal2.css' );
 
 
 $denetimler = $this->denetimListesi;
+$AkIcDenetimListesi = $this->AkIcDenetimListesi;
+$akDenetim = $AkIcDenetimListesi['akdenetim'];
+$icDenetim = $AkIcDenetimListesi['icdenetim'];
 ?>
 
 <form>
 <?php 
 if(isset($_GET['kid'])){
-	echo '<h2><u>'.$denetimler[0]['KURULUS_ADI'].' Kuruluşunun Denetimleri</u></h2><br>';
+    echo '<div class="anaDiv font20 hColor text-center">';
+	echo '<u>'.$denetimler[0]['KURULUS_ADI'].' Kuruluşunun Denetimleri</u>';
+    echo '</div>';
 } ?>
+<div class="anaDiv font18 hColor">
+    MYK Denetimleri
+</div>
+<div class="anaDiv">
 <input id="yeniButton" type="button" 
 onclick="window.location='index.php?option=com_denetim&layout=yeni_denetim';"
 name="yeniButton" value="Yeni Denetim">
@@ -47,8 +53,9 @@ name="yeniButton" value="Yeni Denetim">
 	onclick="window.location='index.php?option=com_denetim&layout=denetim_listele';"
 	value="Bütün Denetimleri Görüntüle" class="btn btn-xs btn-primary">
 <?php } ?>
-<div style="overflow: auto; width:100%">
-<table id="denetimListesiGrid" style="float: left; width: 1200px;overflow:auto;text-align:center">
+</div>
+<div class="anaDiv" style="overflow: auto;">
+<table id="denetimListesiGrid" style="text-align:center">
 <thead><tr>
 	<td class="sortable-text" width="3%">#</td>
 	<td class="sortable-text" width="30%" align="center">KURULUŞ ADI</td>
@@ -189,6 +196,65 @@ for($i=0; $i<count($denetimler); $i++)
 </tbody></table>
 </div>
 </form>
+<div class="anaDiv">
+    <hr>
+</div>
+<div class="anaDiv font18 fontBold hColor">
+    Akreditasyon Denetimleri
+</div>
+<?php if($akDenetim){ ?>
+<div class="anaDiv">
+    <table style="width:100%;">
+        <thead>
+        <tr>
+            <th width="40%">Döküman</th>
+            <th width="30%">Yükleme Tarihi</th>
+        </tr>
+        </thead>
+        <tbody style="text-align:center">
+        <?php foreach ($akDenetim as $row) {
+            echo '<tr>';
+            echo '<td><a target = "_blank" href = "index.php?dl='.$row['BELGE_PATH'].'">'.$row['BELGE'].'</a></td>';
+            echo '<td>'.$row['TARIH'].'</td >';
+            echo '</tr>';
+        } ?>
+        </tbody>
+    </table>
+</div>
+<?php }?>
+<div class="anaDiv">
+    <a class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=profile&layout=ekler&kurulus=<?php echo $_GET['kid']; ?>#table_ekdokumantasyon"><i class="fa fa-plus"></i> Akreditasyon Denetim Raporu Ekle</a>
+</div>
+<div class="anaDiv">
+    <hr>
+</div>
+
+<div class="anaDiv font18 fontBold hColor">
+    İç Denetimler
+</div>
+<?php if($icDenetim){ ?>
+<div class="anaDiv">
+    <table style="width:100%;">
+        <thead>
+        <tr>
+            <th width="40%">Döküman</th>
+            <th width="30%">Yükleme Tarihi</th>
+        </tr>
+        </thead>
+        <tbody style="text-align:center">
+        <?php foreach ($icDenetim as $row) {
+            echo '<tr>';
+            echo '<td><a target = "_blank" href = "index.php?dl='.$row['BELGE_PATH'].'">'.$row['BELGE'].'</a></td>';
+            echo '<td>'.$row['TARIH'].'</td >';
+            echo '</tr>';
+        } ?>
+        </tbody>
+    </table>
+</div>
+<?php } ?>
+<div class="anaDiv">
+    <a class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=profile&layout=ekler&kurulus=<?php echo $_GET['kid']; ?>#table_akdenetim"><i class="fa fa-plus"></i> İç Denetim Raporu Ekle</a>
+</div>
 <script>
 var settings = {
 		"bInfo": true,

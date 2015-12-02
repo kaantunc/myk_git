@@ -37,6 +37,7 @@ class DenetimViewDenetim extends JView
 		$this->assignRef('denetimListesi', $model->getDenetimListesi(isset($_GET['kid'])?$_GET['kid']:0));
 		$this->assignRef('denetimlerim', $model->getDenetimlerim());
 		$this->assignRef('bagliOldugumDenetimler', $model->getBagliOldugumDenetimler());
+        $this->assignRef('AkIcDenetimListesi', $model->getAkIcDenetimEkleri(isset($_GET['kid'])?$_GET['kid']:0));
 		
 		$this->assignRef('kurulusDenetim', $model->getKurulusDenetim());
 		

@@ -2092,5 +2092,15 @@ function yetkiKapsamiKaydet()
 			return array('hata'=>1,'message'=>"Denetlenen Yeterlilikler Kaydedilirken Bir Hata Meydana geldi. Lütfen Tekrar Deneyin.");
 		}
 	}
+
+    public function getAkIcDenetimEkleri($kId){
+        $db = &JFactory::getOracleDBO();
+
+        $sql = "SELECT * FROM M_KURULUS_EK WHERE KURULUS_ID = ? AND BELGE_TUR = ? AND DURUM = 2";
+        $dataAk = $db->prep_exec($sql, array($kId,'akdenetim'));
+        $dataIc = $db->prep_exec($sql, array($kId,'icdenetim'));
+
+        return array('akdenetim'=>$dataAk, 'icdenetim'=>$dataIc);
+    }
 }
 ?>
