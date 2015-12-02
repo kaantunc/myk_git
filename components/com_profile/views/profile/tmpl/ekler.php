@@ -26,7 +26,9 @@ $belge = array(
 	"misviz"=>"21. Kuruluş Misyon&Vizyon[9]",
 	"urunhizmet"=>"22. Kuruluşun sahip olduğu ürün hizmet veya kalite belgeleri[9]",
 	"ulusproje"=>"23. Konuyla ilgili ulusal veya uluslararası kuruluşlarca desteklenen projeler[9]",
-	"ekdokumantasyon"=>"24. Kuruluş ile ilgili ilave edilmek istenen ek dokümantasyon[9]"
+	"ekdokumantasyon"=>"24. Kuruluş ile ilgili ilave edilmek istenen ek dokümantasyon[9]",
+    "akdenetim"=>"25. Akreditasyon denetim raporları",
+    "icdenetim"=>"26.  İç Denetim / İç Tetkik Raporları"
 );
 ?>
 <div class="anaDiv text-center">
