@@ -87,9 +87,10 @@ $degerYets = $this->deger[1];
 					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" type="button" title="Onaylandı" tcid="' . $row['TC_KIMLIK'] . '" yetid="' . $cow['YETERLILIK_ID'] . '">Onaylandı</button></td>';
 				}
 			}
-			echo '</tr>';
+				}
+							echo '</tr>';
 			$yetSay++;
-		}
+
 			}
 		
 		$say++;

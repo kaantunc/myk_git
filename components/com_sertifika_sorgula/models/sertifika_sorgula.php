@@ -538,7 +538,7 @@ class Sertifika_SorgulaModelSertifika_Sorgula extends JModel {
 	
 		$sql = "SELECT DISTINCT USER_ID, KURULUS_ADI 
 					FROM M_KURULUS JOIN M_BASVURU USING(USER_ID) 
-					WHERE BASVURU_TIP_ID = 3 AND BASVURU_DURUM_ID = 6 ORDER BY KURULUS_ADI";
+					WHERE BASVURU_TIP_ID = 3 AND BASVURU_DURUM_ID = 6 AND KURULUS_ADI NOT LIKE '%KURUM TEST%' ORDER BY KURULUS_ADI";
 	
 		return $_db->prep_exec($sql, array());
 	}

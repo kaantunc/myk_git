@@ -115,7 +115,7 @@ echo $this->sayfaLink;
 				echo '<td align="center"><a href="javascript:void(0)" tcno="'.$key.'" yetid="'.$row['YETERLILIK_ID'].'" class="yetdetay"/>'.trim($row['YETERLILIK_KODU']).'/'.$row['REVIZYON'].'-'.$row['YETERLILIK_ADI'].'</a></td>';
 				echo '<td align="center"><button style="background-color:blue;color:white;" class="degerlendiriciYeterlilikDetay" type="button" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$row['YETERLILIK_ID'].'">Detay</button></td>';
 				if($row['ONAY_BEKLEYEN_DGRLNDRC'] == ""){
-					echo '<td align="center"><button style="background-color:blue;color:white;" class="submitusererror" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
+					echo '<td align="center"><button style="background-color:blue;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\');" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
 				}else{
 					if($row['ETKIN'] == 1){
 						echo '<td align="center"><button style="background-color:green;color:white;" type="button" title="Etkin" onclick=etkisizKil("'.$row['YETERLILIK_ID'].'_'.$key.'")>Aktif</button></td>';
@@ -125,9 +125,9 @@ echo $this->sayfaLink;
 				}
 				echo '<td align="center"><button type="button" style="background-color:red;color:white" onclick=degYetSil("'.$row['YETERLILIK_ID'].'_'.$key.'")>Sil</button></td>';
 				if($row['ONAY_BEKLEYEN_DGRLNDRC'] == "" || $row['ONAY_BEKLEYEN_DGRLNDRC'] == "0"){
-					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" class="submitusererror" type="button">Onay Bekliyor</button></td>';
+					echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\');" type="button">Onay Bekliyor</button></td>';
 				}else if($row['ONAY_BEKLEYEN_DGRLNDRC'] == "2"){
-					echo '<td colspan="2" align="center"><button style="background-color:red;color:white;" class="submitusererror" type="button">Red Edildi</button></td>';
+					echo '<td colspan="2" align="center"><button style="background-color:red;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\');" type="button">Red Edildi</button></td>';
 				}else{
 					echo '<td colspan="2" align="center"><button style="background-color:green;color:white;" type="button" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'">Onaylandı</button></td>';
 				}
@@ -138,7 +138,7 @@ echo $this->sayfaLink;
 			echo '<td align="center"><a href="javascript:void(0)" tcno="'.$key.'" yetid="'.$row['YETERLILIK_ID'].'" class="yetdetay"/>'.trim($row['YETERLILIK_KODU']).'/'.$row['REVIZYON'].'-'.$row['YETERLILIK_ADI'].'</a></td>';
 			echo '<td align="center"><button style="background-color:blue;color:white;" class="degerlendiriciYeterlilikDetay" type="button" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$row['YETERLILIK_ID'].'">Detay</button></td>';
 			if($row['ONAY_BEKLEYEN_DGRLNDRC'] == ""){
-				echo '<td align="center"><button style="background-color:blue;color:white;" class="submitusererror" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';	
+				echo '<td align="center"><button style="background-color:blue;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\');" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
 			}else{
 				if($row['ETKIN'] == 1){
 					echo '<td align="center" ><button style="background-color:green;color:white;" type="button" title="Etkin" onclick=etkisizKil("'.$row['YETERLILIK_ID'].'_'.$key.'")>Aktif</button></td>';
@@ -148,7 +148,7 @@ echo $this->sayfaLink;
 			}
 			echo '<td align="center"><button type="button" style="background-color:red;color:white" onclick=degYetSil("'.$row['YETERLILIK_ID'].'_'.$key.'")>Sil</button></td>';
 			if($row['ONAY_BEKLEYEN_DGRLNDRC'] == "" || $row['ONAY_BEKLEYEN_DGRLNDRC'] == "0"){
-				echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" class="submitusererror" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
+				echo '<td colspan="2" align="center"><button style="background-color:blue;color:white;" onclick="alert(\'İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.\');"" type="button" title="Onay Bekliyor">Onay Bekliyor</button></td>';
 			}else if($row['ONAY_BEKLEYEN_DGRLNDRC'] == "2"){
 				echo '<td colspan="2" align="center"><button style="background-color:red;color:white;" type="button" tcid="'.$row['TC_KIMLIK'].'" yetid="'.$cow['YETERLILIK_ID'].'">Red Edildi</button></td>';	
 			}else{
@@ -648,10 +648,10 @@ jQuery(document).ready(function(){
 		});
 	
 	});
-	jQuery(".submitusererror").click(function(){
-		alert("İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.");
-		return false;
-	});
+//	jQuery(".submitusererror").click(function(){
+//		alert("İlgili değerlendirici dosya sorumlunuzda onay beklemektedir.");
+//		return false;
+//	});
 	jQuery("#confirmuser").click(function(){
 		submitOrCancelUser(jQuery("#changeddatas #willconfirmeduser").val(),"1");
 	});
