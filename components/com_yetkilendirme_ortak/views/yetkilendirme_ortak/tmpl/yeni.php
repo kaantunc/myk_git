@@ -15,7 +15,7 @@ if(isset($protokolID))
 	if($this->meslekiYeterlilikProtokoluMu==false)
 	{
 		global $mainframe;
-		$mainframe->redirect("index.php?option=com_yetkilendirme_yet", "Bu protokol yeterlilik protokolü değil.", 'error');
+		$mainframe->redirect("index.php?option=com_yetkilendirme_ortak", "Bu protokol yeterlilik protokolü değil.", 'error');
 	}
 	
 	$arr[0] = "1";
@@ -100,7 +100,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 <div class="form_content">
 	<form method="post" id="yeniProtokolForm"
-		action="index.php?option=com_yetkilendirme_yet&amp;task=protokolKaydet">
+		action="index.php?option=com_yetkilendirme_ortak&amp;task=protokolKaydet">
 		<input type="hidden" id="protokolID" name="protokolID" value="<?php echo $protokolID;?>"/>
 	
 		<div style="display:none;" class="form_row">
@@ -664,9 +664,9 @@ jQuery(document).ready(function() {
 	
 	jQuery('#yetkilendirmeyeDahilKurulusCheckbox').click(function(e){
 		if(jQuery(this).attr('checked')=="checked")
-			window.location = 'index.php?option=com_yetkilendirme_yet&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=1';
+			window.location = 'index.php?option=com_yetkilendirme_ortak&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=1';
 		else
-			window.location = 'index.php?option=com_yetkilendirme_yet&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=0';
+			window.location = 'index.php?option=com_yetkilendirme_ortak&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=0';
 	});
 		
 		
@@ -903,7 +903,7 @@ jQuery(document).ready(function() {
         yeterlilikid = jQuery(this).closest('tr').attr('id');
 		if(confirm("İlgili yeterlilik iptal edilecektir.Emin misiniz ?")){
 			jQuery.ajax({
-				  url: "index.php?option=com_yetkilendirme_yet&task=updateYeterlilikStatus&format=raw",
+				  url: "index.php?option=com_yetkilendirme_ortak&task=updateYeterlilikStatus&format=raw",
 				  data: "yeterlilik_id="+yeterlilikid+"&yeterlilik_durum=iptal",
 				  type: "POST",
 				  dataType: 'json',
@@ -966,7 +966,7 @@ jQuery(document).ready(function() {
 			
 		}
 		//alert(kurulusIdleriText+kurulusRolleriText);
-		jQuery("#yeniProtokolForm").attr("action", "index.php?option=com_yetkilendirme_yet&amp;task=protokolKaydet" + kurulusIdleriText + kurulusRolleriText);
+		jQuery("#yeniProtokolForm").attr("action", "index.php?option=com_yetkilendirme_ortak&amp;task=protokolKaydet" + kurulusIdleriText + kurulusRolleriText);
 		jQuery("#yeniProtokolForm").submit();
 	});
 
@@ -1056,10 +1056,10 @@ function saveMSRow ( oTable, nRow, isSave )
 	
 	var protokolIDD = jQuery("#protokolID").val();
 		
-	var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxSaveRow&format=raw&protokolID='+protokolIDD;
+	var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxSaveRow&format=raw&protokolID='+protokolIDD;
 
 	if (!isSave){
-		url = 'index.php?option=com_yetkilendirme_yet&task=ajaxEditRow&format=raw&protokolID='+protokolIDD;
+		url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxEditRow&format=raw&protokolID='+protokolIDD;
 
 		var obj = new Object;
 		obj.name= 'id';
@@ -1120,7 +1120,7 @@ function deleteMSRow ( oTable, nRow)
 	var protokolIDD = document.getElementById("protokolID").value;
 	
 	jQuery.ajax({
-		  url: "index.php?option=com_yetkilendirme_yet&task=ajaxDeleteRow&format=raw&protokolID="+protokolIDD,
+		  url: "index.php?option=com_yetkilendirme_ortak&task=ajaxDeleteRow&format=raw&protokolID="+protokolIDD,
 		  data: sendData,
 		  type: "POST",
 		  dataType: 'json',
@@ -1164,7 +1164,7 @@ function addProtokolDosya (tableName){
 						'<input type="hidden" value="" name="filename_'+id+'_'+sira +'">';				
 			
 		var result = inputPath + '<div class="up_success">'+fileName+' yüklendi!';
-		result 	  += '<input type="button" value="İndir" onclick="window.location.href=\'index.php?option=com_yetkilendirme_yet&amp;task=indir&amp;protokolID=<?php echo $protokolID;?>\'" class="up_submitbtn" style="float:none;"> <\/div>';
+		result 	  += '<input type="button" value="İndir" onclick="window.location.href=\'index.php?option=com_yetkilendirme_ortak&amp;task=indir&amp;protokolID=<?php echo $protokolID;?>\'" class="up_submitbtn" style="float:none;"> <\/div>';
 		result 	  += '<div><input type="button" value="Değiştir" onclick="removeUploaded(\''+id+'\',\''+sira+'\')" /><\/div>';
 		resultDiv.innerHTML = result;
 	
@@ -1218,7 +1218,7 @@ function existingVariablesChanged()
 				revizyonMu = '';
 				
 			jQuery.ajax({
-				  url: "index.php?option=com_yetkilendirme_yet"+revizyonMu+"&task=ajaxFetchExistingStandart&format=raw"+seviyelerText+sektorlerText+protokolIDText,
+				  url: "index.php?option=com_yetkilendirme_ortak"+revizyonMu+"&task=ajaxFetchExistingStandart&format=raw"+seviyelerText+sektorlerText+protokolIDText,
 				  data: sendData,
 				  type: "POST",
 				  dataType: 'json',
@@ -1285,7 +1285,7 @@ jQuery('.varolanYeterlilikEkleButton').live('click', function (e) {
     	var jqInputs = jQuery('.varolanStandartlarCheckbox');
     	var sendData = jqInputs.serializeArray();
     	
-		var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxAddFromVarolanStandartlar&format=raw&protokolID=<?php echo $_REQUEST['protokolID'] ?>';
+		var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxAddFromVarolanStandartlar&format=raw&protokolID=<?php echo $_REQUEST['protokolID'] ?>';
 		
     	jQuery.ajax({
     		  url: url,
@@ -1334,7 +1334,7 @@ jQuery(".saveRevizyon").live('click', function (e) {
 	
 	var sendData = "yeterlilik_id="+yetid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
 	jQuery.ajax({
-		  url: "index.php?option=com_yetkilendirme_yet&task=ajaxRevizyonOlustur&format=raw&yetid="+yetid,
+		  url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlustur&format=raw&yetid="+yetid,
 		  data: sendData,
 		  type: "POST",
 		  dataType: 'json',
@@ -1370,7 +1370,7 @@ jQuery("#newRevizyonYeterlilikEkle").click(function(){
 });
 jQuery("#loaderGif #yeterlilik_durum").change(function(){
 	jQuery.ajax({
-		  url: "index.php?option=com_yetkilendirme_yet&task=ajaxYeterlilikGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
+		  url: "index.php?option=com_yetkilendirme_ortak&task=ajaxYeterlilikGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
 		  type: "POST",
 		  dataType: 'json',
           beforeSend: function() {
@@ -1391,7 +1391,7 @@ jQuery(".cancelRevizyon").live('click',function(){
 });
 jQuery("#yeterLilikRevizyonSec").click(function(){
 	jQuery.ajax({
-		  url: "index.php?option=com_yetkilendirme_yet&task=ajaxYeterlilikGetirById&format=raw&yetid="+jQuery(this).closest("#loaderGif").find("#yeterlilik_adi").val(),
+		  url: "index.php?option=com_yetkilendirme_ortak&task=ajaxYeterlilikGetirById&format=raw&yetid="+jQuery(this).closest("#loaderGif").find("#yeterlilik_adi").val(),
 		  type: "POST",
 		  dataType: 'json',
         beforeSend: function() {
@@ -1524,10 +1524,10 @@ function saveUzatmaRow ( oTable, nRow, isSave )
 	
 	var protokolID = jQuery("#protokolID").val();
 		
-	var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaKaydet&format=raw&protokolID='+protokolID;
+	var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaKaydet&format=raw&protokolID='+protokolID;
 
 	if (!isSave){
-		url = 'index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaGuncelle&format=raw&protokolID='+protokolID;
+		url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaGuncelle&format=raw&protokolID='+protokolID;
 
 		var obj = new Object;
 		obj.name= 'id';
@@ -1578,7 +1578,7 @@ function deleteUzatmaRow ( oTable, nRow)
 	var protokolID = document.getElementById("protokolID").value;
 	
 	jQuery.ajax({
-		  url: "index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaSil&format=raw&protokolID="+protokolID,
+		  url: "index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaSil&format=raw&protokolID="+protokolID,
 		  data: sendData,
 		  type: "POST",
 		  dataType: 'json',

@@ -140,9 +140,10 @@ class Yetkilendirme_OrtakController extends JController {
 			for($i=0; $i<count(seciliKurulusIDleri); $i++)
 				$success = $success and (boolean)$model->ProtokolKurulusuEkle($protokolID, $seciliKurulusIDleri[$i], $seciliKurulusRolleri[$i]);
 		}
+		$message="";
 		if($success == FALSE)
 			$this->setRedirect('index.php?option=com_yetkilendirme_ortak&layout=yeni', $message);
-		
+
 		
 		return $success;
 	}
@@ -187,8 +188,8 @@ class Yetkilendirme_OrtakController extends JController {
 	{
 		$model 		 = $this->getModel('yetkilendirme_ortak_kaydet');
 		$protokolArr = JRequest::getVar('protokollerCheckbox');
-		$message	 = $model->protokolleriSil($protokolArr, &$messageType);
-		$this->setRedirect('index.php?option=com_yetkilendirme_ortak', $message, $messageType );
+		$message	 = $model->protokolleriSil($protokolArr);
+		$this->setRedirect('index.php?option=com_yetkilendirme_ortak', $message );
 	}
 	
 	function duzenle()

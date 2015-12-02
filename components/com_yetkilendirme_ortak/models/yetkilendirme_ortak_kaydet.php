@@ -31,7 +31,7 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak_Kaydet extends JModel {
 		return $result;
 	}
 	
-	/*OK*/function protokolleriSil($protokollerArr, $messageType)
+	/*OK*/function protokolleriSil($protokollerArr)
 	{
 		$message = "";
 		for($i=0; $i<count($protokollerArr); $i++)
