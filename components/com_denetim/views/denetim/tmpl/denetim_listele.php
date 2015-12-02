@@ -40,7 +40,7 @@ if(isset($_GET['kid'])){
 	echo '<u>'.$denetimler[0]['KURULUS_ADI'].' Kuruluşunun Denetimleri</u>';
     echo '</div>';
 } ?>
-<div class="anaDiv font18 hColor">
+<div class="anaDiv font18 hColor fontBold">
     MYK Denetimleri
 </div>
 <div class="anaDiv">
