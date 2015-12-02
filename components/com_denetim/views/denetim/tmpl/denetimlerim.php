@@ -63,9 +63,11 @@ else if($denetlemesiYapilacakKurulusMu == true)
 }
 else if($isSektorSorumlusu==true)
 	$denetimler = $this->denetimListesi;
-	
 
 
+$AkIcDenetimListesi = $this->AkIcDenetimListesi;
+$akDenetim = $AkIcDenetimListesi['akdenetim'];
+$icDenetim = $AkIcDenetimListesi['icdenetim'];
 ?>
 
 <form>
@@ -224,8 +226,69 @@ for($i=0; $i<count($denetimler); $i++)
 
 </tbody></table>
 </form>
-
-<?php 
+<div class="anaDiv">
+    <hr>
+</div>
+<div class="anaDiv font18 fontBold hColor">
+    Akreditasyon Denetimleri
+</div>
+<?php if($akDenetim){ ?>
+    <div class="anaDiv">
+        <table style="width:100%;">
+            <thead>
+            <tr>
+                <th width="40%">Döküman</th>
+                <th width="30%">Yükleme Tarihi</th>
+            </tr>
+            </thead>
+            <tbody style="text-align:center">
+            <?php foreach ($akDenetim as $row) {
+                echo '<tr>';
+                echo '<td><a target = "_blank" href = "index.php?dl='.$row['BELGE_PATH'].'">'.$row['BELGE'].'</a></td>';
+                echo '<td>'.$row['TARIH'].'</td >';
+                echo '</tr>';
+            } ?>
+            </tbody>
+        </table>
+    </div>
+<?php }?>
+<?php if($kurulusMu){ ?>
+<div class="anaDiv">
+    <a class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=profile&layout=ekler&kurulus=<?php echo $userId; ?>#table_ekdokumantasyon"><i class="fa fa-plus"></i> Akreditasyon Denetim Raporu Ekle</a>
+</div>
+<?php } ?>
+<div class="anaDiv">
+    <hr>
+</div>
+<div class="anaDiv font18 fontBold hColor">
+    İç Denetimler
+</div>
+<?php if($icDenetim){ ?>
+    <div class="anaDiv">
+        <table style="width:100%;">
+            <thead>
+            <tr>
+                <th width="40%">Döküman</th>
+                <th width="30%">Yükleme Tarihi</th>
+            </tr>
+            </thead>
+            <tbody style="text-align:center">
+            <?php foreach ($icDenetim as $row) {
+                echo '<tr>';
+                echo '<td><a target = "_blank" href = "index.php?dl='.$row['BELGE_PATH'].'">'.$row['BELGE'].'</a></td>';
+                echo '<td>'.$row['TARIH'].'</td >';
+                echo '</tr>';
+            } ?>
+            </tbody>
+        </table>
+    </div>
+<?php } ?>
+<?php if($kurulusMu){ ?>
+<div class="anaDiv">
+    <a class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=profile&layout=ekler&kurulus=<?php echo $userId; ?>#table_akdenetim"><i class="fa fa-plus"></i> İç Denetim Raporu Ekle</a>
+</div>
+<?php } ?>
+<?php
 function getDenetimEkibiByDenetimID($denetim_id)
 {
 	$db  = &JFactory::getOracleDBO();
