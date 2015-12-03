@@ -12,11 +12,11 @@ $protokolID = JRequest::getVar("protokolID");
 
 if(isset($protokolID))
 {
-//	if($this->meslekiYeterlilikProtokoluMu==false)
-//	{
-//		global $mainframe;
-//		$mainframe->redirect("index.php?option=com_yetkilendirme_yet", "Bu protokol yeterlilik protokolü değil.", 'error');
-//	}
+	if($this->ortakProtokoluMu==false)
+	{
+		global $mainframe;
+		$mainframe->redirect("index.php?option=com_yetkilendirme_ortak", "Bu protokol yeterlilik protokolü değil.", 'error');
+	}
 
 	$arr[0] = "1";
 	$arr[1] = "2";
@@ -88,7 +88,7 @@ foreach($yetkilendirmeTurleri as $yTuru){
 	$yetkilendirmeTuruOptions .= "<option value='".$yTuru["TUR_ID"]."' ".$seciliMiText." >".$yTuru["ACIKLAMA"]."</option>";
 }
 
-$yetkilendirmeID = JRequest::getVar("protokolID");
+$protokolID = JRequest::getVar("protokolID");
 
 ?>
 <div class="form_item">
@@ -100,7 +100,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 <div class="form_content">
 	<form method="post" id="yeniProtokolForm"
-		  action="index.php?option=com_yetkilendirme_yet&amp;task=protokolKaydet">
+		  action="index.php?option=com_yetkilendirme_ortak&amp;task=protokolKaydet">
 		<input type="hidden" id="protokolID" name="protokolID" value="<?php echo $protokolID;?>"/>
 
 		<div style="display:none;" class="form_row">
@@ -231,7 +231,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		<div class="form_row">
 			<?php
-			if(isset($yetkilendirmeID))
+			if(isset($protokolID))
 			{
 				echo '<div class="submit_button">
 					<input style="padding:0px; float:left;" type="submit" value="Kaydet"
@@ -251,7 +251,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 			<div class="gridview_wrapper">
 				<div style="width: 100%; padding-top: 10px;padding-bottom: 10px;">
-					<a id="newUzatma" href="">Yeni Uzatma Ekle </a>
+					<a id="newUzatma" href="#">Yeni Uzatma Ekle </a>
 				</div>
 
 				<div>
@@ -260,8 +260,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 						<tr>
 							<th>Uzatma Süresi (Ay Bazında)</th>
 							<th>Açıklama</th>
-							<th><?php echo JText::_("EDIT_TEXT"); ?></th>
-							<th><?php echo JText::_("DELETE_TEXT"); ?></th>
+							<th>Düzenle</th>
+							<th><Sil</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -274,8 +274,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 								$elm .= "<td>".$row['UZATMA_SURESI']."</td>";
 								$elm .= "<td>".$row['ACIKLAMA']."</td>";
-								$elm .= "<td><a class='editUzatma' href=''>".JText::_("EDIT_TEXT")."</a></td>";
-								$elm .= "<td><a class='deleteUzatma' href=''>".JText::_("DELETE_TEXT")."</a></td>";
+								$elm .= "<td><a class='editUzatma' href='#'>Düzenle</a></td>";
+								$elm .= "<td><a class='deleteUzatma' href='#'>Sil</a></td>";
 
 								$elm .= "</tr>";
 
@@ -364,7 +364,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					</table>
 				</div>
 				<?php
-				if(isset($yetkilendirmeID))
+				if(isset($protokolID))
 				{
 					echo '<br><br><div class="submit_button">
 					<input style="padding:0px; float:left;" type="button" value="'.$kaydetButtonTexti.'"
@@ -380,7 +380,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			<div style="clear:both;"></div>
 		</div>
 
-		<?php 	if(!isset($yetkilendirmeID))
+		<?php 	if(!isset($protokolID))
 		{
 			echo '<div class="submit_button">
 					<input type="submit" value="'.$kaydetButtonTexti.'"
@@ -399,19 +399,19 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 					<div>
 						<div style="float:left; padding-top: 10px;padding-bottom: 10px;">
-							<a id="newMeslekStandart" href="">Yeni Yeterlilik Ekle </a><font id="yeniMeslekStandardiEkleButtonError" color="red"></font>
+							<a id="newYeterlilik" href="#">Yeni Yeterlilik Ekle </a><font id="yeniMeslekStandardiEkleButtonError" color="red"></font>
 						</div>
 						<div style="float:left; padding: 10px 0 10px 20px;">
-							<a id="addExistingMeslekStandart" href="">Varolan Yeterlilik Ekle</a>
+							<a id="addExistingYeterlilik" href="#">Varolan Yeterlilik Ekle</a>
 						</div>
 						<div style="float:left; padding: 10px 0 10px 20px;">
-							<a id="newRevizyonEkle" href="">Yeni Revizyon Ekle </a><font id="newRevizyonEkleButtonError" color="red"></font>
+							<a id="newRevizyonEkle" href="#">Yeni Revizyon Ekle </a><font id="newRevizyonEkleButtonError" color="red"></font>
 						</div>
 					</div>
 					<div style="display: none; float:left; width:100%; margin-bottom:10px; border: 1px solid #898989" class="existing_yeterlilikler_wrapper"
 						 id="existing_yeterlilikler_wrapper">
 
-						<div id="existing_standart_container">
+						<div id="existing_yeterlilik_container">
 
 							<div style="background-color: #CDCDCD;padding: 5px;">
 								Yeterlilik Seviyesi Seçiniz:<br> <select id="existing_seviyeler">
@@ -431,17 +431,17 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 									?>
 								</select><div style="display:none;"> <br> Revizyon Durumu Seçiniz:<br>
 
-									<input type="radio" name="varolanStandartEkle_RevizyonluCheckbox" id="varolanStandartEkle_RevizyonluCheckbox_Taslak" value="0" checked> Taslak
+									<input type="radio" name="varolanYeterlilikEkle_RevizyonluCheckbox" id="varolanYeterlilikEkle_RevizyonluCheckbox_Taslak" value="0" checked> Taslak
 									<br>
-									<input type="radio" name="varolanStandartEkle_RevizyonluCheckbox" id="varolanStandartEkle_RevizyonluCheckbox_Revizyon" value="1"> Revizyon Durumunda
+									<input type="radio" name="varolanYeterlilikEkle_RevizyonluCheckbox" id="varolanYeterlilikEkle_RevizyonluCheckbox_Revizyon" value="1"> Revizyon Durumunda
 									<br>
 								</div>
-								<input type="button" value="Getir" id="varolanStandartEkle_GetirButton">
+								<input type="button" value="Getir" id="varolanYeterlilikEkle_GetirButton">
 							</div>
 
-							<div id="varolanStandartlarContainer" style="padding: 5px; display:none;">
+							<div id="varolanYeterliliklerContainer" style="padding: 5px; display:none;">
 								<div style="padding-bottom:10px; width:100%">
-									<a style="display: none;" href='' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
+									<a style="display: none;" href='#' class='varolanYeterlilikleriEkleButton'>Seçilenleri Ekle</a>
 								</div>
 
 								<div style="width: 100%;">
@@ -466,7 +466,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 								<div style="clear: both;"></div>
 
 								<div style="padding-top:10px; width:100%">
-									<a style="display: none;"  href='' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
+									<a style="display: none;"  href='#' class='varolanYeterlilikleriEkleButton'>Seçilenleri Ekle</a>
 								</div>
 							</div>
 
@@ -484,8 +484,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 								<th>Revizyon</th>
 								<th>Yeterlilik Sektörü</th>
 								<th>Teslim Tarihi</th>
-								<th><?php echo JText::_("EDIT_TEXT"); ?></th>
-								<th><?php echo JText::_("DELETE_TEXT"); ?></th>
+								<th>Düzenle</th>
+								<th>Sil</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -504,8 +504,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 									//$elm .= "<td style='display:none;'>".$row['STANDART_ADI']."</td>";
 
 									$elm .= "<td>".$row['YETERLILIK_TESLIM_TARIHI']."</td>";
-									$elm .= "<td><a class='editYeterlilik' href=''>".JText::_("EDIT_TEXT")."</a><br><a class='cancelMeslekStandart' href=''>İptal Et</a></td>";
-									$elm .= "<td><a class='deleteYeterlilik' href=''>".JText::_("DELETE_TEXT")."</a></td>";
+									$elm .= "<td><a class='editYeterlilik' href='#'>Düzenle</a>";
+									$elm .= "<td><a class='deleteYeterlilik' href='#'>Sil</a></td>";
 
 									$elm .= "</tr>";
 
@@ -535,21 +535,21 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			<div class="gridview_wrapper" >
 				<div id="container">
 					<div style="float:left; padding-top: 10px;padding-bottom: 10px;">
-						<a id="newMeslekStandart" href="">Yeni Meslek Standardı Ekle </a><font id="yeniMeslekStandardiEkleButtonError" color="red"></font>
+						<a id="newMeslekStandart" href="#">Yeni Meslek Standardı Ekle </a><font id="yeniMeslekStandardiEkleButtonError" color="red"></font>
 					</div>
 					<div style="float:left; padding: 10px 0 10px 20px;">
-						<a id="addExistingMeslekStandart" href="">Varolan Meslek Standardı Ekle</a>
+						<a id="addExistingMeslekStandart" href="#">Varolan Meslek Standardı Ekle</a>
 					</div>
 					<div style="float:left; padding: 10px 0 10px 20px;">
-						<a id="newRevizyonEkle" href="">Yeni Revizyon Ekle </a><font id="newRevizyonEkleButtonError" color="red"></font>
+						<a id="newRevizyonEkleMS" href="#">Yeni Revizyon Ekle </a><font id="newRevizyonEkleButtonErrorMS" color="red"></font>
 					</div>
-					<div style="float:left; margin:10px 0 10px 0; width:100%; display: none;border: 1px solid #898989;" class="existing_yeterlilikler_wrapper"
-						 id="existing_standart_wrapper">
+					<div style="float:left; margin:10px 0 10px 0; width:100%; display: none;border: 1px solid #898989;" class="existing_standart_wrapper"
+						id="existing_standart_wrapper">
 
 						<div id="existing_standart_container">
 
 							<div style="background-color: #CDCDCD;padding: 5px;">
-								Meslek Seviyesi Seçiniz:<br> <select id="existing_seviyeler">
+								Meslek Seviyesi Seçiniz:<br> <select id="existing_seviyelerMS">
 									<?php
 									$seviyeler = $this->meslekStandartSeviyeleri;
 									echo "<option value='0'>Seçiniz</option>";
@@ -558,7 +558,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 									?>
 								</select> <br> Meslek Sektörü Seçiniz:<br>
 								<select
-									id="existing_sektorler">
+									id="existing_sektorlerMS">
 									<?php
 									$sektorler = $this->meslekStandartSektorleri;
 									echo "<option value='0'>Seçiniz</option>";
@@ -571,11 +571,11 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 							<div id="varolanStandartlarContainer" style="padding: 5px;  display:none;">
 								<div style="width: 100%; padding-bottom:10px;">
-									<a  style="display: none;"  href='' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
+									<a  style="display: none;"  href='#' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
 								</div>
 
 								<div style="width: 100%;">
-									<table  style="display: none; width: 100%;"	id="existing_meslekStandartlari">
+									<table  style="display: none; width: 100%;"	id="existing_standart">
 										<thead>
 										<tr>
 											<th>#</th>
@@ -594,7 +594,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 								<div style="clear: both;"></div>
 								<div style="width: 100%; padding-top:10px;">
-									<a style="display: none;" href='' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
+									<a style="display: none;" href='#' class='varolanStandartlariEkleButton'>Seçilenleri Ekle</a>
 								</div>
 							</div>
 						</div>
@@ -612,8 +612,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 								<th>Durumu</th>
 								<th>Meslek Sektörü</th>
 								<th>Teslim Tarihi</th>
-								<th><?php echo JText::_("EDIT_TEXT"); ?></th>
-								<th><?php echo JText::_("DELETE_TEXT"); ?></th>
+								<th>Düzenle</th>
+								<th>Sil</th>
 							</tr>
 							</thead>
 							<tbody>
@@ -631,8 +631,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 									$elm .= "<td class='durum'>".$row['MESLEK_STANDART_DURUM_ADI']."</td>";
 									$elm .= "<td class='sektor'>".$row['SEKTOR_ADI']."</td>";
 									$elm .= "<td class='tarih'>".$row['BITIS_TARIHI']."</td>";
-									$elm .= "<td><a class='editYeterlilik' href=''>".JText::_("EDIT_TEXT")."</a><br><a class='cancelMeslekStandart' href=''>İptal Et</a></td>";
-									$elm .= "<td><a class='deleteYeterlilik' href=''>".JText::_("DELETE_TEXT")."</a></td>";
+									$elm .= "<td><a class='editMeslekStandart' href='#'>Düzenle</a></td>";
+									$elm .= "<td><a class='deleteMeslekStandart' href='#'>Sil</a></td>";
 
 									$elm .= "</tr>";
 
@@ -684,6 +684,36 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		</div>
 	</div>
 </div>
+
+<div id="loaderGifMS" style=" min-width: 10px; min-height:10px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px">
+	<div class="form_item">
+		<div class="form_element cf_textbox" style="width: 100%;" id="standart_durum_container">
+			<label class="cf_label" style="width: 166px; float: left;">Meslek Standardı Durumu</label>
+			<select name="standart_durum" id="standart_durum" style="float: left;">
+				<option>Seçiniz</option>
+				<?php foreach ($this->standartDurumlari as $standartDurum){ ?>
+					<option value="<?php echo $standartDurum['MESLEK_STANDART_DURUM_ID'];?>"><?php echo $standartDurum['MESLEK_STANDART_DURUM_ADI'];?></option>
+				<?php }?>
+			</select>
+		</div>
+		<div class="cfclear">&nbsp;</div>
+	</div>
+	<div class="form_item">
+		<div class="form_element cf_textbox" style="width: 100%;">
+			<label class="cf_label" style="width: 166px; float: left;">Meslek Standardı Adı</label>
+			<select name="standart_adi" id="standart_adi" style="width:222px; float: left;">
+				<option>Seçiniz</option>
+			</select>
+		</div>
+		<div class="cfclear">&nbsp;</div>
+	</div>
+	<div class="form_item" style="margin-top:10px;">
+		<div style="width:30%; float: right;">
+			<input  type="button" id="standartRevizyonSec" value="Seç"/>
+			<input type="button" id="standartRevizyonIptal" value="İptal"/>
+		</div>
+	</div>
+</div>
 <!-- JAVASCRIPT -->
 
 <script type="text/javascript">
@@ -691,17 +721,17 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 	var inputChanged = false;
 	var settings = {
 		"oLanguage": {
-			"sLengthMenu": "<?php echo JText::_("LENGTH_MENU");?>",
-			"sZeroRecords": "<?php echo JText::_("ZERO_RECORDS");?>",
-			"sInfo": "<?php echo JText::_("INFO");?>",
-			"sInfoEmpty": "<?php echo JText::_("INFO_EMPTY");?>",
-			"sInfoFiltered": "<?php echo JText::_("INFO_FILTERED");?>",
-			"sSearch": "<?php echo JText::_("SEARCH");?>",
+			"sLengthMenu": "",
+			"sZeroRecords": "Kayıt yok",
+			"sInfo": "",
+			"sInfoEmpty": "Kayıt yok",
+			"sInfoFiltered": "",
+			"sSearch": "Ara",
 			"oPaginate": {
-				"sFirst":    "<?php echo JText::_("FIRST");?>",
-				"sPrevious": "<?php echo JText::_("PREVIOUS");?>",
-				"sNext":     "<?php echo JText::_("NEXT");?>",
-				"sLast":     "<?php echo JText::_("LAST");?>"
+				"sFirst":    "İlk",
+				"sPrevious": "Önceki",
+				"sNext":     "Sonraki",
+				"sLast":     "Son"
 			}
 		}
 	};
@@ -712,8 +742,12 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		jQuery( "#yetkiBaslangiciDatePicker" ).datepicker({ });
 		jQuery( "#yetkiBitisiDatePicker" ).datepicker({ });
 
-		jQuery('#varolanStandartEkle_GetirButton').click(function(e) {
+		jQuery('#varolanYeterlilikEkle_GetirButton').click(function(e) {
 			existingVariablesChanged();
+		});
+
+		jQuery('#varolanStandartEkle_GetirButton').click(function(e) {
+			existingVariablesChangedMS();
 		});
 
 		//ON SUBMIT VALIDATE
@@ -728,13 +762,13 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		//INIT TABLES
 		var oTableKurulus = jQuery('#kuruluslar').dataTable(settings);
+		var oTableUzatma = jQuery('#uzatmalar').dataTable(settings);
+
 		var oTableYet = jQuery('#yeterlilikler').dataTable(settings);
 		var oTableVarolanYet = jQuery('#existing_yeterlilikler').dataTable(settings);
-		var oTableUzatmaYet = jQuery('#uzatmalar').dataTable(settings);
 
 		var oTableMS = jQuery('#meslekStandartlari').dataTable(settings);
-		var oTableVarolanMS = jQuery('#existing_meslekStandartlari').dataTable(settings);
-		var oTableUzatmaYet = jQuery('#uzatmalar').dataTable(settings);
+		var oTableVarolanMS = jQuery('#existing_standart').dataTable(settings);
 
 
 		///////////////////////////////////////////////////////////////////////////////////////
@@ -751,7 +785,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			//Get the row as a parent of the link that was clicked on
 			var nRow = jQuery(this).parents('tr')[0];
 
-			if (this.innerHTML == "<?php echo JText::_("SAVE_TEXT");?>" ) {
+			if (this.innerHTML == "Kaydet" ) {
 				//This row is being edited and should be saved
 				if (validate (nRow)){
 					saveYetRow( oTableYet, nRow, false);
@@ -765,7 +799,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			// Stop event handling in IE
 			return false;
 		} );
-		
+
 		//END EDIT ROW FOR YETERLİLİKLER
 
 		///////////////////////////////////////////////////////////////////////////////////////
@@ -777,7 +811,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			//Get the row as a parent of the link that was clicked on
 			var nRow = jQuery(this).parents('tr')[0];
 
-			if (this.innerHTML == "<?php echo JText::_("SAVE_TEXT");?>" ) {
+			if (this.innerHTML == "Kaydet" ) {
 				//This row is being edited and should be saved
 				if (validate (nRow)){
 					saveMSRow( oTableMS, nRow, false);
@@ -793,13 +827,13 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		} );
 		//END EDIT ROW FOR MESLEK STANDARTLARI
 
-		///////////////////////////////////////////////////////////////////////////////////////		
+		///////////////////////////////////////////////////////////////////////////////////////
 		jQuery("#meslekStandartlari a.cancelMeslekStandart").live('click', function (e) {
 			e.preventDefault();
 			standartid = jQuery(this).closest('tr').attr('id');
 			if(confirm("İlgili Meslek standardı iptal edilecektir.Emin misiniz ?")){
 				jQuery.ajax({
-					url: "index.php?option=com_yetkilendirme_ms&task=updateStandartStatus&format=raw",
+					url: "index.php?option=com_yetkilendirme_ortak&task=updateStandartStatus&format=raw",
 					data: "standart_id="+standartid+"&stadart_durum=iptal",
 					type: "POST",
 					dataType: 'json',
@@ -815,7 +849,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			}
 		});
 
-		
+
 		//SAVE ROW FOR YETERLİLİKLER
 		jQuery('#yeterlilikler a.saveYeterlilik').live('click', function (e) {
 			e.preventDefault();
@@ -828,8 +862,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			// Stop event handling in IE
 			return false;
 		} );
-		
-		
+
+
 		//END SAVE ROW FOR YETERLİLİKLER
 
 		///////////////////////////////////////////////////////////////////////////////////////
@@ -851,22 +885,22 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		//
 		jQuery('.varolanStandartlariEkleButton').live('click', function (e) {
 
-			if(jQuery("#existing_sektorler").val()== 0 && jQuery("#existing_seviyeler").val()== 0  )
+			if(jQuery("#existing_sektorlerMS").val()== 0 && jQuery("#existing_seviyelerMS").val()== 0  )
 			{	//IKISI DE SECILI DEGIL
-				jQuery("#existing_sektorler").css("border", "1px solid red");
-				jQuery("#existing_seviyeler").css("border", "1px solid red");
+				jQuery("#existing_sektorlerMS").css("border", "1px solid red");
+				jQuery("#existing_seviyelerMS").css("border", "1px solid red");
 
 			}
 			else
 			{
 
-				jQuery("#existing_sektorler").css("border", "1px solid #C6C3C6");
-				jQuery("#existing_seviyeler").css("border", "1px solid #C6C3C6");
+				jQuery("#existing_sektorlerMS").css("border", "1px solid #C6C3C6");
+				jQuery("#existing_seviyelerMS").css("border", "1px solid #C6C3C6");
 
 				var jqInputs = jQuery('.varolanStandartlarCheckbox');
 				var sendData = jqInputs.serializeArray();
 
-				var url = 'index.php?option=com_yetkilendirme_ms&task=ajaxAddFromVarolanStandartlar&format=raw&yetkilendirmeID=<?php echo $_REQUEST['yetkilendirmeID'] ?>';
+				var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxAddFromVarolanStandartlar&format=raw&protokolID=<?php echo $_REQUEST['protokolID'] ?>';
 
 				jQuery.ajax({
 					url: url,
@@ -876,8 +910,19 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					success: function(data) {
 						if(data['success']){
 							alert("Başarıyla Eklendi");
-							existingVariablesChanged();
+							existingVariablesChangedMS();
 							updateYetkilendirmeStandartlari(data['array']);
+
+							jQuery('#existing_standart').hide("slow");
+							jQuery('#existing_standart_wrapper').hide("slow");
+							jQuery('#existing_seviyelerMS').val(0);
+							jQuery('#existing_sektorlerMS').val(0);
+
+							var oTableVarolanMS = jQuery('#existing_standart').dataTable();
+							oTableVarolanMS.fnClearTable();
+
+							existingStandartHidden = 1;
+
 						}else{
 							alert("FAIL, LOL!");
 						}
@@ -891,18 +936,18 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		jQuery('#yetkilendirmeyeDahilKurulusCheckbox').click(function(e){
 			if(jQuery(this).attr('checked')=="checked")
-				window.location = 'index.php?option=com_yetkilendirme_yet&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=1';
+				window.location = 'index.php?option=com_yetkilendirme_ortak&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=1';
 			else
-				window.location = 'index.php?option=com_yetkilendirme_yet&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=0';
+				window.location = 'index.php?option=com_yetkilendirme_ortak&layout=yeni&protokolID=<?php echo $_GET['protokolID']; ?>&tumKuruluslar=0';
 		});
 
 
 		//NEW ROW FOR YETERLİLİKLER
-		jQuery('#newMeslekStandart').click( function (e) {
+		jQuery('#newYeterlilik').click( function (e) {
 
 			if(jQuery('.yetkilendirmeTuruRadioButtons').val()=='3')
 			{
-				jQuery('#yeniMeslekStandardiEkleButtonError').html("Revizyon Yetkilendirmesine Yeni Standart Eklenemez");
+				jQuery('#yeniYeterlilikEkleButtonError').html("Revizyon Yetkilendirmesine Yeni Yeterlilik Eklenemez");
 			}
 			else
 			{
@@ -915,8 +960,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					'<input type="hidden" name="revizyon" id="revizyon" value="00"/>00', //Revizyon
 					'', //Meslek Sektoru
 					'', //Teslim Tarihi
-					'<a class="editYeterlilik" href=""><?php echo JText::_("EDIT_TEXT");?></a><br><a class="cancelMeslekStandart" href="">İptal Et</a>', //Guncelle
-					'<a class="deleteYeterlilik" href=""><?php echo JText::_("DELETE_TEXT");?></a>' //Sil
+					'<a class="editYeterlilik" href="#">Düzenle</a>', //Guncelle
+					'<a class="deleteYeterlilik" href="#">Sil</a>' //Sil
 				], true );
 				var nRow = oTableYet.fnGetNodes( aiNew[0] );
 				editYetRow( oTableYet, nRow, true);
@@ -928,7 +973,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			return false;
 		} );
 		//END NEW ROW FOR YETERLİLİKLER
-		
+
 		//NEW ROW FOR MESLEK STANDARTLARI
 		jQuery('#newMeslekStandart').click( function (e) {
 
@@ -951,7 +996,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					'', //Hazirlama Baslangic
 					'', //Hazirlama Bitis
 					'',
-					'<a class="deleteMeslekStandart" href=""><?php echo JText::_("DELETE_TEXT");?></a>' //Sil
+					'<a class="deleteMeslekStandart" href="#">Sil</a>' //Sil
 				], true );
 				var nRow = oTableMS.fnGetNodes( aiNew[0] );
 				editMSRow( oTableMS, nRow, true);
@@ -962,18 +1007,50 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			return false;
 		} );
 		//END NEW ROW FOR MESLEK STANDARTLARI
+		//NEW ROW FOR YETERLİLİKLER
+		var existingYeterlilikHidden = 1;
+		jQuery('#addExistingYeterlilik').click( function (e) {
 
-		//NEW ROW FOR MESLEK STANDARTLARI
-		jQuery('#addExistingMeslekStandart').click( function (e) {
-
-			if(existingStandartHidden==0)//gizli değilse gizle
+			if(existingYeterlilikHidden==0)//gizli değilse gizle
 			{
-				jQuery('#existing_meslekStandartlari').hide("slow");
-				jQuery('#existing_standart_wrapper').hide("slow");
+				jQuery('#existing_yeterlilikler').hide("slow");
+				jQuery('#existing_yeterlilikler_wrapper').hide("slow");
 				jQuery('#existing_seviyeler').val(0);
 				jQuery('#existing_sektorler').val(0);
 
-				var oTableVarolanMS = jQuery('#existing_meslekStandartlari').dataTable();
+				var oTableVarolanYet = jQuery('#existing_yeterlilikler').dataTable();
+				oTableVarolanYet.fnClearTable();
+
+				existingYeterlilikHidden = 1;
+			}
+			else // zaten gizliyse göster
+			{
+				jQuery('#existing_yeterlilikler_wrapper').show("slow");
+				//jQuery('#existing_yeterlilikler').show("slow");
+				//jQuery('.varolanStandartlariEkleButton').show("slow");
+
+				existingYeterlilikHidden = 0;
+				existingVariablesChanged();
+			}
+
+			// Stop event handling in IE
+			return false;
+		} );
+		//END NEW ROW FOR YETERLİLİKLER
+
+		/////////////////////////////////////////////////////
+
+		//NEW ROW FOR MESLEK STANDARTLARI
+		var existingStandartHidden=1;
+		jQuery('#addExistingMeslekStandart').click( function (e) {
+			if(existingStandartHidden==0)//gizli değilse gizle
+			{
+				jQuery('#existing_standart').hide("slow");
+				jQuery('#existing_standart_wrapper').hide("slow");
+				jQuery('#existing_seviyelerMS').val(0);
+				jQuery('#existing_sektorlerMS').val(0);
+
+				var oTableVarolanMS = jQuery('#existing_standart').dataTable();
 				oTableVarolanMS.fnClearTable();
 
 				existingStandartHidden = 1;
@@ -981,9 +1058,9 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			else // zaten gizliyse göster
 			{
 				jQuery('#existing_standart_wrapper').show("slow");
-				jQuery('#existing_meslekStandartlari').show("slow");
+				jQuery('#existing_standart').show("slow");
 				existingStandartHidden = 0;
-				existingVariablesChanged();
+				existingVariablesChangedMS();
 			}
 
 			// Stop event handling in IE
@@ -1004,11 +1081,11 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 				jQuery( "#dialog-confirm" ).dialog({
 					buttons: {
-						"<?php echo JText::_("DELETE_TEXT");?>": function() {
+						"Sil": function() {
 							deleteYetRow( oTableYet, nRow );
 							jQuery( this ).dialog( "close" );
 						},
-						"<?php echo JText::_("CANCEL_TEXT");?>": function() {
+						"İptal": function() {
 							jQuery( this ).dialog( "close" );
 
 						}
@@ -1036,11 +1113,11 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			if (id != null){
 				jQuery( "#dialog-confirm" ).dialog({
 					buttons: {
-						"<?php echo JText::_("DELETE_TEXT");?>": function() {
+						"Sil": function() {
 							deleteMSRow( oTableMS, nRow );
 							jQuery( this ).dialog( "close" );
 						},
-						"<?php echo JText::_("CANCEL_TEXT");?>": function() {
+						"İptal": function() {
 							jQuery( this ).dialog( "close" );
 
 						}
@@ -1085,48 +1162,16 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		///////////////////////////////////////////////////////////////////////////////////////
 
-		//NEW ROW FOR YETERLİLİKLER
-		var existingStandartHidden = 1;
-		jQuery('#addExistingMeslekStandart').click( function (e) {
-
-			if(existingStandartHidden==0)//gizli değilse gizle
-			{
-				jQuery('#existing_yeterlilikler').hide("slow");
-				jQuery('#existing_yeterlilikler_wrapper').hide("slow");
-				jQuery('#existing_seviyeler').val(0);
-				jQuery('#existing_sektorler').val(0);
-
-				var oTableVarolanYet = jQuery('#existing_yeterlilikler').dataTable();
-				oTableVarolanYet.fnClearTable();
-
-				existingStandartHidden = 1;
-			}
-			else // zaten gizliyse göster
-			{
-				jQuery('#existing_yeterlilikler_wrapper').show("slow");
-				//jQuery('#existing_yeterlilikler').show("slow");
-				//jQuery('.varolanStandartlariEkleButton').show("slow");
-
-				existingStandartHidden = 0;
-				existingVariablesChanged();
-			}
-
-			// Stop event handling in IE
-			return false;
-		} );
-		//END NEW ROW FOR YETERLİLİKLER
-
-		/////////////////////////////////////////////////////
 		//NEW ROW FOR UZATMALAR
 		jQuery('#newUzatma').click( function (e) {
 			e.preventDefault();
-			var aiNew = oTableUzatmaYet.fnAddData( [ '', //Uzatma Suresi
+			var aiNew = oTableUzatma.fnAddData( [ '', //Uzatma Suresi
 				'', //Aciklama
-				'<a class="editUzatma" href=""><?php echo JText::_("EDIT_TEXT");?></a>', //Guncelle
-				'<a class="deleteUzatma" href=""><?php echo JText::_("DELETE_TEXT");?></a>' //Sil
+				'<a class="editUzatma" href="#">Düzenle</a>', //Guncelle
+				'<a class="deleteUzatma" href="#">Sil</a>' //Sil
 			], true );
-			nRow = oTableUzatmaYet.fnGetNodes( aiNew[0] );
-			editUzatmaRow( oTableUzatmaYet, nRow, true);
+			nRow = oTableUzatma.fnGetNodes( aiNew[0] );
+			editUzatmaRow( oTableUzatma, nRow, true);
 
 			// Stop event handling in IE
 			return false;
@@ -1141,7 +1186,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 			var nRow = jQuery(this).parents('tr')[0];
 			if (validate (nRow)){
-				saveUzatmaRow( oTableUzatmaYet, nRow, true);
+				saveUzatmaRow( oTableUzatma, nRow, true);
 			}
 
 			// Stop event handling in IE
@@ -1158,15 +1203,15 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			//Get the row as a parent of the link that was clicked on
 			var nRow = jQuery(this).parents('tr')[0];
 
-			if (this.innerHTML == "<?php echo JText::_("SAVE_TEXT");?>" ) {
+			if (this.innerHTML == "Kaydet" ) {
 				//This row is being edited and should be saved
 				if (validate (nRow)){
-					saveUzatmaRow( oTableUzatmaYet, nRow, false);
+					saveUzatmaRow( oTableUzatma, nRow, false);
 				}
 			}
 			else {
 				//No row currently being edited
-				editUzatmaRow( oTableUzatmaYet, nRow, false );
+				editUzatmaRow( oTableUzatma, nRow, false );
 			}
 
 			// Stop event handling in IE
@@ -1186,11 +1231,11 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			if (id != null){
 				jQuery( "#dialog-confirm" ).dialog({
 					buttons: {
-						"<?php echo JText::_("DELETE_TEXT");?>": function() {
-							deleteUzatmaRow( oTableUzatmaYet, nRow );
+						"Sil": function() {
+							deleteUzatmaRow( oTableUzatma, nRow );
 							jQuery( this ).dialog( "close" );
 						},
-						"<?php echo JText::_("CANCEL_TEXT");?>": function() {
+						"İptal": function() {
 							jQuery( this ).dialog( "close" );
 
 						}
@@ -1199,7 +1244,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 				jQuery( "#dialog-confirm" ).dialog("open");
 			}else{
-				oTableUzatmaYet.fnDeleteRow( nRow );
+				oTableUzatma.fnDeleteRow( nRow );
 			}
 
 			// Stop event handling in IE
@@ -1214,7 +1259,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			e.preventDefault();
 
 			var nRow = jQuery(this).parents('tr')[0];
-			cancelUzatmaEdit( oTableUzatmaYet, nRow );
+			cancelUzatmaEdit( oTableUzatma, nRow );
 
 			// Stop event handling in IE
 			return false;
@@ -1232,12 +1277,12 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		});
 
 
-		jQuery("#yeterlilikler a.cancelMeslekStandart").live('click', function (e) {
+		jQuery("#yeterlilikler a.cancelYeterlilik").live('click', function (e) {
 			e.preventDefault();
 			yeterlilikid = jQuery(this).closest('tr').attr('id');
 			if(confirm("İlgili yeterlilik iptal edilecektir.Emin misiniz ?")){
 				jQuery.ajax({
-					url: "index.php?option=com_yetkilendirme_yet&task=updateYeterlilikStatus&format=raw",
+					url: "index.php?option=com_yetkilendirme_ortak&task=updateYeterlilikStatus&format=raw",
 					data: "yeterlilik_id="+yeterlilikid+"&yeterlilik_durum=iptal",
 					type: "POST",
 					dataType: 'json',
@@ -1300,7 +1345,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 			}
 			//alert(kurulusIdleriText+kurulusRolleriText);
-			jQuery("#yeniProtokolForm").attr("action", "index.php?option=com_yetkilendirme_yet&amp;task=protokolKaydet" + kurulusIdleriText + kurulusRolleriText);
+			jQuery("#yeniProtokolForm").attr("action", "index.php?option=com_yetkilendirme_ortak&amp;task=protokolKaydet" + kurulusIdleriText + kurulusRolleriText);
 			jQuery("#yeniProtokolForm").submit();
 		});
 
@@ -1330,7 +1375,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		var seviyeOptions = "<?php echo $seviyeOptions;?>";
 		var sektorOptions = "<?php echo $sektorOptions;?>";
-		var ulusalStandartOptions = "<?php echo $ulusalStandartOptions;?>";
+		var ulusalYeterlilikOptions = "<?php echo $ulusalStandartOptions;?>";
 
 		jqTds[1].innerHTML = '<input class="required uppercase" value="'+aData[1]+'" type="text" name="meslekAdi" />';
 		jqTds[2].innerHTML = '<select class="required" name="meslekSeviyesi">'+ seviyeOptions + '</select>'; // meslek Seviyeleri
@@ -1341,7 +1386,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		{
 			var selectedSeviyeValue = aData[2];
 			var selectedSektorValue = aData[4];
-			var selectedUlusalStandartValue = aData[5];
+			var selectedUlusalYeterlilikValue = aData[5];
 			//SEVIYE
 			var seviyeOptions = jQuery('option:contains("' + selectedSeviyeValue + '")',  jqTds[2]);
 			seviyeOptions.attr('selected', 'selected');
@@ -1360,9 +1405,9 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		});
 
 		if (!isSave)//BURADAKI 5 LER 6 IDI
-			jqTds[6].innerHTML = '<a class="editYeterlilik" href=""><?php echo JText::_("SAVE_TEXT");?></a><br><a class="canceleditYeterlilik" href=""><?php echo JText::_("CANCEL_TEXT");?></a>';
+			jqTds[6].innerHTML = '<a class="canceleditYeterlilik" href="#">İptal</a> <a class="saveYeterlilik" href="#">Kaydet</a>';
 		else
-			jqTds[6].innerHTML = '<a class="saveYeterlilik" href=""><?php echo JText::_("SAVE_TEXT");?></a>';
+			jqTds[6].innerHTML = '<a class="saveYeterlilik" href="#">Kaydet</a>';
 
 	}
 
@@ -1375,8 +1420,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		jqTds[2].innerHTML = aData[2];
 		jqTds[3].innerHTML = aData[3];
 		jqTds[4].innerHTML = aData[4];
-		//jqTds[5].innerHTML = aData[5];
-		jqTds[5].innerHTML = '<a class="editYeterlilik" href=""><?php echo JText::_("EDIT_TEXT");?></a><br><a class="cancelMeslekStandart" href="">İptal Et</a>';
+		jqTds[5].innerHTML = aData[5];
+		jqTds[6].innerHTML = '<a class="editYeterlilik" href="#">Düzenle</a>';
 	}
 
 	function saveYetRow ( oTable, nRow, isSave )
@@ -1390,10 +1435,10 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		var protokolIDD = jQuery("#protokolID").val();
 
-		var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxSaveRow&format=raw&protokolID='+protokolIDD;
+		var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxSaveRow&format=raw&protokolID='+protokolIDD;
 
 		if (!isSave){
-			url = 'index.php?option=com_yetkilendirme_yet&task=ajaxEditRow&format=raw&protokolID='+protokolIDD;
+			url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxEditRow&format=raw&protokolID='+protokolIDD;
 
 			var obj = new Object;
 			obj.name= 'id';
@@ -1419,8 +1464,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					oTable.fnUpdate( "00", nRow, 3, false );
 					oTable.fnUpdate( jQuery(jqSelects[1]).find("option:selected").text(), nRow, 4, false );
 					oTable.fnUpdate( jqInputs[1].value, nRow, 5, false );
-					oTable.fnUpdate( '<a class="editYeterlilik" href=""><?php echo JText::_("EDIT_TEXT");?></a>', nRow, 6, false );
-					oTable.fnUpdate( '<a class="deleteYeterlilik" href=""><?php echo JText::_("DELETE_TEXT"); ?></a>', nRow, 7, false );
+					oTable.fnUpdate( '<a class="editYeterlilik" href="#">Düzenle</a>', nRow, 6, false );
+					oTable.fnUpdate( '<a class="deleteYeterlilik" href="#">Sil</a>', nRow, 7, false );
 
 					if (isSave){
 						nRow.setAttribute('id', data['id']);
@@ -1454,7 +1499,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		var protokolIDD = document.getElementById("protokolID").value;
 
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_yet&task=ajaxDeleteRow&format=raw&protokolID="+protokolIDD,
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxDeleteRow&format=raw&protokolID="+protokolIDD,
 			data: sendData,
 			type: "POST",
 			dataType: 'json',
@@ -1462,7 +1507,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 				if(data['success']){
 					jQuery("#bilgilendirme").html(data['data']);
 					oTable.fnDeleteRow( nRow );
-					updateProtokolunStandartlari(data['array']);
+					updateProtokolunYeterlilikleri(data['array']);
 					existingVariablesChanged();
 				}else{
 					jQuery("#bilgilendirme").html(data['data']);
@@ -1471,6 +1516,164 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			}
 		});
 	}
+
+	function editMSRow ( oTable, nRow, isSave )
+	{
+		inputChanged=true;
+
+		var aData = oTable.fnGetData(nRow);
+		var jqTds = jQuery('>td', nRow);
+
+		var seviyeOptions = "<?php echo $seviyeOptions;?>";
+		var sektorOptions = "<?php echo $sektorOptions;?>";
+
+		jqTds[0].className = "standartid";
+		jqTds[1].className = "standart";
+		jqTds[2].className = "seviye";
+		jqTds[3].className = "revizyon";
+		jqTds[4].className = "durum";
+		jqTds[5].className = "sektor";
+		jqTds[6].className = "tarih";
+		jqTds[7].className = "tarih";
+
+		jqTds[1].innerHTML = '<input size="23" class="required uppercase" value="'+aData[1]+'" type="text" name="meslekAdi"/>';
+		jqTds[2].innerHTML = '<select class="required" name="meslekSeviyesi">'+ seviyeOptions + '</select>'; // meslek Seviyeleri
+		jqTds[3].innerHTML = '<input value="'+aData[3]+'" type="text" name="revizyon" style="width:80px;" class="revizyon" maxlength="2" />';
+		jqTds[5].innerHTML = '<select class="meslekSektor required" name="meslekSektoru" style="width:130px;">'+ sektorOptions + '</select>'; //meslek sektorleri
+		jqTds[6].innerHTML = '<input size="10" value="'+aData[6]+'" type="text" name="hazirlamaBaslangic" class="hazirlamaBaslangic" maxlength="10" />';
+
+		if(!isSave)
+		{
+			var selectedSeviyeValue = aData[2];
+			var selectedSektorValue = aData[5];
+			//SEVIYE
+			var seviyeOptions = jQuery('option:contains("' + selectedSeviyeValue + '")',  jqTds[2]);
+			seviyeOptions.attr('selected', 'selected');
+			//SEKTOR
+			var sektorOption = jQuery('option:contains("' + selectedSektorValue + '")',  jqTds[5]);
+			sektorOption.attr('selected', 'selected');
+		}
+
+		jQuery( ".hazirlamaBaslangic" ).datepicker({ });
+		jQuery( ".hazirlamaBitis" ).datepicker({ });
+
+		//UPPERCASE
+		jQuery('.uppercase', nRow).upper({
+			ln: 'tr'
+		});
+
+		if (!isSave)
+			jqTds[7].innerHTML = '<a class="cancelEditMeslekStandart" href="#">İptal</a> <a class="saveMeslekStandart" href="#">Kaydet</a>';
+		else
+			jqTds[7].innerHTML = '<a class="saveMeslekStandart" href="#">Kaydet</a>';
+	}
+
+	function cancelMSEdit ( oTable, nRow )
+	{
+		var aData = oTable.fnGetData(nRow);
+		var jqTds = jQuery('>td', nRow);
+		jqTds[0].innerHTML = aData[0];
+		jqTds[1].innerHTML = aData[1];
+		jqTds[2].innerHTML = aData[2];
+		jqTds[3].innerHTML = aData[3];
+		jqTds[4].innerHTML = aData[4];
+		jqTds[5].innerHTML = aData[5];
+		jqTds[6].innerHTML = aData[6];
+		jqTds[7].innerHTML = '<a class="editMeslekStandart" href="#">Düzenle</a>';
+		jqTds[8].innerHTML = aData[8];
+	}
+
+	function saveMSRow ( oTable, nRow, isSave )
+	{
+		var jqInputs = jQuery('input', nRow);
+		var jqSelects = jQuery('select', nRow);
+
+		var sendData = jqInputs.serializeArray();
+		var sendDataSelects = jqSelects.serializeArray();
+		var sendDataAll = sendData.concat(sendDataSelects);
+
+		var protokolID = jQuery("#protokolID").val();
+
+		var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxSaveRowMS&format=raw&protokolID='+protokolID;
+
+		if (!isSave){
+			url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxEditRowMS&format=raw&protokolID='+protokolID;
+
+			var obj = new Object;
+			obj.name= 'id';
+			obj.value= nRow.getAttribute('id');
+			console.log(obj);
+			sendDataAll.push(obj);
+		}
+
+		jQuery.ajax({
+			url: url,
+			data: sendDataAll,
+			type: "POST",
+			dataType: 'json',
+			success: function(data) {
+				if(data['success']){
+					//alert("Başarıyla Eklendi");
+					jQuery("#bilgilendirme").html(data['data']);
+					oTable.fnUpdate( data['id'], nRow, 0, false );
+					oTable.fnUpdate( jqInputs[0].value, nRow, 1, false );
+					oTable.fnUpdate( jQuery(jqSelects[0]).find("option:selected").text(), nRow, 2, false );
+					oTable.fnUpdate( jqInputs[1].value, nRow, 3, false );
+					oTable.fnUpdate( jQuery(jqSelects[1]).find("option:selected").text(), nRow, 5, false );
+					oTable.fnUpdate( jqInputs[2].value, nRow, 6, false );
+// 			    oTable.fnUpdate( jqInputs[3].value, nRow, 5, false );
+					oTable.fnUpdate( '<a class="editMeslekStandart" href="#">Düzenle</a>', nRow, 7, false );
+
+					if (isSave){
+						nRow.setAttribute('id', data['id']);
+						alert("Başarıyla eklendi");
+					}else{
+
+					}
+				}
+				else
+				{
+					alert("Eklemede hata");
+					jQuery("#bilgilendirme").html(data['data']);
+				}
+				oTable.fnDraw();
+			}
+		});
+	}
+
+	function deleteMSRow ( oTable, nRow)
+	{
+		var jqInputs = jQuery('input', nRow);
+		var sendData = jqInputs.serializeArray();
+
+		var obj = new Object;
+		obj.name= 'id';
+		obj.value= nRow.getAttribute('id');
+
+		sendData.push(obj);
+
+		var protokolID = document.getElementById("protokolID").value;
+
+		jQuery.ajax({
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxDeleteRowMS&format=raw&protokolID="+protokolID,
+			data: sendData,
+			type: "POST",
+			dataType: 'json',
+			success: function(data) {
+				if(data['success']){
+					jQuery("#bilgilendirme").html(data['data']);
+					oTable.fnDeleteRow( nRow );
+					updateYetkilendirmeStandartlari(data['array']);
+					existingVariablesChangedMS();
+				}else{
+					jQuery("#bilgilendirme").html(data['data']);
+					oTable.fnDraw();
+				}
+			}
+		});
+	}
+
+
 
 	//FILE UPLOAD
 	dTables.protokolDosya = new Array(new Array("upload"));
@@ -1498,7 +1701,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 				'<input type="hidden" value="" name="filename_'+id+'_'+sira +'">';
 
 			var result = inputPath + '<div class="up_success">'+fileName+' yüklendi!';
-			result 	  += '<input type="button" value="İndir" onclick="window.location.href=\'index.php?option=com_yetkilendirme_yet&amp;task=indir&amp;protokolID=<?php echo $protokolID;?>\'" class="up_submitbtn" style="float:none;"> <\/div>';
+			result 	  += '<input type="button" value="İndir" onclick="window.location.href=\'index.php?option=com_yetkilendirme_ortak&amp;task=indir&amp;protokolID=<?php echo $protokolID;?>\'" class="up_submitbtn" style="float:none;"> <\/div>';
 			result 	  += '<div><input type="button" value="Değiştir" onclick="removeUploaded(\''+id+'\',\''+sira+'\')" /><\/div>';
 			resultDiv.innerHTML = result;
 
@@ -1515,8 +1718,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			jQuery("#existing_sektorler").css("border", "1px solid red");
 			jQuery("#existing_seviyeler").css("border", "1px solid red");
 
-			jQuery("#varolanStandartlarContainer").hide("slow");
-			jQuery(".varolanStandartlariEkleButton").hide("slow");
+			jQuery("#varolanYeterliliklerContainer").hide("slow");
+			jQuery(".varolanYeterlilikleriEkleButton").hide("slow");
 			jQuery("#existing_yeterlilikler").hide("slow");
 
 		}
@@ -1525,7 +1728,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			jQuery("#existing_sektorler").css("border", "1px solid #C6C3C6");
 			jQuery("#existing_seviyeler").css("border", "1px solid #C6C3C6");
 
-			jQuery("#varolanStandartlarContainer").show("slow");
+			jQuery("#varolanYeterliliklerContainer").show("slow");
+			jQuery(".varolanYeterlilikleriEkleButton").show("slow");
 			jQuery("#existing_yeterlilikler").show("slow");
 
 
@@ -1552,7 +1756,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			revizyonMu = '';
 
 			jQuery.ajax({
-				url: "index.php?option=com_yetkilendirme_yet"+revizyonMu+"&task=ajaxFetchExistingStandart&format=raw"+seviyelerText+sektorlerText+protokolIDText,
+				url: "index.php?option=com_yetkilendirme_ortak"+revizyonMu+"&task=ajaxFetchExistingYeterlilik&format=raw"+seviyelerText+sektorlerText+protokolIDText,
 				data: sendData,
 				type: "POST",
 				dataType: 'json',
@@ -1560,8 +1764,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					if(data['success']){
 						//jQuery("#bilgilendirme").html(data['data']);
 						//alert('success');
-						putVarolanStandartDataToGrid(data['array']);
-						jQuery(".varolanStandartlariEkleButton").show("slow");
+						putVarolanYeterlilikDataToGrid(data['array']);
+						jQuery(".varolanYeterlilikleriEkleButton").show("slow");
 						//oTable.fnDeleteRow( nRow );
 					}else{
 						//jQuery("#bilgilendirme").html(data['data']);
@@ -1570,7 +1774,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 						oTableVarolanYet.fnClearTable();
 						oTableVarolanYet.fnAddData( [ data['data'], "","","","","","", ""]);
 
-						jQuery(".varolanStandartlariEkleButton").hide("slow");
+						jQuery(".varolanYeterlilikleriEkleButton").hide("slow");
 
 					}
 				}
@@ -1580,7 +1784,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		}
 	}
 
-	function putVarolanStandartDataToGrid(arrayToPut)
+	function putVarolanYeterlilikDataToGrid(arrayToPut)
 	{
 		jQuery('#existing_yeterlilikler').show("slow");
 
@@ -1591,7 +1795,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		for(var i=0; i<arrayToPut.length; i++)
 		{
 			oTableVarolanYet.fnAddData( [
-				"<input type='checkbox' value='"+arrayToPut[i]["YETERLILIK_ID"]+"' id='varolanStandartlarCheckbox-"+i+"' name='varolanStandartlarCheckbox[]' class='varolanStandartlarCheckbox' /> ",
+				"<input type='checkbox' value='"+arrayToPut[i]["YETERLILIK_ID"]+"' id='varolanYeterliliklerCheckbox-"+i+"' name='varolanYeterliliklerCheckbox[]' class='varolanYeterliliklerCheckbox' /> ",
 				arrayToPut[i]["YETERLILIK_ADI"],
 				arrayToPut[i]["SEVIYE_ADI"],
 				arrayToPut[i]["REVIZYON"],
@@ -1603,7 +1807,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 	}
 
 	//
-	jQuery('.varolanStandartlariEkleButton').live('click', function (e) {
+	jQuery('.varolanYeterlilikleriEkleButton').live('click', function (e) {
 
 		if(jQuery("#existing_sektorler").val()== 0 && jQuery("#existing_seviyeler").val()== 0  )
 		{	//IKISI DE SECILI DEGIL
@@ -1616,10 +1820,10 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 			jQuery("#existing_sektorler").css("border", "1px solid #C6C3C6");
 			jQuery("#existing_seviyeler").css("border", "1px solid #C6C3C6");
 
-			var jqInputs = jQuery('.varolanStandartlarCheckbox');
+			var jqInputs = jQuery('.varolanYeterliliklerCheckbox');
 			var sendData = jqInputs.serializeArray();
 
-			var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxAddFromVarolanStandartlar&format=raw&protokolID=<?php echo $_REQUEST['protokolID'] ?>';
+			var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxAddFromVarolanYeterlilikler&format=raw&protokolID=<?php echo $_REQUEST['protokolID'] ?>';
 
 			jQuery.ajax({
 				url: url,
@@ -1630,7 +1834,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					if(data['success']){
 						alert("Başarıyla Eklendi");
 						existingVariablesChanged();
-						updateProtokolunStandartlari(data['array']);
+						updateProtokolunYeterlilikleri(data['array']);
 
 
 						jQuery('#existing_yeterlilikler').hide("slow");
@@ -1641,7 +1845,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 						var oTableVarolanYet = jQuery('#existing_yeterlilikler').dataTable();
 						oTableVarolanYet.fnClearTable();
 
-						existingStandartHidden = 1;
+						existingYeterlilikHidden = 1;
 
 					}
 					else
@@ -1655,6 +1859,118 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		return false;
 	} );
 
+	function existingVariablesChangedMS()
+	{
+		if(jQuery("#existing_sektorlerMS").val()== 0 && jQuery("#existing_seviyelerMS").val()== 0  )
+		{	//IKISI DE SECILI DEGIL
+			jQuery("#existing_sektorlerMS").css("border", "1px solid red");
+			jQuery("#existing_seviyelerMS").css("border", "1px solid red");
+
+			jQuery("#varolanStandartlarContainer").hide("slow");
+			jQuery(".varolanStandartlariEkleButton").hide("slow");
+			jQuery("#existing_standart").hide("slow");
+
+		}
+		else
+		{
+			jQuery("#existing_sektorlerMS").css("border", "1px solid #C6C3C6");
+			jQuery("#existing_seviyelerMS").css("border", "1px solid #C6C3C6");
+
+			jQuery("#varolanStandartlarContainer").show("slow");
+			jQuery("#existing_standart").show("slow");
+
+
+			var sektorlerText = "";
+			var seviyelerText = "";
+			var sendData = null;
+			var protokolIDText = "&protokolID=<?php echo $_REQUEST['protokolID'];?>";
+
+			if(jQuery("#existing_sektorlerMS").val()!= 0  ) ;
+			sektorlerText = "&sektorID="+jQuery("#existing_sektorlerMS").val();
+			if(jQuery("#existing_seviyelerMS").val()!= 0  ) ;
+			seviyelerText = "&seviyeID="+jQuery("#existing_seviyelerMS").val();
+
+			var oTableVarolanMS = jQuery('#existing_standart').dataTable();
+			oTableVarolanMS.fnClearTable();
+			oTableVarolanMS.fnAddData( ["GETİRİLİYOR.", "","","","","","","",""]);
+
+			jQuery.ajax({
+				url: "index.php?option=com_yetkilendirme_ortak&task=ajaxFetchExistingStandart&format=raw"+seviyelerText+sektorlerText+protokolIDText,
+				data: sendData,
+				type: "POST",
+				dataType: 'json',
+				success: function(data) {
+					if(data['success']){
+						//jQuery("#bilgilendirme").html(data['data']);
+						putVarolanStandartDataToGridMS(data['array']);
+						jQuery(".varolanStandartlariEkleButton").show("slow");
+						//oTable.fnDeleteRow( nRow );
+					}else{
+						//jQuery("#bilgilendirme").html(data['data']);
+						oTableVarolanMS.fnClearTable();
+						oTableVarolanMS.fnAddData( [ data['data'], "","","","","","","","" ]);
+						jQuery(".varolanStandartlariEkleButton").hide("slow");
+						//alert("FAIL, LOL!");
+						//oTable.fnDraw();
+					}
+				}
+			});
+
+
+		}
+	}
+
+
+
+
+
+	function putVarolanStandartDataToGridMS(arrayToPut)
+	{
+		jQuery('#existing_standart').show("slow");
+
+		var oTableVarolanMS = jQuery('#existing_standart').dataTable();
+
+		oTableVarolanMS.fnClearTable();
+
+		for(var i=0; i<arrayToPut.length; i++)
+		{
+			oTableVarolanMS.fnAddData( [
+				"<input type='checkbox' value='"+arrayToPut[i]["STANDART_ID"]+"' id='varolanStandartlarCheckbox-"+i+"' name='varolanStandartlarCheckbox[]' class='varolanStandartlarCheckbox' /> ",
+				arrayToPut[i]["STANDART_ADI"],
+				arrayToPut[i]["SEVIYE_ADI"],
+				arrayToPut[i]["REVIZYON"],
+				arrayToPut[i]["SEKTOR_ADI"],
+				arrayToPut[i]["MESLEK_STANDART_DURUM_ADI"]
+			]);
+		}
+
+	}
+
+	function updateYetkilendirmeStandartlari(arrayToPut)
+	{
+		var oTableMS = jQuery('#meslekStandartlari').dataTable();
+
+		oTableMS.fnClearTable();
+		for(var i=0; i<arrayToPut.length; i++)
+		{
+			var a = oTableMS.fnAddData( [
+				arrayToPut[i]["STANDART_ID"],
+				arrayToPut[i]["STANDART_ADI"],
+				arrayToPut[i]["SEVIYE_ADI"],
+				arrayToPut[i]["REVIZYON"],
+				arrayToPut[i]["MESLEK_STANDART_DURUM_ADI"],
+				arrayToPut[i]["SEKTOR_ADI"],
+				arrayToPut[i]["BITIS_TARIHI"],
+				'<td><a class="editMeslekStandart" href="#">Düzenle</a>',
+				'<td><a class="deleteMeslekStandart" href="#">Sil</a></td>'
+			]);
+			var nRow = oTableMS.fnSettings().aoData[ a[0] ].nTr;
+			nRow.setAttribute('id', arrayToPut[i]["STANDART_ID"]);
+		}
+
+	}
+
+
 	jQuery(".saveRevizyon").live('click', function (e) {
 		var nRow = jQuery(this).parents('tr')[0];
 		var jqInputs = jQuery('input', nRow);
@@ -1666,9 +1982,9 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		var meslekSektoru 	= jQuery(this).closest('tr').find("[name=meslekSektoru]").val();
 		var protokolTeslim 	= jQuery(this).closest('tr').find("[name=protokolTeslim]").val();
 
-		var sendData = "yeterlilik_id="+yetid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
+		var sendData = "standart_id="+yetid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_yet&task=ajaxRevizyonOlustur&format=raw&yetid="+yetid,
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlustur&format=raw&yetid="+yetid,
 			data: sendData,
 			type: "POST",
 			dataType: 'json',
@@ -1683,8 +1999,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 					jQuery(nRow).find("td:eq(3)").html(jQuery(nRow).find(".revizyon").val());
 					jQuery(nRow).find("td:eq(4)").html(jQuery(nRow).find("select[name=meslekSektoru] option:selected").html());
 					jQuery(nRow).find("td:eq(5)").html(jQuery(nRow).find("input[name=protokolTeslim]").val());
-					jQuery(nRow).find("td:eq(6)").html("<a class='editYeterlilik' href=''>Güncelle</a><br><a class='cancelMeslekStandart' href=''>İptal Et</a>");
-					jQuery(nRow).find("td:eq(7)").html("<a class='deleteYeterlilik' href=''>Sil</a>");
+					jQuery(nRow).find("td:eq(6)").html("<a class='editYeterlilik' href='#'>Güncelle</a><br><a class='cancelMeslekStandart' href='#'>İptal Et</a>");
+					jQuery(nRow).find("td:eq(7)").html("<a class='deleteYeterlilik' href='#'>Sil</a>");
 					//updateYetkilendirmeStandartlari(data['array']);
 					//existingVariablesChanged();
 				}else{
@@ -1702,9 +2018,17 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		});
 		return false;
 	});
+	jQuery("#newRevizyonEkleMS").click(function(){
+		jQuery('#loaderGifMS').lightbox_me({
+			centered: true,
+			closeClick:false,
+			closeEsc:false
+		});
+		return false;
+	});
 	jQuery("#loaderGif #yeterlilik_durum").change(function(){
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_yet&task=ajaxYeterlilikGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxYeterlilikGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
 			type: "POST",
 			dataType: 'json',
 			beforeSend: function() {
@@ -1725,7 +2049,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 	});
 	jQuery("#yeterLilikRevizyonSec").click(function(){
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_yet&task=ajaxYeterlilikGetirById&format=raw&yetid="+jQuery(this).closest("#loaderGif").find("#yeterlilik_adi").val(),
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxYeterlilikGetirById&format=raw&yetid="+jQuery(this).closest("#loaderGif").find("#yeterlilik_adi").val(),
 			type: "POST",
 			dataType: 'json',
 			beforeSend: function() {
@@ -1744,7 +2068,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 						'', //Revizyon
 						'', //Meslek Sektoru
 						'', //Teslim Tarihi
-						'<a class="editYeterlilik" href="#" onClick="event.preventDefault(); return false;"><?php echo JText::_("EDIT_TEXT");?></a><br><a class="cancelMeslekStandart" href="">İptal Et</a>', //Guncelle
+						'<a class="editYeterlilik" href="#" onClick="event.preventDefault(); return false;">Düzenle</a>', //Guncelle
 						''//Sil
 					], true );
 					var oTableYet = jQuery('#yeterlilikler').dataTable();
@@ -1755,7 +2079,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 					var seviyeOptions = "<?php echo $seviyeOptions;?>";
 					var sektorOptions = "<?php echo $sektorOptions;?>";
-					var ulusalStandartOptions = "<?php echo $ulusalStandartOptions;?>";
+					var ulusalYeterlilikOptions = "<?php echo $ulusalStandartOptions;?>";
 					jqTds[1].innerHTML = '';
 					jqTds[1].innerHTML = '<input class="required uppercase" id="meslekadi_'+yetid+'_rev" value="'+data['result']['YETERLILIK_ADI']+'" type="text" name="meslekAdi" />';
 					jqTds[2].innerHTML = '<select class="required" name="meslekSeviyesi" id="meslekseviyesi_'+yetid+'_rev">'+ seviyeOptions + '</select>'; // meslek Seviyeleri
@@ -1775,7 +2099,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 						ln: 'tr'
 					});
 
-					jqTds[6].innerHTML = '<a class="saveRevizyon"><?php echo JText::_("SAVE_TEXT");?></a> <a class="cancelRevizyon" href=""><?php echo JText::_("CANCEL_TEXT");?></a>';
+					jqTds[6].innerHTML = '<a class="saveRevizyon">Kaydet</a> <a class="cancelRevizyon" href="#">İptal</a>';
 
 				}
 
@@ -1787,7 +2111,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		jQuery('#loaderGif').trigger('close');
 	});
 	//
-	function updateProtokolunStandartlari(arrayToPut)
+	function updateProtokolunYeterlilikleri(arrayToPut)
 	{
 		var oTableYet = jQuery('#yeterlilikler').dataTable();
 
@@ -1801,8 +2125,8 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 				arrayToPut[i]["REVIZYON"],
 				arrayToPut[i]["SEKTOR_ADI"],
 				arrayToPut[i]["YETERLILIK_TESLIM_TARIHI"],
-				'<td><a class="editYeterlilik" href=""><?php echo JText::_("EDIT_TEXT"); ?></a><br><a class="cancelMeslekStandart" href="">İptal Et</a></td>',
-				'<td><a class="deleteYeterlilik" href=""><?php echo JText::_("DELETE_TEXT"); ?></a></td>'
+				'<td><a class="editYeterlilik" href="#">Düzenle</a></td>',
+				'<td><a class="deleteYeterlilik" href="#">Sil</a></td>'
 			]);
 
 
@@ -1829,9 +2153,9 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 
 		if (!isSave)
-			jqTds[2].innerHTML = '<a class="editUzatma" href=""><?php echo JText::_("SAVE_TEXT");?></a> <a class="cancelUzatma" href=""><?php echo JText::_("CANCEL_TEXT");?></a>';
+			jqTds[2].innerHTML = '<a class="editUzatma" href="#">Düzenle</a>';
 		else
-			jqTds[2].innerHTML = '<a class="saveUzatma" href=""><?php echo JText::_("SAVE_TEXT");?></a>';
+			jqTds[2].innerHTML = '<a class="saveUzatma" href="#">Kaydet</a>';
 
 	}
 
@@ -1842,7 +2166,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		var jqTds = jQuery('>td', nRow);
 		jqTds[0].innerHTML = aData[0];
 		jqTds[1].innerHTML = aData[1];
-		jqTds[2].innerHTML = '<a class="editUzatma" href=""><?php echo JText::_("EDIT_TEXT");?></a>';
+		jqTds[2].innerHTML = '<a class="editUzatma" href="#">Düzenle</a>';
 
 	}
 
@@ -1858,10 +2182,10 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 
 		var protokolID = jQuery("#protokolID").val();
 
-		var url = 'index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaKaydet&format=raw&protokolID='+protokolID;
+		var url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaKaydet&format=raw&protokolID='+protokolID;
 
 		if (!isSave){
-			url = 'index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaGuncelle&format=raw&protokolID='+protokolID;
+			url = 'index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaGuncelle&format=raw&protokolID='+protokolID;
 
 			var obj = new Object;
 			obj.name= 'id';
@@ -1879,7 +2203,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 				if(data['success']){
 					oTable.fnUpdate( jqInputs[0].value, nRow, 0, false );
 					oTable.fnUpdate( jqInputs[1].value, nRow, 1, false );
-					oTable.fnUpdate( '<a class="editUzatma" href=""><?php echo JText::_("EDIT_TEXT");?></a>', nRow, 2, false );
+					oTable.fnUpdate( '<a class="editUzatma" href="#">Düzenle</a>', nRow, 2, false );
 
 					if (isSave){
 						nRow.setAttribute('id', data['id']);
@@ -1912,7 +2236,7 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 		var protokolID = document.getElementById("protokolID").value;
 
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_yet&task=ajaxUzatmaSil&format=raw&protokolID="+protokolID,
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxUzatmaSil&format=raw&protokolID="+protokolID,
 			data: sendData,
 			type: "POST",
 			dataType: 'json',
@@ -1930,5 +2254,110 @@ $yetkilendirmeID = JRequest::getVar("protokolID");
 	}
 
 
+	jQuery("#standartRevizyonIptal").click(function(){
+		jQuery('#loaderGifMS').trigger('close');
+	});
+	jQuery("#standartRevizyonSec").click(function(){
+		jQuery.ajax({
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxStandartGetirById&format=raw&standartid="+jQuery(this).closest("#loaderGif").find("#standart_adi").val(),
+			type: "POST",
+			dataType: 'json',
+			beforeSend: function() {
+				jQuery('#loaderGif').trigger('close');
+			},
+			success: function(data) {
+				if(data['status'] == "1"){
+					var oTableMS = jQuery('#meslekStandartlari').dataTable();
+					var nRow = jQuery(this).parents('tr')[0];
 
+					var standartid = data['result']['STANDART_ID'];
+
+					var aiNew = oTableMS.fnAddData( [ '',
+						'', //Meslek Adi
+						'', //Meslek Seviyesi
+						'', //Durumu
+						'', //Revizyon
+						'', //Meslek Sektoru
+						'', //Teslim Tarihi
+						'<a class="editMeslekStandart" href="#" onClick="event.preventDefault(); return false;">Düzenle</a>', //Guncelle
+						''//Sil
+					], true );
+					var oTableMS = jQuery('#meslekStandartlari').dataTable();
+					var nRow = oTableMS.fnGetNodes( aiNew[0] );
+					var aData = oTableMS.fnGetData(nRow);
+					jQuery(nRow).attr("tempid",standartid);
+					var jqTds = jQuery('>td', nRow);
+
+					var seviyeOptions = "<?php echo $seviyeOptions;?>";
+					var sektorOptions = "<?php echo $sektorOptions;?>";
+					var ulusalStandartOptions = "<?php echo $ulusalStandartOptions;?>";
+					jqTds[0].innerHTML = '';
+					jqTds[1].innerHTML = '<input class="required uppercase" id="meslekadi_'+standartid+'_rev" value="'+data['result']['STANDART_ADI']+'" type="text" name="meslekAdi" />';
+					jqTds[2].innerHTML = '<select class="required" name="meslekSeviyesi" id="meslekseviyesi_'+standartid+'_rev">'+ seviyeOptions + '</select>'; // meslek Seviyeleri
+					jqTds[3].innerHTML = '<input value="'+data['result']['REVIZYON']+'" type="text" name="revizyon" id="revizyon_'+standartid+'_rev" class="revizyon" maxlength="2" style="width:82px;" />';
+					jqTds[4].innerHTML = data['result']['MESLEK_STANDART_DURUM_ADI'];
+					jqTds[5].innerHTML = '<select class="required" style="width:120px;" id="mesleksektoru_'+standartid+'_rev" name="meslekSektoru">'+ sektorOptions + '</select>'; //meslek sektorleri
+					jqTds[6].innerHTML = '<input value="'+aData[4]+'" style="width:120px;"  type="text" name="protokolTeslim" id="protokolteslim_'+standartid+'_rev" class="protokolTeslim" maxlength="10" />';
+
+					jQuery("#meslekseviyesi_"+standartid+"_rev").val(data['result']['SEVIYE_ID']);
+					jQuery("#mesleksektoru_"+standartid+"_rev").val(data['result']['SEKTOR_ID']);
+//				     jQuery("#protokolteslim_"+yetid+"_rev").val(jQuery(this).closest("tr").find('td:eq(4)').html());
+
+					jQuery( ".protokolTeslim" ).datepicker({ });
+
+					//UPPERCASE
+					jQuery('.uppercase', nRow).upper({
+						ln: 'tr'
+					});
+					jqTds[7].innerHTML = '<a href="javascript:void(0);" class="saveRevizyon">Kaydet</a> <a href="javascript:void(0);" class="cancelRevizyon" href="#">İptal</a>';
+				}
+			}
+		});
+	});
+	jQuery(".cancelRevizyon").live('click',function(){
+		var oTableMS = jQuery('#meslekStandartlari').dataTable();
+		var nRow = jQuery(this).parents('tr')[0];
+		oTableMS.fnDeleteRow( nRow );
+		return false;
+	});
+
+	jQuery(".saveRevizyon").live('click', function (e) {
+		var nRow = jQuery(this).parents('tr')[0];
+		var jqInputs = jQuery('input', nRow);
+		var jqSelects = jQuery('select', nRow);
+
+		var standartid 			= jQuery(this).closest('tr').attr("tempid");
+		var meslekSeviyesi 	= jQuery(this).closest('tr').find("[name=meslekSeviyesi]").val();
+		var revizyon 		= jQuery(this).closest('tr').find("[name=revizyon]").val();
+		var meslekSektoru 	= jQuery(this).closest('tr').find("[name=meslekSektoru]").val();
+		var protokolTeslim 	= jQuery(this).closest('tr').find("[name=protokolTeslim]").val();
+
+		var sendData = "standart_id="+standartid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
+		jQuery.ajax({
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlustur&format=raw&standartid="+standartid,
+			data: sendData,
+			type: "POST",
+			dataType: 'json',
+			success: function(data) {
+				if(data['status'] == "1"){
+					jQuery(nRow).removeAttr("tempid");
+					jQuery(nRow).attr('id',data['standart_id']);
+					jQuery(nRow).find(".revizyon").val(data['revizyon']);
+					jQuery(nRow).find("td:eq(0)").html(data['standart_id']);
+					jQuery(nRow).find("td:eq(1)").html(jQuery(nRow).find("input[name=meslekAdi]").val());
+					jQuery(nRow).find("td:eq(2)").html(jQuery(nRow).find("select[name=meslekSeviyesi] option:selected").html());
+					jQuery(nRow).find("td:eq(3)").html(jQuery(nRow).find(".revizyon").val());
+					jQuery(nRow).find("td:eq(4)").html(jQuery(nRow).find("select[name=meslekSektoru] option:selected").html());
+					jQuery(nRow).find("td:eq(5)").html(jQuery(nRow).find("input[name=protokolTeslim]").val());
+					jQuery(nRow).find("td:eq(6)").html("<a class='editMeslekStandart' href='#'>Güncelle</a><br><a class='cancelMeslekStandart' href='#'>İptal Et</a>");
+					jQuery(nRow).find("td:eq(7)").html("<a class='deleteMeslekStandart' href='#'>Sil</a>");
+					//updateYetkilendirmeStandartlari(data['array']);
+					//existingVariablesChanged();
+				}else{
+					oTable.fnDraw();
+				}
+			}
+		});
+		return false;
+	});
 </script>

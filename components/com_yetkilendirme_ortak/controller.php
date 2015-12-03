@@ -219,26 +219,57 @@ class Yetkilendirme_OrtakController extends JController {
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');
 		$model->ajaxDeleteRow ();
 	}
-	function ajaxFetchExistingStandart (){
+
+	function ajaxSaveRowMS (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$model->ajaxSaveRowMS ();
+	}
+	function ajaxEditRowMS (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$model->ajaxEditRowMS ();
+	}
+	function ajaxDeleteRowMS (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$model->ajaxDeleteRowMS ();
+	}
+
+	function ajaxFetchExistingYeterlilik (){
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');
 		if($_GET['revizyonMu']==1)
 			$revizyonMu = 1;
 		else 
 			$revizyonMu=0;
 			
-		$model->ajaxFetchExistingStandart($revizyonMu);
+		$model->ajaxFetchExistingYeterlilik($revizyonMu);
+	}
+	function ajaxAddFromVarolanYeterlilikler (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$model->ajaxAddFromVarolanYeterlilikler ();
+		$model->ajaxFetchExistingYeterlilik();
+	}
+	function ajaxFetchExistingStandart (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$model->ajaxFetchExistingStandart();
 	}
 	function ajaxAddFromVarolanStandartlar (){
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');
 		$model->ajaxAddFromVarolanStandartlar ();
 		$model->ajaxFetchExistingStandart();
 	}
-	function ajaxFilterYetkilendirmeler (){
+
+	function ajaxFilterYetkilendirmelerYet (){
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');
 		$kurulusAdi = JRequest::getVar('detayliArama_kurulusAdiTextbox');
 		$yeterlilikAdi = JRequest::getVar('detayliArama_ekliYeterlilikTextbox');
 		$yeterlilikSektorID = JRequest::getVar('detayliArama_ekliYeterlilikSektorSelect');
 		$model->ajaxFilterYetkilendirmeler($kurulusAdi, $yeterlilikAdi, $yeterlilikSektorID );
+	}
+	function ajaxFilterYetkilendirmelerMS (){
+		$model = &$this->getModel('yetkilendirme_ortak_ajax');
+		$kurulusAdi = JRequest::getVar('detayliArama_kurulusAdiTextbox');
+		$standartAdi = JRequest::getVar('detayliArama_ekliStandartTextbox');
+		$yeterlilikSektorID = JRequest::getVar('detayliArama_ekliYeterlilikSektorSelect');
+		$model->ajaxFilterYetkilendirmelerMS($kurulusAdi, $standartAdi, $yeterlilikSektorID );
 	}
 	function ajaxUzatmaKaydet (){
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');

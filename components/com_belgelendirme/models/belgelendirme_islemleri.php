@@ -6272,10 +6272,10 @@ ORDER BY SINAV_ID ASC";
 			$sql = "SELECT * FROM M_BELGELENDIRME_ADAY_BILDIRIM MBA
 					INNER JOIN M_BELGELENDIRME_SINAV MBS ON(MBA.SINAV_ID = MBS.SINAV_ID)
 					WHERE MBS.BASLANGIC_TARIHI > TO_DATE(?) AND MBS.KURULUS_ID = ?
-					AND MBS.SONUC_DURUMU = 2 AND MBA.TC_KIMLIK = ?";
+					AND MBA.TC_KIMLIK = ?";
 			$dat = $_db->prep_exec($sql, array($KurPro["PRO_TARIH"],$sinavDatas[0]['KURULUS_ID'],$aday));
 				
-			if($data[0]['SAYI'] > 0 || $data2[0]['SAYI']){
+			if($data[0]['SAYI'] > 0 || $data2[0]['SAYI'] > 0){
 				$ucretData[$aday]['TESVIK_DURUM'] = false;
 			}else if(!$dat && $ucretData[$aday]['TOPLAM_UCRET'] == 0){
 				$ucretData[$aday]['TESVIK_DURUM'] = false;

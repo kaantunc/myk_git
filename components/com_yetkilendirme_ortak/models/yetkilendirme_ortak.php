@@ -240,13 +240,13 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 		return $db->prep_exec($sql, $params);
 	}
 	
-	function meslekiYeterlilikProtokoluMu($protokolID)
+	function ortakProtokoluMu($protokolID)
 	{
 		$result = false;
 		$db  = &JFactory::getOracleDBO();
 		$sql = "SELECT * FROM m_yetki WHERE yetki_turu = ? AND YETKI_ID = ?";
 	
-		$params = array ( PM_PROTOKOLTURU_YETERLILIKVEMESLEKSTANDARTIPROTOKOLU ,$protokolID);
+		$params = array ( 3 ,$protokolID);
 		if(count($db->prep_exec($sql, $params)) > 0)
 		$result = true;
 	

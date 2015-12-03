@@ -49,8 +49,8 @@ class Yetkilendirme_OrtakViewYetkilendirme_Ortak extends JView
 			$this->assignRef('seciliProtokolunYeterlilikleri', $seciliProtokolunYeterlilikleri);
 			$seciliYetkilendirmeStandartlari = $model->getYetkilendirmeStandartlari($protokolID);
 			$this->assignRef('seciliYetkilendirmeStandartlari', $seciliYetkilendirmeStandartlari);
-//			$meslekiYeterlilikProtokoluMu = $model->meslekiYeterlilikProtokoluMu($protokolID);
-//			$this->assignRef('meslekiYeterlilikProtokoluMu', $meslekiYeterlilikProtokoluMu);
+			$ortakProtokoluMu = $model->ortakProtokoluMu($protokolID);
+			$this->assignRef('ortakProtokoluMu', $ortakProtokoluMu);
 			$protokolunSektorleri = $model->getProtokolunSektorleri($protokolID);
 			$this->assignRef('protokolunSektorleri',$protokolunSektorleri);
 			$uzatmalar = $model->getUzatmalar($protokolID);
