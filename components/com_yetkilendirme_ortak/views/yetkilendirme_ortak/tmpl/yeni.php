@@ -40,12 +40,14 @@ if(isset($protokolID))
 
 
 	$kurulusVeYeterlilikVisibilitysi = "display: block;";
+	$kurulusVeStandartVisibilitysi= "display: block;";
 	$kaydetButtonTexti = "Kuruluşları Kaydet";
 }
 else
 {
 	$kurulusVeYeterlilikVisibilitysi = "display: none;";
-	$kaydetButtonTexti = "Kuruluş ve Yeterlilik Ekle";
+	$kurulusVeStandartVisibilitysi= "display: none;";
+	$kaydetButtonTexti = "Protokol Oluştur";
 
 	$protokolMuRadioText = '<input value="1" type="radio" name="protokolMuRadioButtons[]" checked>Protokol<br>
 							<input value="0" type="radio" name="protokolMuRadioButtons[]" >Yetkilendirme<br>';
@@ -93,7 +95,7 @@ $protokolID = JRequest::getVar("protokolID");
 ?>
 <div class="form_item">
 	<div class="form_element cf_heading">
-		<h1 class="contentheading">Yeterlilik Yetkilendirmesi</h1>
+		<h1 class="contentheading">Protokol Oluşturma</h1>
 	</div>
 	<div class="cfclear">&nbsp;</div>
 </div>
@@ -527,6 +529,9 @@ $protokolID = JRequest::getVar("protokolID");
 			</div>
 			<div style="clear:both;"></div>
 		</div>
+<hr>
+<!--		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
+<!--		//////////////////////////////////      MESLEK STANDARTLARI    //////////////////////////////////////-->
 		<div style="<?php echo $kurulusVeStandartVisibilitysi; ?>" class="standart_wrapper">
 
 			<div>
@@ -647,6 +652,7 @@ $protokolID = JRequest::getVar("protokolID");
 				<div style="clear: both;"></div>
 			</div>
 		</div>
+<!--		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////-->
 	</form>
 
 	<div id="dialog-confirm" title="<?php echo JText::_("DELETE_CONFIRM_TITLE");?>">
