@@ -436,6 +436,13 @@ class Belgelendirme_AbhibeController extends JController {
 
         echo json_encode($model->AjaxGetFaturaBilgi($post['IstekId']));
     }
+
+    function AjaxGetAbHibeBelgeNo(){
+        $model 		 = $this->getModel('yonetici');
+        $post 		 = JRequest::get( 'post' );
+
+        echo json_encode($model->AjaxGetAbHibeBelgeNo($post['bNo']));
+    }
 	
     function display() {
     	

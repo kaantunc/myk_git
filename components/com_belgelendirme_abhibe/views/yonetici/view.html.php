@@ -183,6 +183,12 @@ class Belgelendirme_AbhibeViewYonetici extends JView
                 $this->assignRef('atData',$data);
                 $this->assignRef('atTar',$post);
             }
+        }else if($layout == "abaday"){
+            $bNo = 0;
+            if(array_key_exists('bNo',$get)){
+                $bNo = $get['bNo'];
+            }
+            $this->assignRef('bNo',$bNo);
         }
 
 		parent::display($tpl);

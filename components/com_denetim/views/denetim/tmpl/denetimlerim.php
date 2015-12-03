@@ -284,7 +284,7 @@ for($i=0; $i<count($denetimler); $i++)
     </div>
 <?php } ?>
 <?php if($kurulusMu){ ?>
-<div class="anaDiv">
+<div class="anaDiv">1q2w3e4r
     <a class="btn btn-xs btn-primary" href="index.php?option=com_profile&view=profile&layout=ekler&kurulus=<?php echo $userId; ?>#table_akdenetim"><i class="fa fa-plus"></i> İç Denetim Raporu Ekle</a>
 </div>
 <?php } ?>

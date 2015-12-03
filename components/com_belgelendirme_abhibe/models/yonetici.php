@@ -897,5 +897,60 @@ public function AdayBasvuruFile($IstekId){
             return false;
         }
     }
+
+    function AjaxGetAbHibeBelgeNo($bNo){
+        $db = JFactory::getOracleDBO ();
+
+        $return = array();
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
+                  WHERE BELGE_NO != ? AND TESVIK = 2
+                   AND TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)";
+        $data = $db->prep_exec($sql,array($bNo,$bNo));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numaralı aday daha önce AB Hibesinden yararlanmak için ".$data[0]['BELGE_NO']." belge numarası ile başvuru yaptığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
+                  WHERE BELGE_NO = ? AND TESVIK = 1";
+        $data = $db->prep_exec($sql,array($bNo));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numarası için daha önce Devlet Teşviğinden yararlanma başvurusu yapıldığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
+                  WHERE BELGE_NO = ? AND TESVIK = 2";
+        $data = $db->prep_exec($sql,array($bNo));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numarası için daha önce AB Hibesinden yararlanma başvurusu yapıldığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        /*$sql = "SELECT * FROM AB_HIBE_KURULUS_ADAY ABKA
+                  INNER JOIN AB_HIBE_KURULUS_ISTEK ABKI ON ABKA.ISTEK_ID = ABKI.ID
+                  WHERE ABKA.BELGE_NO = ?";
+        $data = $db->prep_exec($sql,array($bNo));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numaralı aday AB Hibesinden ödeme aşamasında olduğu için değiştiremezsiniz.";
+            return $return;
+        }*/
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBHK
+                  INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBHK.TC_KIMLIK = MBO.TC_KIMLIK
+                  WHERE MBHK.BELGE_NO = ?";
+        $data = $db->prep_exec($sql,array($bNo));
+
+        if($data){
+            $birimUcretiHesabi = FormABHibeUcretHesabi::BasariliBirimUcretiHesabi($data[0]['TC_KIMLIK'],$data[0]['YETERLILIK_ID'], $data[0]['SINAV_TARIHI'],$data[0]['KURULUS_ID']);
+            return array('hata' => false, 'AdayBilgi'=>$data[0], 'UcretBilgi'=>$birimUcretiHesabi);
+        }else{
+            return array('hata'=>true, 'message'=>'Böyle bir Belge Numarası sistemde kayıtlı değildir.');
+        }
+    }
 }
 ?>
