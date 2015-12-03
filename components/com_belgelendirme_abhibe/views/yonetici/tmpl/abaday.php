@@ -6,8 +6,13 @@
         <input type="text" id="bNo" class="input-sm inputW90" value="<?php $this->bNo != 0?$this->bNo:'';?>"/>
     </div>
 </div>
-
-<div id="divHide">
+<div class="anaDiv">
+    <button type="button" class="btn btn-sm btn-primary" id="bNoBilgiGetir">Getir</button>
+</div>
+<div class="anaDiv">
+    <hr>
+</div>
+<div id="divHide" style="display: none">
     <form id="FormABHibe" enctype="multipart/form-data" method="post" action="index.php?option=com_belgelendirme_abhibe&task=ABHibeYoneticiAdayKaydet">
     <div class="anaDiv">
         <div class="div30 fontBold hColor font18">
@@ -126,6 +131,11 @@ jQuery(document).ready(function(){
     FuncGetBNOBilgi(<?php echo $this->bNo; ?>);
     <?php } ?>
 
+    jQuery('#bNoBilgiGetir').live('click',function(e){
+        e.preventDefault();
+        FuncGetBNOBilgi(jQuery('#bNo').val());
+    });
+
     jQuery('#divHide #ABHibeKaydet').live('click',function(e){
         jQuery.blockUI();
         e.preventDefault();
@@ -221,6 +231,7 @@ function OpenLightBox(ele, overSpeed, boxSpeed){
 }
 
 function FuncGetBNOBilgi(bNo){
+    jQuery('#divHide').hide();
     jQuery.blockUI();
     jQuery.ajax({
         async:false,
