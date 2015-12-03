@@ -443,6 +443,24 @@ class Belgelendirme_AbhibeController extends JController {
 
         echo json_encode($model->AjaxGetAbHibeBelgeNo($post['bNo']));
     }
+
+    function ABHibeYoneticiAdayKaydet(){
+        $model 		 = $this->getModel('yonetici');
+        $post 		 = JRequest::get( 'post' );
+        $files 		 = JRequest::get( 'files' );
+        $return = $model->ABHibeYoneticiAdayKaydet($post,$files);
+
+        $redirect = "index.php?option=com_belgelendirme_abhibe&view=yonetici&layout=abaday";
+        if($return['hata']){
+            $type = "error";
+            $message = $return['message'];
+            $redirect .= "&bNo=".$post['bNo'];
+        }else{
+            $message = $return['message'];
+        }
+
+        $this->setRedirect($redirect, $message, $type);
+    }
 	
     function display() {
     	

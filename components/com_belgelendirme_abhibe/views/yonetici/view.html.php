@@ -142,7 +142,7 @@ class Belgelendirme_AbhibeViewYonetici extends JView
 			}else{
 				$mainframe->redirect($redirect);
 			}
-		}else if($layout == "tesvik_istekleri" && $OnayUserMi){
+		}else if($layout == "tesvik_istekleri"){
 			if(array_key_exists('IstekDurum', $get) && !empty($get['IstekDurum'])){
 				if($get['IstekDurum'] == '2'){
 					$IstekDurum = "2";
@@ -171,7 +171,7 @@ class Belgelendirme_AbhibeViewYonetici extends JView
 			$this->assignRef('sayfa', $sayfa);
 			$this->assignRef('durum', $IstekDurum);
 			$this->assignRef('TesvikIstekleri', $TesvikIstekleri);
-		}else if($layout == 'test' && $OnayUserMi){
+		}else if($layout == 'test'){
 			$model->TestButunTarihlerUpdate();
 		}else if($layout == "atsorgu"){
 
@@ -184,7 +184,7 @@ class Belgelendirme_AbhibeViewYonetici extends JView
                 $this->assignRef('atTar',$post);
             }
         }else if($layout == "abaday"){
-            $bNo = 0;
+            $bNo = '';
             if(array_key_exists('bNo',$get)){
                 $bNo = $get['bNo'];
             }

@@ -1,9 +1,12 @@
+<?php
+$bNo = $this->bNo;
+?>
 <div class="anaDiv">
     <div class="div30 fontBold hColor font18">
         Aday Belge No:
     </div>
     <div class="div70">
-        <input type="text" id="bNo" class="input-sm inputW90" value="<?php $this->bNo != 0?$this->bNo:'';?>"/>
+        <input type="text" id="bNo" class="input-sm inputW90" value="<?php echo !empty($bNo)?$bNo:'';?>"/>
     </div>
 </div>
 <div class="anaDiv">
@@ -128,8 +131,8 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
-    <?php if($this->bNo != 0){ ?>
-    FuncGetBNOBilgi(<?php echo $this->bNo; ?>);
+    <?php if(!empty($bNo)){ ?>
+    FuncGetBNOBilgi('<?php echo $bNo; ?>');
     <?php } ?>
 
     jQuery('#bNoBilgiGetir').live('click',function(e){
@@ -254,6 +257,8 @@ function FuncGetBNOBilgi(bNo){
             jQuery('#divHide #tckimlik').html(AdayBilgi['TC_KIMLIK']);
             jQuery('#divHide #adsoyad').html(AdayBilgi['ADI']+' '+AdayBilgi['SOYADI']);
             jQuery('#divHide #belgeno').html(AdayBilgi['BELGE_NO']);
+            jQuery('#divHide input[name="bNo"]').val(AdayBilgi['BELGE_NO']);
+            jQuery('#divHide input[name="tc"]').val(AdayBilgi['TC_KIMLIK']);
             if(jQuery.type(UcretBilgi) == 'object'){
             	jQuery.each(UcretBilgi,function(key,val){
                     ucret += parseInt(val['ucret'].replace(',','.'));
