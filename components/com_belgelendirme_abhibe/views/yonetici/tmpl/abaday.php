@@ -144,15 +144,15 @@ jQuery(document).ready(function(){
             jQuery('#UyariLoader #UyariContent').html('IBAN bilgisi hatalıdır. Kontrol ediniz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(!jQuery("#divHide input[name=basForm]").[0].files[0]){
+        }else if(!jQuery("#divHide input[name=basForm]")[0].files[0]){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Başvuru Formunu Giriniz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(!jQuery("#divHide input[name=basForm]").[0].files[0].type != 'application/pdf'){
+        }else if(!jQuery("#divHide input[name=basForm]")[0].files[0].type != 'application/pdf'){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Başvuru Formunun PDF Formatında Olduğundan Emin Olunuz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(jQuery("#divHide input[name=adayDez]").[0].files[0] && jQuery("#divHide input[name=adayDez]").[0].files[0].type != 'application/pdf'){
+        }else if(jQuery("#divHide input[name=adayDez]")[0].files[0] && jQuery("#divHide input[name=adayDez]")[0].files[0].type != 'application/pdf'){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Dezavantaj Dosyasının PDF Formatında Olduğundan Emin Olunuz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
@@ -179,15 +179,15 @@ jQuery(document).ready(function(){
         var itucret = jQuery("#UcretDuzTalep input[name=itiraz_ucret]").val();
         var itaciklama = jQuery("#UcretDuzTalep textarea[name=itiraz_aciklama]").val();
         //jQuery('#fileBasvuru_'+tc)[0].files[0]
-        var itfile = jQuery("#UcretDuzTalep input[name=itiraz_dosya]").[0].files[0];
+        var itfile = jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0];
         //jQuery('input#adayFile')[0].files[0].type != pdf
         if(itucret.length == 0){
             alert('Lütfen Yeni Ücreti Giriniz.');
         }else if(itaciklama.length == 0){
             alert('Lütfen Açıklama Giriniz.');
-        }else if(!jQuery("#UcretDuzTalep input[name=itiraz_dosya]").[0].files[0]){
+        }else if(!jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0]){
             alert('Lütfen Ek Dosyayı Giriniz.');
-        }else if(jQuery("#UcretDuzTalep input[name=itiraz_dosya]").[0].files[0].type != 'application/pdf'){
+        }else if(jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0].type != 'application/pdf'){
             alert('Lütfen Ek Dosyayının Formatının PDF Oldugundan Emin Olunuz.');
         }else{
             jQuery('#UcretDuzTalep #itirazdurum').val(1);
