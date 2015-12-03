@@ -75,41 +75,7 @@
     <div class="anaDiv">
         <button type="button" class="btn btn-sm btn-success" id="ABHibeKaydet">Kaydet</button>
     </div>
-        <!-- Ücret Düzeltme Talebi-->
-        <div id="UcretDuzTalep" style=" width: 50%; min-height:100px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px">
-                <div class="anaDiv font20 fontBold hColor text-center">
-                    <i class="fa fa-exclamation-circle"></i> Ücret Düzeltme Talebi <i class="fa fa-exclamation-circle"></i>
-                </div>
-                <div class="anaDiv">
-                    <div class="div40 font16 hColor">
-                        Yeni Ücret:
-                    </div>
-                    <div class="div60">
-                        <input type="text" name="itiraz_ucret" class="input-sm inputW95"  onkeypress="return isNumberKey(event)"/>
-                    </div>
-                </div>
-                <div class="anaDiv">
-                    <div class="div100 font16 hColor">
-                        Açıklama:<br/>
-                        <textarea name="itiraz_aciklama" class="inputW100" rows="10"></textarea>
-                    </div>
-                </div>
-                <div class="anaDiv">
-                    <div class="div40 font16 hColor">
-                        Ek Dosya:
-                    </div>
-                    <div class="div60" id="filecontain">
-                        <input type="file" name="itiraz_dosya"/>
-                    </div>
-                </div>
-                <input type="hidden" name="itirazdurum" value="0"/>
-                <div class="anaDiv">
-                    <div class="divYan"><button type="button" class="btn btn-xs btn-danger" onclick="jQuery('#UcretDuzTalep').trigger('close');">Kapat</button></div>
-                    <div class="divYan"><button type="button" class="btn btn-xs btn-warning" id="UcretDuzFormTemizle">Formu Temizle</button></div>
-                    <div class="divYan"><button type="button" class="btn btn-xs btn-success" id="UcretDuzFormKaydet">Kaydet</button></div>
-                </div>
-
-        </div>
+	<input type="hidden" name="itirazdurum" value="0"/>
     </form>
 </div>
 
@@ -124,6 +90,41 @@
         <button type="button" class="btn btn-xs btn-danger" onclick="jQuery('#UyariLoader').trigger('close');">İptal</button>
     </div>
 </div>
+
+        <!-- Ücret Düzeltme Talebi-->
+        <div id="UcretDuzTalep" style=" width: 50%; min-height:100px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px">
+                <div class="anaDiv font20 fontBold hColor text-center">
+                    <i class="fa fa-exclamation-circle"></i> Ücret Düzeltme Talebi <i class="fa fa-exclamation-circle"></i>
+                </div>
+                <div class="anaDiv">
+                    <div class="div20 font16 hColor">
+                        Yeni Ücret:
+                    </div>
+                    <div class="div80">
+                        <input type="text" name="itiraz_ucret" class="input-sm inputW95"  onkeypress="return isNumberKey(event)"/>
+                    </div>
+                </div>
+                <div class="anaDiv">
+                    <div class="div100 font16 hColor">
+                        Açıklama:<br/>
+                        <textarea name="itiraz_aciklama" class="inputW100" rows="10"></textarea>
+                    </div>
+                </div>
+                <div class="anaDiv">
+                    <div class="div20 font16 hColor">
+                        Ek Dosya:
+                    </div>
+                    <div class="div80" id="filecontain">
+                        <input type="file" name="itiraz_dosya"/>
+                    </div>
+                </div>
+                <div class="anaDiv text-right">
+                    <div class="divYan"><button type="button" class="btn btn-xs btn-danger" onclick="jQuery('#UcretDuzTalep').trigger('close');">Kapat</button></div>
+                    <div class="divYan"><button type="button" class="btn btn-xs btn-warning" id="UcretDuzFormTemizle">Formu Temizle</button></div>
+                    <div class="divYan"><button type="button" class="btn btn-xs btn-success" id="UcretDuzFormKaydet">Kaydet</button></div>
+                </div>
+
+        </div>
 
 <script type="text/javascript">
 jQuery(document).ready(function(){
@@ -157,6 +158,10 @@ jQuery(document).ready(function(){
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
         }else{
+        	if(jQuery('input[name="itirazdurum"]').val() == 1){
+        		jQuery('#FormABHibe').append(jQuery('div#UcretDuzTalep input'));
+        		jQuery('#FormABHibe').append(jQuery('div#UcretDuzTalep textarea'));
+            }
             //jQuery('#FormABHibe').submit();
             jQuery.unblockUI();
         }
@@ -168,7 +173,7 @@ jQuery(document).ready(function(){
             jQuery("#UcretDuzTalep input[name='itiraz_ucret']").val("");
             jQuery("#UcretDuzTalep textarea[name='itiraz_aciklama']").val("");
             jQuery("#UcretDuzTalep input[name='itiraz_dosya']").val(null);
-            jQuery('#UcretDuzTalep #itirazdurum').val(0);
+            jQuery('input[name="itirazdurum"]').val(0);
             jQuery('#divHide #UcetDuzBut').html('Ücret Düzeltme Talebi');
         }
         return false;
@@ -188,7 +193,7 @@ jQuery(document).ready(function(){
         }else if(jQuery("#UcretDuzTalep input[name='itiraz_dosya']")[0].files[0].type != 'application/pdf'){
             alert('Lütfen Ek Dosyayının Formatının PDF Oldugundan Emin Olunuz.');
         }else{
-            jQuery('#UcretDuzTalep #itirazdurum').val(1);
+            jQuery('input[name="itirazdurum"]').val(1);
             jQuery('#divHide #UcetDuzBut').html('Ücret Düzeltildi');
             jQuery('#UcretDuzTalep').trigger('close');
         }
