@@ -18,17 +18,17 @@ class Belgelendirme_AbhibeViewYonetici extends JView
 		$message   	= YETKI_MESAJ;
 		$abYon   = 1;
 		$SBG = 1;
-// 		$aut = FormFactory::checkAuthorization  ($user, 32);
+		$aut = FormFactory::checkAuthorization  ($user, 32);
         $redirect = "index.php?option=com_belgelendirme_abhibe&view=yonetici";
 		$post = JRequest::get( 'post' );
 		$get = JRequest::get( 'get' );
 		
-// 		if(!$aut){
-// 			$mainframe->redirect('index.php?', $message);
-// 		}
-		
-		if (!$abYon && $SBG)
+		if(!$aut){
 			$mainframe->redirect('index.php?', $message);
+		}
+		
+// 		if (!$abYon && $SBG)
+// 			$mainframe->redirect('index.php?', $message);
 
 	    if (!isset ($layout)){
     		$layout = "default";
