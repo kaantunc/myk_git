@@ -137,22 +137,22 @@ jQuery(document).ready(function(){
     });
 
     jQuery('#divHide #ABHibeKaydet').live('click',function(e){
+    	e.preventDefault();
         jQuery.blockUI();
-        e.preventDefault();
-        var iban = jQuery('#divHide #basIban').val();
+        var iban = jQuery('#divHide input[name="basIban"]').val();
         if(iban.length != 26){
             jQuery('#UyariLoader #UyariContent').html('IBAN bilgisi hatalıdır. Kontrol ediniz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(!jQuery("#divHide input[name=basForm]")[0].files[0]){
+        }else if(!jQuery('#divHide input[name="basForm"]')[0].files[0]){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Başvuru Formunu Giriniz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(!jQuery("#divHide input[name=basForm]")[0].files[0].type != 'application/pdf'){
+        }else if(jQuery('#divHide input[name="basForm"]')[0].files[0].type != 'application/pdf'){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Başvuru Formunun PDF Formatında Olduğundan Emin Olunuz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
-        }else if(jQuery("#divHide input[name=adayDez]")[0].files[0] && jQuery("#divHide input[name=adayDez]")[0].files[0].type != 'application/pdf'){
+        }else if(jQuery('#divHide input[name="adayDez"]')[0].files[0] && jQuery('#divHide input[name="adayDez"]')[0].files[0].type != 'application/pdf'){
             jQuery('#UyariLoader #UyariContent').html('Lütfen Dezavantaj Dosyasının PDF Formatında Olduğundan Emin Olunuz.');
             jQuery.unblockUI();
             OpenLightBox('#UyariLoader');
@@ -165,9 +165,9 @@ jQuery(document).ready(function(){
     jQuery('#UcretDuzTalep #UcretDuzFormTemizle').live('click',function(e){
         e.preventDefault();
         if(confirm('Ücret Düzeltme Formundaki Girmiş Oldugunuz Bilgiler Silinecektir. Emin misiniz?')){
-            jQuery("#UcretDuzTalep input[name=itiraz_ucret]").val("");
-            jQuery("#UcretDuzTalep textarea[name=itiraz_aciklama]").val("");
-            jQuery("#UcretDuzTalep input[name=itiraz_dosya]").val(null);
+            jQuery("#UcretDuzTalep input[name='itiraz_ucret']").val("");
+            jQuery("#UcretDuzTalep textarea[name='itiraz_aciklama']").val("");
+            jQuery("#UcretDuzTalep input[name='itiraz_dosya']").val(null);
             jQuery('#UcretDuzTalep #itirazdurum').val(0);
             jQuery('#divHide #UcetDuzBut').html('Ücret Düzeltme Talebi');
         }
@@ -176,18 +176,16 @@ jQuery(document).ready(function(){
 
     jQuery('#UcretDuzTalep #UcretDuzFormKaydet').live('click',function(e){
         e.preventDefault();
-        var itucret = jQuery("#UcretDuzTalep input[name=itiraz_ucret]").val();
-        var itaciklama = jQuery("#UcretDuzTalep textarea[name=itiraz_aciklama]").val();
-        //jQuery('#fileBasvuru_'+tc)[0].files[0]
-        var itfile = jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0];
-        //jQuery('input#adayFile')[0].files[0].type != pdf
+        var itucret = jQuery("#UcretDuzTalep input[name='itiraz_ucret']").val();
+        var itaciklama = jQuery("#UcretDuzTalep textarea[name='itiraz_aciklama']").val();
+
         if(itucret.length == 0){
             alert('Lütfen Yeni Ücreti Giriniz.');
         }else if(itaciklama.length == 0){
             alert('Lütfen Açıklama Giriniz.');
-        }else if(!jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0]){
+        }else if(!jQuery("#UcretDuzTalep input[name='itiraz_dosya']")[0].files[0]){
             alert('Lütfen Ek Dosyayı Giriniz.');
-        }else if(jQuery("#UcretDuzTalep input[name=itiraz_dosya]")[0].files[0].type != 'application/pdf'){
+        }else if(jQuery("#UcretDuzTalep input[name='itiraz_dosya']")[0].files[0].type != 'application/pdf'){
             alert('Lütfen Ek Dosyayının Formatının PDF Oldugundan Emin Olunuz.');
         }else{
             jQuery('#UcretDuzTalep #itirazdurum').val(1);
@@ -234,7 +232,7 @@ function FuncGetBNOBilgi(bNo){
     jQuery('#divHide').hide();
     jQuery.blockUI();
     jQuery.ajax({
-        async:false,
+        async:true,
         type:'POST',
         url:'index.php?option=com_belgelendirme_abhibe&task=AjaxGetAbHibeBelgeNo&format=raw',
         data:'bNo='+bNo
@@ -257,8 +255,8 @@ function FuncGetBNOBilgi(bNo){
                 });
             }
             
-            var ekUcret = '<div class="divYan">'+ucret+' TL</div><div style="margin-left: 20px;" class="divYan"><button type="button" class="btn btn-sm btn-danger" id="UcetDuzBut">Ücret Düzeltme Talebi</button></div>';
-            jQuery('#divHide #ucret').html(number_format(ucret,2,',','.')+' TL');
+            var ekUcret = '<div class="divYan">'+number_format(ucret,2,',','.')+' TL</div><div style="margin-left: 20px;" class="divYan"><button type="button" class="btn btn-sm btn-danger" id="UcetDuzBut">Ücret Düzeltme Talebi</button></div>';
+            jQuery('#divHide #ucret').html(ekUcret);
             jQuery('#divHide').show('slow');
             jQuery.unblockUI();
         }
