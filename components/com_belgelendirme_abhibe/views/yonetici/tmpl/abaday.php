@@ -51,7 +51,7 @@
             Aday Başvuru IBAN:
         </div>
         <div class="div70 fontBold font18">
-            <input type="text" name="basIban" class="input-sm"/>
+            <input type="text" name="basIban" class="input-sm inputW90"/>
         </div>
     </div>
     <div class="anaDiv">
@@ -59,7 +59,7 @@
             Aday Başvuru Formu:
         </div>
         <div class="div70 fontBold font18">
-            <input type="file" name="basForm" class="input-sm"/>
+            <input type="file" name="basForm" class="input-sm inputW90"/>
         </div>
     </div>
     <div class="anaDiv">
@@ -67,7 +67,7 @@
             Aday Dezavantaj Bilgisi:
         </div>
         <div class="div70 fontBold font18">
-            <input type="file" name="adayDez" class="input-sm"/>
+            <input type="file" name="adayDez" class="input-sm inputW90"/>
         </div>
     </div>
         <input type="hidden" name="bNo" value="0"/>
@@ -251,9 +251,12 @@ function FuncGetBNOBilgi(bNo){
             jQuery('#divHide #tckimlik').html(AdayBilgi['TC_KIMLIK']);
             jQuery('#divHide #adsoyad').html(AdayBilgi['ADI']+' '+AdayBilgi['SOYADI']);
             jQuery('#divHide #belgeno').html(AdayBilgi['BELGE_NO']);
-            jQuery.each(UcretBilgi,function(key,val){
-                ucret += val['ucret'].replace(',','.');
-            });
+            if(jQuery.type(UcretBilgi) == 'object'){
+            	jQuery.each(UcretBilgi,function(key,val){
+                    ucret += parseInt(val['ucret'].replace(',','.'));
+                });
+            }
+            
             var ekUcret = '<div class="divYan">'+ucret+' TL</div><div style="margin-left: 20px;" class="divYan"><button type="button" class="btn btn-sm btn-danger" id="UcetDuzBut">Ücret Düzeltme Talebi</button></div>';
             jQuery('#divHide #ucret').html(number_format(ucret,2,',','.')+' TL');
             jQuery('#divHide').show('slow');
