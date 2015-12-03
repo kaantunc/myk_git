@@ -96,9 +96,10 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak_Kaydet extends JModel {
 		//INPUTLAR DOGRU, EKLEME YAP
 		
 		$db  = &JFactory::getOracleDBO();
-		$sql = "INSERT INTO m_yetki (YETKI_ID,ADI,IMZA_TARIHI,BITIS_TARIHI,ETKIN, YETKI_TURU, SURESI, YETKILENDIRME_TURU, DOSYA, ILGILI_PROTOKOL_ID) VALUES (?, ?, TO_DATE(?, 'dd.mm.yyyy'), TO_DATE(?, 'dd.mm.yyyy'), ?, ?, ?, ?, ?, ?)";
+		$sql = "INSERT INTO m_yetki (YETKI_ID,ADI,IMZA_TARIHI,BITIS_TARIHI,ETKIN, YETKI_TURU, SURESI, YETKILENDIRME_TURU, DOSYA, ILGILI_PROTOKOL_ID) VALUES
+(?, ?, TO_DATE(?, 'dd.mm.yyyy'), TO_DATE(?, 'dd.mm.yyyy'), ?, ?, ?, ?, ?, ?)";
 			
-		$params = array ($protokolID, $protokolAdi, $yetkiBaslangici , $yetkiBitisi, 1, PM_PROTOKOLTURU_YETERLILIKVEMESLEKSTANDARTIPROTOKOLU,$yetkilendirmeSuresi, $yetkilendirme_turu, $filePath, $ilgili_protokol_id);
+		$params = array ($protokolID, $protokolAdi, $yetkiBaslangici , $yetkiBitisi, 1, PM_PROTOKOLTURU_ORTAKPROTOKOL,$yetkilendirmeSuresi, $yetkilendirme_turu, $filePath, $ilgili_protokol_id);
 		$messageToReturn = $db->prep_exec_insert($sql, $params);			
 		
 		return $messageToReturn;
