@@ -784,6 +784,23 @@ $protokolID = JRequest::getVar("protokolID");
 		jQuery('select').change(function() {
 			inputChanged=true;
 		});
+
+        jQuery("#loaderGifMS #standart_durum").change(function(){
+            jQuery.ajax({
+                url: "index.php?option=com_yetkilendirme_ms&task=ajaxStandartGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
+                type: "POST",
+                dataType: 'json',
+                beforeSend: function() {
+                    jQuery("#loaderGifMS #standart_adi").html("<option>Seçiniz</option>");
+                },
+                success: function(data) {
+                    jQuery.each(data, function(key,val){
+                        jQuery("#loaderGifMS #standart_adi").append("<option value="+val.STANDART_ID+">"+val.STANDART_ADI+"</option>");
+                    });
+                }
+            });
+        });
+
 		//EDIT ROW FOR YETERLİLİKLER
 		jQuery('#yeterlilikler a.editYeterlilik').live('click', function (e) {
 			e.preventDefault();
