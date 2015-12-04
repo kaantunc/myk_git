@@ -1,5 +1,5 @@
 <?php
-
+ini_set("display_errors","1");
 defined( '_JEXEC' ) or die( 'Restricted access' );
 
 jimport( 'joomla.application.component.view');

@@ -787,7 +787,7 @@ $protokolID = JRequest::getVar("protokolID");
 
         jQuery("#loaderGifMS #standart_durum").change(function(){
             jQuery.ajax({
-                url: "index.php?option=com_yetkilendirme_ms&task=ajaxStandartGetirByStatus&format=raw&yetstatus="+jQuery(this).val(),
+                url: "index.php?option=com_yetkilendirme_ortak&task=ajaxStandartGetirByStatusMS&format=raw&yetstatus="+jQuery(this).val(),
                 type: "POST",
                 dataType: 'json',
                 beforeSend: function() {

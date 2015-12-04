@@ -143,7 +143,7 @@ if(array_key_exists($row['YETERLILIK_ID'], $OnayBekleyenTarifeler)){
 		}else if($OnayBekleyenTarifeler[$row['YETERLILIK_ID']]['DURUM'] == 2){
 		?>
 		<div class="anaDiv text-warning font18 text-right">
-			Yönetici onayı bekleniyor.
+			Yönetici onayı bekleniyor.-
 		</div>
 		<?php
 		}

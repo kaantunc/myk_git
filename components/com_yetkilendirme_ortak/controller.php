@@ -329,6 +329,13 @@ class Yetkilendirme_OrtakController extends JController {
 		$result = $model->updateYeterlilikStatus($post);
 		echo json_encode($result);
 	}
+
+	function ajaxStandartGetirByStatusMS(){
+		$post 		 = JRequest::get( 'post' );
+		$model = &$this->getModel('yetkilendirme_ortak');
+		$result = $model->StandartGetirByStatusMS ($_GET['yetstatus']);
+		echo json_encode($result);
+	}
 	
 }
 

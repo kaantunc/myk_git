@@ -141,7 +141,7 @@ class Meslek_Std_TaslakModelMeslek_Std_Taslak extends JModel {
 		$durumId = $this->getMeslekStandartDurumId ($standart_id);
 		$surecdurumId = $this->getMeslekStandartSurecDurumId ($standart_id);
 		if ($isSektorSorumlusu){
-			if(($durumId != PM_MESLEK_STANDART_DURUMU__ULUSAL_STANDART && $surecdurumId != PM_MESLEK_STANDART_SUREC_DURUMU__KURULUSTAN_DUZELTME_ISTENDI) &&
+			if((false && $durumId != PM_MESLEK_STANDART_DURUMU__ULUSAL_STANDART && $surecdurumId != PM_MESLEK_STANDART_SUREC_DURUMU__KURULUSTAN_DUZELTME_ISTENDI) &&
 			    $durumId != PM_MESLEK_STANDART_DURUMU__OLUSTURULMAMIS_ONTASLAK){
 				$onClick = 'onclick = "sektorSorumlusuSubmit (2,'.$standart_id.')" ';
 				$name  = 'name="onayla" ';

@@ -140,6 +140,7 @@ class Yetkilendirme_YetController extends JController {
 			for($i=0; $i<count(seciliKurulusIDleri); $i++)
 				$success = $success and (boolean)$model->ProtokolKurulusuEkle($protokolID, $seciliKurulusIDleri[$i], $seciliKurulusRolleri[$i]);
 		}
+		$message="";
 		if($success == FALSE)
 			$this->setRedirect('index.php?option=com_yetkilendirme_yet&layout=yeni', $message);
 		
@@ -187,7 +188,7 @@ class Yetkilendirme_YetController extends JController {
 	{
 		$model 		 = $this->getModel('yetkilendirme_yet_kaydet');
 		$protokolArr = JRequest::getVar('protokollerCheckbox');
-		$message	 = $model->protokolleriSil($protokolArr, &$messageType);
+		$message	 = $model->protokolleriSil($protokolArr, @$messageType);
 		$this->setRedirect('index.php?option=com_yetkilendirme_yet', $message, $messageType );
 	}
 	

@@ -49,7 +49,15 @@ class ProfileViewProfile extends JView
 			$kurulus_edit = $model->KurulusEditBilgi($kurulusId);
 			$kurulus_bekleyen = $model->KurulusBekleyenBilgi($kurulusId);
 			$iller 	 	   		= FormFactory::getKurulusIlValues($kurulusId);
-			
+				
+			if(in_array($kurulusBilgi['KURULUS_DURUM_ID'],MESLEK_STD_KURULUS_DURUM_IDS)){
+				$kurulus_tur = "ms_kurulusu"; 
+			}else if(in_array($kurulusBilgi['KURULUS_DURUM_ID'],YETERLILIK_KURULUS_DURUM_IDS)){
+				$kurulus_tur = "yeterlilik_kurulusu"; 
+			}else if(in_array($kurulusBilgi['KURULUS_DURUM_ID'],SINAV_BELGELENDIRME_KURULUS_DURUM_IDS)){
+				$kurulus_tur = "belgelendirme_kurulusu"; 
+			}
+
 			$type = $model->getKurulusTypeWithIds();
 			$kurulus_tur = array();
 			if(in_array($kurulusBilgi[0]['KURULUS_DURUM_ID'],$type['MESLEK_STD_KURULUS_DURUM_IDS'])){

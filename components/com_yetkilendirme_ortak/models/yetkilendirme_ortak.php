@@ -480,6 +480,17 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 		$standart_durum = $db->prep_exec($sql, array());
 		return $standart_durum;
 	}
+
+	function StandartGetirByStatusMS($status){
+		$db = &JFactory::getOracleDBO();
+		$condition = ($status == null || $status == "" ? "" : " AND MESLEK_STANDART_DURUM_ID=".$status);
+		$standartlar  =  $db->prep_exec("SELECT M_MESLEK_STANDARTLARI.STANDART_ID,
+			 								    M_MESLEK_STANDARTLARI.STANDART_ADI||' - '||PM_SEVIYE.SEVIYE_ADI||' - Revizyon '||M_MESLEK_STANDARTLARI.REVIZYON AS STANDART_ADI
+										   FROM M_MESLEK_STANDARTLARI
+					                 INNER JOIN PM_SEVIYE ON M_MESLEK_STANDARTLARI.SEVIYE_ID = PM_SEVIYE.SEVIYE_ID
+									 WHERE 1 = 1 ".$condition." ORDER BY M_MESLEK_STANDARTLARI.STANDART_ADI,M_MESLEK_STANDARTLARI.SEVIYE_ID,M_MESLEK_STANDARTLARI.REVIZYON",array());
+		return $standartlar;
+	}
 	
 }
 ?>
