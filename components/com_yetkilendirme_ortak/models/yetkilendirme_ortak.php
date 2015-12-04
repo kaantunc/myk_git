@@ -476,7 +476,8 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 	}
 	function getPmStandartDurumlari(){
 		$db = &JFactory::getOracleDBO();
-		$standart_durum = $db->prep_exec("SELECT * FROM PM_MESLEK_STANDART_DURUM ORDER BY MESLEK_STANDART_DURUM_ID", array());
+		$sql = "SELECT * FROM PM_MESLEK_STANDART_DURUM ORDER BY MESLEK_STANDART_DURUM_ID";
+		$standart_durum = $db->prep_exec($sql, array());
 		return $standart_durum;
 	}
 	
