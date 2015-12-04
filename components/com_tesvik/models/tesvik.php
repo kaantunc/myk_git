@@ -208,11 +208,22 @@ class TesvikModelTesvik extends JModel
 
     function GetTesvikWithTesvikIdPDF($tesvikId)
     {
-        $filepath = "tesvikpdf/" . $tesvikId . "_4447_Ek_3_Yaranlanici_Listesi.pdf";
-        if (is_file(EK_FOLDER . $filepath)) {
-            header("location: index.php?dl=" . $filepath);
-            exit;
-        } else {
+        $db = JFactory::getOracleDBO();
+        $sql = "SELECT BELGENO FROM M_BELGE_SORGU MBS
+                    INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBS.TCKIMLIKNO = MBO.TC_KIMLIK
+                    INNER JOIN M_BELGE_TESVIK_ADAY MBT ON MBS.BELGENO = MBT.BELGE_NO
+                    WHERE LENGTH(MBO.IBAN) != 26 AND MBT.ODENDI = 0 AND MBT.TESVIK_ID = ?";
+        $data = $db->prep_exec($sql,array($tesvikId));
+
+        if($data){
+            $sql = "UPDATE M_BELGE_TESVIK_ADAY SET ODENDI = -1, ACIKLAMA = 'IBAN HATALI' WHERE ODENDI = 0 AND TESVIK_ID = ?
+                AND BELGE_NO IN (
+                  SELECT BELGENO FROM M_BELGE_SORGU MBS
+                    INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBS.TCKIMLIKNO = MBO.TC_KIMLIK
+                    INNER JOIN M_BELGE_TESVIK_ADAY MBT ON MBS.BELGENO = MBT.BELGE_NO
+                    WHERE LENGTH(MBO.IBAN) != 26 AND MBT.ODENDI = 0 AND MBT.TESVIK_ID = ?
+                )";
+            $db->prep_exec_insert($sql,array($tesvikId,$tesvikId));
 
             $db = JFactory::getOracleDBO();
             $sql = "SELECT ID, DURUM, TARIH, TO_CHAR(BIT_TARIH,'dd/mm/yyyy') AS BIT_TARIH, USER_ID,LISTE_KODU FROM M_BELGE_TESVIK_ISTEK WHERE ID = ?";
@@ -222,6 +233,23 @@ class TesvikModelTesvik extends JModel
                 return $data[0];
             } else {
                 return false;
+            }
+        }else{
+            $filepath = "tesvikpdf/" . $tesvikId . "_4447_Ek_3_Yaranlanici_Listesi.pdf";
+            if (is_file(EK_FOLDER . $filepath)) {
+                header("location: index.php?dl=" . $filepath);
+                exit;
+            } else {
+
+                $db = JFactory::getOracleDBO();
+                $sql = "SELECT ID, DURUM, TARIH, TO_CHAR(BIT_TARIH,'dd/mm/yyyy') AS BIT_TARIH, USER_ID,LISTE_KODU FROM M_BELGE_TESVIK_ISTEK WHERE ID = ?";
+                $data = $db->prep_exec($sql, array($tesvikId));
+
+                if ($data) {
+                    return $data[0];
+                } else {
+                    return false;
+                }
             }
         }
     }
@@ -1433,7 +1461,7 @@ ORDER BY MHK.SINAV_TARIHI DESC";
     			FROM M_BELGE_SORGU MBS
 				INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON(MBS.TCKIMLIKNO = MBO.TC_KIMLIK)
 				INNER JOIN M_BELGE_TESVIK_ADAY MAT ON(MBS.BELGENO = MAT.BELGE_NO)
-				WHERE MBS.TESVIK = 2 AND MAT.TESVIK_ID = ?
+				WHERE MBS.TESVIK = 2 AND MAT.TESVIK_ID = ? AND MAT.ODENDI = 0
 				ORDER BY MBS.BELGE_DUZENLEME_TARIHI ASC, ADI ASC, SOYADI ASC, MBS.BELGE_MASRAF DESC
 				";
 
