@@ -4869,7 +4869,7 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
 						$sql_itiraz = "INSERT INTO AB_HIBE_ITIRAZ (ID,TC_KIMLIK,SINAV_ID,ITIRAZ_UCRET,ITIRAZ_ACIKLAMA,ITIRAZ_DOSYA,BELGENO,ITIRAZ_TARIHI)
 								VALUES(?,?,?,?,?,?,?,TO_DATE(SYSDATE))";
 							
-						$_db->prep_exec_insert($sql_itiraz, array($nextId,$key,$sinav_id,$itiraz_ucret[$key],$itiraz_aciklama[$key],$name,trim(str_replace(' ','',$belgeNo[$key]))));
+						$_db->prep_exec_insert($sql_itiraz, array($nextId,$key,$sinav_id,$this->UcretDuzenleTers($itiraz_ucret[$key]),$itiraz_aciklama[$key],$name,trim(str_replace(' ','',$belgeNo[$key]))));
 						/*
 						 $aciklamaTextItiraz = $kurulus['KURULUS_ADI']." adlı kuruluşun yapmış olduğu ".$sinavBilgi[0]['YETERLILIK_ID']." adlı yeterliliğe ilişkin ".
 								$sinavBilgi[0]['YETERLILIK_ID']." id numaralı sınavda ".
@@ -4907,7 +4907,7 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
 						$sql_itiraz = "INSERT INTO M_BELGE_TESVIK_ITIRAZ(TC_KIMLIK,SINAV_ID,ITIRAZ_UCRET,ITIRAZ_ACIKLAMA,ITIRAZ_DOSYA,BELGENO,ITIRAZ_TARIHI) VALUES(?,?,?,?,?,?,TO_DATE(SYSDATE))";
 					
 						// 					$_db->prep_exec($sql_itiraz, array($key,$sinav_id,$itiraz_ucret[$key],$itiraz_aciklama[$key],$itiraz_dosya['name'][$key],$belgeNo[$key]));
-						$_db->prep_exec_insert($sql_itiraz, array($key,$sinav_id,$itiraz_ucret[$key],$itiraz_aciklama[$key],$name,trim(str_replace(' ','',$belgeNo[$key]))));
+						$_db->prep_exec_insert($sql_itiraz, array($key,$sinav_id,$this->UcretDuzenleTers($itiraz_ucret[$key]),$itiraz_aciklama[$key],$name,trim(str_replace(' ','',$belgeNo[$key]))));
 							
 						$aciklamaTextItiraz = $kurulus['KURULUS_ADI']." adlı kuruluşun yapmış olduğu ".$sinavBilgi[0]['YETERLILIK_ID']." adlı yeterliliğe ilişkin ".
 								$sinavBilgi[0]['YETERLILIK_ID']." id numaralı sınavda ".
@@ -6876,5 +6876,9 @@ ORDER BY SINAV_ID ASC";
         }else{
             return false;
         }
+    }
+
+    public function UcretDuzenleTers($ucret){
+        return str_replace('.',',',$ucret);
     }
 }
