@@ -1977,10 +1977,11 @@ $protokolID = JRequest::getVar("protokolID");
 	}
 
 
-	jQuery(".saveRevizyon").live('click', function (e) {
+	jQuery(".saveRevizyonYet").live('click', function (e) {
 		var nRow = jQuery(this).parents('tr')[0];
 		var jqInputs = jQuery('input', nRow);
 		var jqSelects = jQuery('select', nRow);
+		var oTableYet = jQuery('#yeterlilikler').dataTable();
 
 		var yetid 			= jQuery(this).closest('tr').attr("tempid");
 		var meslekSeviyesi 	= jQuery(this).closest('tr').find("[name=meslekSeviyesi]").val();
@@ -1988,9 +1989,9 @@ $protokolID = JRequest::getVar("protokolID");
 		var meslekSektoru 	= jQuery(this).closest('tr').find("[name=meslekSektoru]").val();
 		var protokolTeslim 	= jQuery(this).closest('tr').find("[name=protokolTeslim]").val();
 
-		var sendData = "standart_id="+yetid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
+		var sendData = "yeterlilik_id="+yetid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlustur&format=raw&yetid="+yetid,
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlusturYet&format=raw&yetid="+yetid,
 			data: sendData,
 			type: "POST",
 			dataType: 'json',
@@ -2010,7 +2011,7 @@ $protokolID = JRequest::getVar("protokolID");
 					//updateYetkilendirmeStandartlari(data['array']);
 					//existingVariablesChanged();
 				}else{
-					oTable.fnDraw();
+					oTableYet.fnDraw();
 				}
 			}
 		});
@@ -2105,7 +2106,7 @@ $protokolID = JRequest::getVar("protokolID");
 						ln: 'tr'
 					});
 
-					jqTds[6].innerHTML = '<a class="saveRevizyon">Kaydet</a> <a class="cancelRevizyon" href="#">İptal</a>';
+					jqTds[6].innerHTML = '<a class="saveRevizyonYet" href="#">Kaydet</a> <a class="cancelRevizyon" href="#">İptal</a>';
 
 				}
 
@@ -2315,7 +2316,7 @@ $protokolID = JRequest::getVar("protokolID");
 					jQuery('.uppercase', nRow).upper({
 						ln: 'tr'
 					});
-					jqTds[7].innerHTML = '<a href="javascript:void(0);" class="saveRevizyon">Kaydet</a> <a href="javascript:void(0);" class="cancelRevizyon" href="#">İptal</a>';
+					jqTds[7].innerHTML = '<a href="javascript:void(0);" class="saveRevizyonMS">Kaydet</a> <a href="javascript:void(0);" class="cancelRevizyon" href="#">İptal</a>';
 				}
 			}
 		});
@@ -2327,10 +2328,11 @@ $protokolID = JRequest::getVar("protokolID");
 		return false;
 	});
 
-	jQuery(".saveRevizyon").live('click', function (e) {
+	jQuery(".saveRevizyonMS").live('click', function (e) {
 		var nRow = jQuery(this).parents('tr')[0];
 		var jqInputs = jQuery('input', nRow);
 		var jqSelects = jQuery('select', nRow);
+		var oTableMS = jQuery('#meslekStandartlari').dataTable();
 
 		var standartid 			= jQuery(this).closest('tr').attr("tempid");
 		var meslekSeviyesi 	= jQuery(this).closest('tr').find("[name=meslekSeviyesi]").val();
@@ -2340,7 +2342,7 @@ $protokolID = JRequest::getVar("protokolID");
 
 		var sendData = "standart_id="+standartid+"&meslekseviyesi="+meslekSeviyesi+"&revizyon="+revizyon+"&mesleksektoru="+meslekSektoru+"&protokolteslim="+protokolTeslim+"&protokolid="+jQuery("#protokolID").val();
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlustur&format=raw&standartid="+standartid,
+			url: "index.php?option=com_yetkilendirme_ortak&task=ajaxRevizyonOlusturMS&format=raw&standartid="+standartid,
 			data: sendData,
 			type: "POST",
 			dataType: 'json',
@@ -2360,7 +2362,7 @@ $protokolID = JRequest::getVar("protokolID");
 					//updateYetkilendirmeStandartlari(data['array']);
 					//existingVariablesChanged();
 				}else{
-					oTable.fnDraw();
+					oTableMS.fnDraw();
 				}
 			}
 		});

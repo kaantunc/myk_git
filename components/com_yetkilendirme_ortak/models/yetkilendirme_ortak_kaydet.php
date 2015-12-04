@@ -45,8 +45,15 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak_Kaydet extends JModel {
 			
 			$params = array ($protokolID);
 			$kayitliYeterlilikler = $db->prep_exec($sql, $params);
+
+			$sql = "SELECT m_yetki.YETKI_ID, STANDART_ID, adi
+							FROM m_yetki_standart, m_yetki
+							WHERE m_yetki.YETKI_ID = m_yetki_standart.YETKI_ID
+								AND m_yetki.YETKI_ID=?";
+
+			$kayitliStandartlar = $db->prep_exec($sql, $params);
 			
-			if(count($kayitliYeterlilikler)==0)
+			if(count($kayitliYeterlilikler)==0 and count($kayitliStandartlar)==0)
 			{
 				/*Bu tabloya refer eden tablolar: 	m_yetki_yeterlilik  -> 
 				 * 									m_yetki_standart   -> BU KISIMLARI ZATEN ADAMA SILDIRCEZ
@@ -70,11 +77,11 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak_Kaydet extends JModel {
 		
 		if(strlen($message)>0)
 		{
-			$message = JText::_("DELETE_ERROR_MESSAGE")."<br>".$message;
+			$message = "Protokol kapsamında yeterliklik ve/veya meslek standartı olduğunda silinemedi<br>".$message;
 			$messageType = "error";
 		}
 		else
-			$message = JText::_("DELETE_SUCCESS_MESSAGE");
+			$message = "Protokol(ler) başarıyla silindi.";
 		
 		return $message;
 	}

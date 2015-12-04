@@ -70,6 +70,12 @@ class Yetkilendirme_OrtakViewYetkilendirme_Ortak extends JView
 		
 		$ulusalStandartlar = $model->getUlusalStandartlar();
 		$this->assignRef('ulusalStandartlar',$ulusalStandartlar);
+
+		$meslekStandartDurumlari = $model->getPmStandartDurumlari();
+		$this->assignRef('standartDurumlari',$meslekStandartDurumlari);
+
+		$oncedenVarolanStandartlar = $model->getOncedenVarolanStandartlar();
+		$this->assignRef('oncedenVarolanStandartlar',$oncedenVarolanStandartlar);
 		
 		
 		

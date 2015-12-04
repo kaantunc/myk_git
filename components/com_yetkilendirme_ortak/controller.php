@@ -285,7 +285,7 @@ class Yetkilendirme_OrtakController extends JController {
 		$model = &$this->getModel('yetkilendirme_ortak_ajax');
 		$model->ajaxUzatmaSil ();
 	}
-	function ajaxRevizyonOlustur() {
+	function ajaxRevizyonOlusturYet() {
 		$post 		 = JRequest::get( 'post' );
 		$model = &$this->getModel('yetkilendirme_ortak');
 		$datas['YETERLILIK_ID'] =  $post["yeterlilik_id"];
@@ -294,9 +294,23 @@ class Yetkilendirme_OrtakController extends JController {
 		$datas['SEKTOR_ID'] =  $post["mesleksektoru"];
 		$datas['YETERLILIK_TESLIM_TARIHI'] =  $post["protokolteslim"];
 		$datas['PROTOKOL_ID'] =  $post["protokolid"];
-		$result = $model->revizyonOlustur ($datas);
+		$result = $model->revizyonOlusturYet ($datas);
 		echo json_encode($result);
 	}
+
+	function ajaxRevizyonOlusturMS() {
+		$post 		 = JRequest::get( 'post' );
+		$model = &$this->getModel('yetkilendirme_ms');
+		$datas['STANDART_ID'] =  $post["standart_id"];
+		$datas['SEVIYE_ID'] =  $post["meslekseviyesi"];
+		$datas['REVIZYON'] =  $post["revizyon"];
+		$datas['SEKTOR_ID'] =  $post["mesleksektoru"];
+		$datas['STANDART_TESLIM_TARIHI'] =  $post["protokolteslim"];
+		$datas['PROTOKOL_ID'] =  $post["protokolid"];
+		$result = $model->revizyonOlusturMS ($datas);
+		echo json_encode($result);
+	}
+
 	function ajaxYeterlilikGetirByStatus() {
 		$post 		 = JRequest::get( 'post' );
 		$model = &$this->getModel('yetkilendirme_ortak');

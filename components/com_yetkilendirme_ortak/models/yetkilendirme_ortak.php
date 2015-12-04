@@ -57,7 +57,7 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 					WHERE m_yetki.etkin = pm_yetki_durumu.durum_id AND m_yetki.yetki_turu = ?
 					ORDER BY YETKI_ID";
 		
-		$params = array (PM_PROTOKOLTURU_YETERLILIKVEMESLEKSTANDARTIPROTOKOLU);// yeterlilik ve meslek standartı
+		$params = array (PM_PROTOKOLTURU_ORTAKPROTOKOL);// yeterlilik ve meslek standartı
 		return $db->prep_exec($sql, $params);
 		
 	}
@@ -267,7 +267,7 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 		FormFactory::readFileFromDB($file);
 	}
 	
-	function revizyonOlustur($datas) {
+	function revizyonOlusturYet($datas) {
 		$db = &JFactory::getOracleDBO();
 		$sql_yeterlilik = "SELECT * FROM M_YETERLILIK WHERE YETERLILIK_ID='".$datas['YETERLILIK_ID']."'";
 		$yeterlilik = $db->prep_exec($sql_yeterlilik, array());
@@ -293,7 +293,7 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 										'1',
 										$datas['YETERLILIK_TESLIM_TARIHI'],
 										$yeterlilik[0]['KAYNAK_TESKIL_EDENLER'],
-										"-2",
+										PM_YETERLILIK_DURUMU__OLUSTURULMAMIS_ONTASLAK,
 										$yeterlilik[0]['YETERLILIK_BASLANGIC'],
 										$yeterlilik[0]['YETERLILIK_BITIS'],
 										$yeterlilik[0]['BASLANGIC_KRITERI'],
@@ -324,6 +324,81 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 		}
 		return $result;
 	}
+
+	function revizyonOlusturMS($datas) {
+		$db = &JFactory::getOracleDBO();
+
+		$sql_ms = "SELECT * FROM M_MESLEK_STANDARTLARI WHERE STANDART_ID='".$datas['STANDART_ID']."'";
+		$standart = $db->prep_exec($sql_ms, array());
+
+		if(count($standart) == 1){
+			$standart = current($standart);
+			$sql = "INSERT INTO M_MESLEK_STANDARTLARI(STANDART_ID,
+													  SEVIYE_ID,
+													  MESLEK_STANDART_SUREC_DURUM_ID,
+													  STANDART_ADI,
+													  YASAL_DUZENLEME,
+													  MEVCUT_CALISMA,
+													  BASLANGIC_TARIHI,
+													  BITIS_TARIHI,
+													  ULUSLAR_ARASI_STANDART,
+													  STANDART_KODU,
+													  STANDART_TANIMI,
+													  SEKTOR_ID,
+													  YAYIN_TARIHI,
+													  KARAR_TARIHI,
+													  KARAR_SAYI,
+													  RESMI_GAZETE_TARIH,
+													  RESMI_GAZETE_SAYI,
+													  MESLEK_STANDART_DURUM_ID,
+													  REVIZYON,
+												      REVIZYON_DURUMU,
+													  REVIZYON_TARIHI)
+			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			unset($standart['STANDART_ID']);
+
+			$data = array( $db->getNextVal('MESLEK_STD_ID_seq'),
+				$standart['SEVIYE_ID'],
+				'-4',
+				$standart['STANDART_ADI'],
+				$standart['YASAL_DUZENLEME'],
+				$standart['MEVCUT_CALISMA'],
+				$standart['BASLANGIC_TARIHI'],
+				$standart['BITIS_TARIHI'],
+				$standart['ULUSLAR_ARASI_STANDART'],
+				$standart['STANDART_KODU'],
+				$standart['STANDART_TANIMI'],
+				$standart['SEKTOR_ID'],
+				$standart['YAYIN_TARIHI'],
+				$standart['KARAR_TARIHI'],
+				$standart['KARAR_SAYI'],
+				$standart['RESMI_GAZETE_TARIH'],
+				$standart['RESMI_GAZETE_SAYI'],
+				'-3',
+				$datas['REVIZYON'],
+				'1',
+				date('d/m/Y'));
+
+			$db->prep_exec_insert($sql, $data);
+
+			$sql = "SELECT STANDART_ID,REVIZYON FROM M_MESLEK_STANDARTLARI WHERE ROWNUM <= 1 ORDER BY STANDART_ID DESC";
+			$data = $db->prep_exec($sql, array());
+			$id = current($data);
+
+			$sql_yetki = "INSERT INTO m_yetki_standart(YETKI_ID, STANDART_ID, REVIZYON_NO) VALUES ( ?,?, ?)";
+			$db->prep_exec_insert($sql_yetki, array($datas['PROTOKOL_ID'],$id['STANDART_ID'],$id['REVIZYON']));
+
+			$result['status'] = "1";
+			$result['standart_id'] = $id['STANDART_ID'];
+			$result['revizyon'] = ($id['REVIZYON'] == null ? "01" : $id['REVIZYON']);
+		}else{
+			$result['status'] = "0";
+			$result['standart_id'] = "";
+		}
+		return $result;
+	}
+
+
 	function getPmYeterlilikDurumlar(){
 		$db = &JFactory::getOracleDBO();
 		$yeterlilik_durum = $db->prep_exec("SELECT * FROM PM_YETERLILIK_DURUM ORDER BY YETERLILIK_DURUM_ID", array());
@@ -381,6 +456,28 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak extends JModel {
 		}
 	
 		return $return;
+	}
+
+	function getOncedenVarolanStandartlar()
+	{
+		$db  = &JFactory::getOracleDBO();
+		$sql = "SELECT STANDART_ID,
+						STANDART_ADI,
+						m_meslek_standartlari.SEVIYE_ID,
+						SEVIYE_ADI,
+						SEKTOR_ADI,
+						TO_CHAR(m_meslek_standartlari.BASLANGIC_TARIHI, 'dd.mm.yyyy') AS BASLANGIC_TARIHI,
+						TO_CHAR(m_meslek_standartlari.BITIS_TARIHI, 'dd.mm.yyyy') AS BITIS_TARIHI
+				FROM m_meslek_standartlari, pm_seviye, pm_sektorler
+				WHERE m_meslek_standartlari.seviye_id = pm_seviye.seviye_id AND m_meslek_standartlari.sektor_id = pm_sektorler.sektor_id
+				";
+
+		return $db->prep_exec($sql, $params);
+	}
+	function getPmStandartDurumlari(){
+		$db = &JFactory::getOracleDBO();
+		$standart_durum = $db->prep_exec("SELECT * FROM PM_MESLEK_STANDART_DURUM ORDER BY MESLEK_STANDART_DURUM_ID", array());
+		return $standart_durum;
 	}
 	
 }
