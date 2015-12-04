@@ -68,7 +68,7 @@ foreach ($kurs as $row){
             echo '<td>'.$row['YETERLILIK_KODU'].'/'.$row['REVIZYON'].' '.$row['YETERLILIK_ADI'].'</td>';
             echo '<td>'.$kurData[$row['KURULUS_ID']]['KURULUS_ADI'].'</td>';
             echo '<td>'.$row['BASLANGIC_TARIHI'].' '.$row['BASSAAT'].'</td>';
-            echo '<td>'.$row['SINAV_ILI'].'</td>';
+            echo '<td class="text-center">'.$row['SINAV_ILI'].'<br><button style="margin-top:5px;" type="button" class="btn btn-xs btn-primary" onclick="sinavYeriGetir('.$row['SINAV_ID'].')">Sinav Yeri</button></td>';
             echo '<td><button type="button" class="btn btn-xs btn-primary" onclick="adayDosyasi('.$row['SINAV_ID'].')">Aday Dosyası</button></td>';
             echo '<td><a target="_blank" class="btn btn-xs btn-warning" href="index.php?option=com_belgelendirme&view=belgelendirme_islemleri&layout=aday_bildirim&sinav='.$row['SINAV_ID'].'">Aday Dosyası Yükle</a></td>';
             echo '<td><button type="button" class="btn btn-xs btn-danger" onclick="FuncSinavIptal('.$row['SINAV_ID'].')">İptal</button></td>';
@@ -78,7 +78,12 @@ foreach ($kurs as $row){
 	</tbody>
 </table>
 </div>
+<div id="sinavYeri" style=" min-width: 10px; min-height:10px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px;width:50%">
+    <h2><u>Sınav Yeri</u></h2>
+    <div id="sinavYeriIcerik">
 
+    </div>
+</div>
 <script type="text/javascript">
 var IptalFile = '<div class="anaDiv"><div class="div70"><input type="file" class="input-sm inputW90" name="IptalFile[]"/></div><div class="div30"><button type="button" class="btn btn-xs btn-danger IptalFileSil"><i class="fa fa-minus"></i> Sil</button></div></div>';
 jQuery(document).ready(function(){
@@ -240,7 +245,28 @@ function adayDosyasi(sinavId){
 		}
 	});
 }
+function sinavYeriGetir(sinavId){
+    jQuery('#sinavYeriIcerik').html('');
+    jQuery.ajax({
+        async: false,
+        type:"POST",
+        url:"index.php?option=com_belgelendirme&task=sinavYeriGetir&format=raw",
+        data:"sinav_id="+sinavId,
+        success:function(data){
+            var dat = jQuery.parseJSON(data);
+            var ekle = '';
+            jQuery.each(dat,function(key,vall){
+                ekle += '<div class="width150">Yer Adı:</div><div>'+vall['YER_ADI']+'</div>';
+                ekle += '<div class="width150">Yer Adresi:</div><div>'+vall['ADRES']+'</div><br><hr>';
+            });
 
+            jQuery('#sinavYeriIcerik').html(ekle);
+            jQuery('#sinavYeri').lightbox_me({
+                centered: true
+            });
+        }
+    });
+}
 function FuncSinavIptal(sId){
     jQuery('#SinavIptalFormu textarea[name="IptalAcik"]').val('');
     jQuery('#SinavIptalFormu #iptalFiles').html('');

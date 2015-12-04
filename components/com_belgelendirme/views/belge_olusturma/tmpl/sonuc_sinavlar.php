@@ -68,7 +68,7 @@ foreach ($kurs as $row){
         echo '<td>'.$row['YETERLILIK_KODU'].'/'.$row['REVIZYON'].' '.$row['YETERLILIK_ADI'].'</td>';
         echo '<td>'.$kurData[$row['KURULUS_ID']]['KURULUS_ADI'].'</td>';
         echo '<td>'.$row['BASLANGIC_TARIHI'].' '.$row['BASSAAT'].'</td>';
-        echo '<td>'.$row['SINAV_ILI'].'</td>';
+        echo '<td class="text-center">'.$row['SINAV_ILI'].'<br><button style="margin-top:5px;" type="button" class="btn btn-xs btn-primary" onclick="sinavYeriGetir('.$row['SINAV_ID'].')">Sinav Yeri</button></td>';
         echo '<td><button type="button" class="btn btn-xs btn-primary" onclick="adayDosyasi('.$row['SINAV_ID'].')">Aday Dosyası</button></td>';
         echo '<td><a target="_blank" class="btn btn-xs btn-warning" href="index.php?option=com_belgelendirme&view=belgelendirme_islemleri&layout=aday_bildirim&sinav='.$row['SINAV_ID'].'">Aday Dosyası Yükle</a></td>';
         echo '<td><button type="button" class="btn btn-xs btn-danger" onclick="FuncSinavIptal('.$row['SINAV_ID'].')">İptal</button></td>';
@@ -247,6 +247,7 @@ function adayDosyasi(sinavId){
 		}
 	});
 }
+
 function sinavYeriGetir(sinavId){
 	jQuery('#sinavYeriIcerik').html('');
 	jQuery.ajax({
