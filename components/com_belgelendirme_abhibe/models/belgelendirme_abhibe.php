@@ -1271,5 +1271,254 @@ class Belgelendirme_AbhibeModelBelgelendirme_Abhibe extends JModel {
             }
         }
     }
+
+    function AjaxGetAbHibeKurulusBelgeNo($bNo,$uId){
+        $db = JFactory::getOracleDBO ();
+
+        $return = array();
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO != ? AND MBH.TESVIK = 2
+                   AND MBH.TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)
+                   AND MBH.KURULUS_ID = ?";
+        $data = $db->prep_exec($sql,array($bNo,$bNo,$uId));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numaralı aday daha önce AB Hibesinden yararlanmak için ".$data[0]['BELGE_NO']." belge numarası ile başvuru yaptığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO = ? AND MBH.TESVIK = 1 AND MBH.KURULUS_ID = ?";
+        $data = $db->prep_exec($sql,array($bNo,$uId));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numarası için daha önce Devlet Teşviğinden yararlanma başvurusu yapıldığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO = ? AND MBH.TESVIK = 2 AND MBH.KURULUS_ID = ?";
+        $data = $db->prep_exec($sql,array($bNo,$uId));
+        if($data){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numarası için daha önce AB Hibesinden yararlanma başvurusu yapıldığı için yeni başvuru yapamazsınız.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_ADAY_BILDIRIM MBA
+					INNER JOIN M_BELGELENDIRME_SINAV MBS ON(MBA.SINAV_ID = MBS.SINAV_ID)
+					WHERE MBS.BASLANGIC_TARIHI > TO_DATE((SELECT PRO_TARIH FROM AB_KURULUS_PROTOKOL WHERE KURULUS_ID = ?))
+					AND MBS.KURULUS_ID = ?
+					AND MBA.TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)";
+        $dat = $db->prep_exec($sql, array($uId,$uId,$bNo));
+
+        if(!$dat){
+            $return['hata'] = true;
+            $return['message'] = $bNo." Belge Numarası için başarılı olduğu sınavlar Kuruluş Protokol Tarihinden önce olduğu için AB Hibesinden yararlanamaz.";
+            return $return;
+        }
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBHK
+        		INNER JOIN M_BELGE_SORGU MBS ON MBHK.BELGE_NO = MBS.BELGENO
+                  INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBHK.TC_KIMLIK = MBO.TC_KIMLIK
+                  WHERE MBHK.BELGE_NO = ? AND MBHK.KURULUS_ID = ?";
+        $data = $db->prep_exec($sql,array($bNo,$uId));
+
+        if($data){
+            $birimUcretiHesabi = FormABHibeUcretHesabi::BasariliBirimUcretiHesabi($data[0]['TC_KIMLIK'],$data[0]['YETERLILIK_ID'], $data[0]['SINAV_TARIHI'],$data[0]['KURULUS_ID']);
+            return array('hata' => false, 'AdayBilgi'=>$data[0], 'UcretBilgi'=>$birimUcretiHesabi);
+        }else{
+            return array('hata'=>true, 'message'=>'Böyle bir Belge Numarası henüz sistemde kayıtlı değildir.');
+        }
+    }
+
+    public function ABHibeKurulusAdayKaydet($post,$files,$uId){
+        $db = JFactory::getOracleDBO ();
+        $bNo = $post['bNo'];
+        $tc = $post['tc'];
+        $basIban = $post['basIban'];
+        $basFile = $files['basForm'];
+        $dezFile = $files['adayDez'];
+        $itDurum = $post['itirazdurum'];
+        $pathItiraz = '';
+        $pathDez = '';
+        $pathBas = '';
+        $return = array();
+
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ? AND KURULUS_ID = ?";
+        $data = $db->prep_exec($sql,array($bNo,$uId));
+
+        // Ücret İtiraz Varsa Kadyet
+        if($itDurum == 1){
+            $itUcret = $this->UcretDuzenleTers($post['itiraz_ucret']);
+            $itAc = $post['itiraz_aciklama'];
+            $itFile = $files['itiraz_dosya'];
+
+            $directoryHibe = EK_FOLDER.'sinavABHibeItiraz/'.$data[0]['SINAV_ID'];
+            if (!file_exists($directoryHibe)){
+                mkdir($directoryHibe, 0700,true);
+            }
+
+            $fileName = explode('.',$itFile['name']);
+            $name = $tc.'.'.$fileName[count($fileName)-1];
+            $pathHibe = $directoryHibe.'/'.$name;
+            if(move_uploaded_file($itFile['tmp_name'], $pathHibe)) {
+                $nextId = $db->getNextVal('SEQ_AB_HIBE_ITIRAZ');
+                $sql_itiraz = "INSERT INTO AB_HIBE_ITIRAZ (ID,TC_KIMLIK,SINAV_ID,ITIRAZ_UCRET,ITIRAZ_ACIKLAMA,ITIRAZ_DOSYA,BELGENO,ITIRAZ_TARIHI)
+								VALUES(?,?,?,?,?,?,?,TO_DATE(SYSDATE))";
+
+                if(!$db->prep_exec_insert($sql_itiraz, array($nextId, $tc, $data[0]['SINAV_ID'], $itUcret, $itAc, $name, $bNo))){
+                    $this->AbHibeAdayBilgiSil($bNo);
+                    $return['hata'] = true;
+                    $return['message'] = "Ücret Düzeltme Talebinde Bir Hata Meydana Geldi. Lütfen Tekrar Deneyin.";
+                    return $return;
+                }
+            }else{
+                $this->AbHibeAdayBilgiSil($bNo);
+                $return['hata'] = true;
+                $return['message'] = "Ücret Düzeltme Talebinde Bir Hata Meydana Geldi. Lütfen Tekrar Deneyin.";
+                return $return;
+            }
+        }
+
+        //Dezavantaj Bilgisi Varsa Ekle
+        if($dezFile['size'] > 0){
+
+            if($dezFile['error'] == 0 && $dezFile['type'] == "application/pdf")
+            {
+                $directory = EK_FOLDER."abhibe/dezavantaj/".$data[0]['SINAV_ID'];
+                if (!file_exists($directory)){
+                    mkdir($directory, 0700,true);
+                }
+
+                $fileName = explode('.',$dezFile['name']);
+                $name = $tc.date('YmdHis').'.'.$fileName[count($fileName)-1];
+                $path = $directory.'/'.$name;
+                if(!move_uploaded_file($dezFile['tmp_name'], $path)){
+                    $this->AbHibeAdayBilgiSil($bNo);
+                    $return['hata'] = true;
+                    $return['message'] = 'Aday Dezavantaj dosyası yükleme işleminde hata meydana geldi. Lütfen dosya formatını kontrol ederek tekrar deneyiniz. (.png, .jpeg, .rar, .zip, .pdf)';
+                    return $return;
+                }
+            }else{
+                $this->AbHibeAdayBilgiSil($bNo);
+                $return['hata'] = true;
+                $return['message'] = 'Aday Dezavantaj dosyası yükleme işleminde hata meydana geldi. Lütfen dosya formatını kontrol ederek tekrar deneyiniz. (.png, .jpeg, .rar, .zip, .pdf)';
+                return $return;
+            }
+
+            $nextId = $db->getNextVal('SEQ_AB_HIBE_DEZ');
+            $sql = "INSERT INTO AB_HIBE_DEZAVANTAJ_ADAY (ID,TC_KIMLIK,SINAV_ID,DOKUMAN,BELGE_NO,TARIH)
+				VALUES(?,?,?,?,?,SYSDATE)";
+
+            $param = array($nextId, $tc, $data[0]['SINAV_ID'], $name, $bNo);
+
+            if(!$db->prep_exec_insert($sql, $param)){
+                $this->AbHibeAdayBilgiSil($bNo);
+                $return['hata'] = true;
+                $return['message'] = 'Aday Dezavantaj dosyası yükleme işleminde hata meydana geldi. Lütfen tekrar deneyin.';
+                return $return;
+            }
+        }
+
+        // Aday Basvuru Formu Kaydet
+        if($basFile['error'] == 0 && $basFile['type'] == "application/pdf")
+        {
+            $directory = EK_FOLDER."abhibe/basvuru/".$data[0]['SINAV_ID'];
+            if (!file_exists($directory)){
+                mkdir($directory, 0700,true);
+            }
+
+            $fileName = explode('.',$basFile['name']);
+            $name = $tc.date('YmdHis').'.'.$fileName[count($fileName)-1];
+            $nameIlk = "ilk".$tc.date('YmdHis').'.'.$fileName[count($fileName)-1];
+            $path = $directory.'/'.$nameIlk;
+            $pathSon = $directory.'/'.$name;
+            if(!move_uploaded_file($basFile['tmp_name'], $path)){
+                $this->AbHibeAdayBilgiSil($bNo);
+                $return['hata'] = true;
+                $return['message'] = 'Aday Başvuru dosyası yükleme işleminde hata meydana geldi. Lütfen dosya formatını kontrol ederek tekrar deneyiniz. (.pdf)';
+                return $return;
+            }else{
+                $cmd = '"C:\\Program Files (x86)\\PDFtk Server\\bin\\pdftk.exe" '.$path.' output '.$pathSon;
+                shell_exec($cmd);
+            }
+        }else{
+            $this->AbHibeAdayBilgiSil($bNo);
+            $return['hata'] = true;
+            $return['message'] = 'Aday Başvuru dosyası yükleme işleminde hata meydana geldi. Lütfen dosya formatını kontrol ederek tekrar deneyiniz. (.pdf)';
+            return $return;
+        }
+
+        $nextId = $db->getNextVal('SEQ_AB_HIBE_ADAY_BASVURU');
+        $sql = "INSERT INTO AB_HIBE_ADAY_BASVURU (ID,TC_KIMLIK,SINAV_ID,DOKUMAN,BELGE_NO,TARIH)
+				VALUES(?,?,?,?,?,SYSDATE)";
+
+        $param = array($nextId, $tc, $data[0]['SINAV_ID'], $name, $bNo);
+
+        if(!$db->prep_exec_insert($sql, $param)){
+            $this->AbHibeAdayBilgiSil($bNo);
+            $return['hata'] = true;
+            $return['message'] = 'Aday Başvuru dosyası yükleme işleminde hata meydana geldi. Lütfen tekrar deneyin.';
+            return $return;
+        }
+
+        // Basvuru Iban Kayıt
+        $sqlIban = "INSERT INTO AB_HIBE_ADAY_IBAN (TC_KIMLIK,BELGE_NO,IBAN,TARIH) VALUES(?,?,?,SYSDATE)";
+        if(!$db->prep_exec_insert($sqlIban, array($tc,$bNo,trim(str_replace(' ', '',$basIban))))){
+            $this->AbHibeAdayBilgiSil($bNo);
+            $return['hata'] = true;
+            $return['message'] = 'Aday Başvuru IBAN Bilgileri yükleme işleminde hata meydana geldi. Lütfen tekrar deneyin.';
+            return $return;
+        }
+
+        // Durumunu Hibeden yararlanacak yap
+        $sqlUp = "UPDATE M_BELGELENDIRME_HAK_KAZANANLAR SET TESVIK = 2 WHERE BELGE_NO = ? AND TC_KIMLIK = ?";
+        if(!$db->prep_exec_insert($sqlUp,array($bNo,$tc))){
+            $this->AbHibeAdayBilgiSil($bNo);
+            $return['hata'] = true;
+            $return['message'] = 'Bir hata meydana geldi. Lütfen tekrar deneyin.';
+            return $return;
+        }
+        // Durumunu Hibeden yararlanacak yap
+        $sqlUp = "UPDATE M_BELGE_SORGU SET ABHIBE = 1 WHERE BELGENO = ? AND TCKIMLIKNO = ?";
+        if(!$db->prep_exec_insert($sqlUp,array($bNo,$tc))){
+            $this->AbHibeAdayBilgiSil($bNo);
+            $return['hata'] = true;
+            $return['message'] = 'Bir hata meydana geldi. Lütfen tekrar deneyin.';
+            return $return;
+        }
+
+        $return['hata'] = false;
+        $return['message'] = "Aday AB Hibesinden yararlanmak için başarıyla sisteme kaydedildi. Artık kuruluş istek yapabilir.";
+        return $return;
+    }
+
+    private function AbHibeAdayBilgiSil($bNo){
+        $db = JFactory::getOracleDBO ();
+
+        $sql = "DELETE FROM AB_HIBE_ITIRAZ WHERE BELGENO = ?";
+        $db->prep_exec($sql, array($bNo));
+
+        $sql = "DELETE FROM AB_HIBE_DEZAVANTAJ_ADAY WHERE BELGE_NO = ?";
+        $db->prep_exec($sql, array($bNo));
+
+        $sql = "DELETE FROM AB_HIBE_ADAY_BASVURU WHERE BELGE_NO = ?";
+        $db->prep_exec($sql, array($bNo));
+
+        $sql = "DELETE FROM AB_HIBE_ADAY_IBAN WHERE BELGE_NO = ?";
+        $db->prep_exec($sql, array($bNo));
+
+        $sqlUp = "UPDATE M_BELGELENDIRME_HAK_KAZANANLAR SET TESVIK = 0 WHERE BELGE_NO = ?";
+        $db->prep_exec_insert($sqlUp,array($bNo));
+
+        $sqlUp = "UPDATE M_BELGE_SORGU SET ABHIBE = 0 WHERE BELGENO = ?";
+        $db->prep_exec_insert($sqlUp,array($bNo));
+
+        return true;
+    }
 }
 ?>

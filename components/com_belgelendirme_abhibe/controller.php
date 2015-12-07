@@ -315,7 +315,36 @@ class Belgelendirme_AbhibeController extends JController {
 
         $this->setRedirect($redirect, $message, $type);
     }
-	
+
+    function AjaxGetAbHibeKurulusBelgeNo(){
+        $user		 = &JFactory::getUser ();
+        $user_id = $user->getOracleUserId();
+        $model 		 = $this->getModel('belgelendirme_abhibe');
+        $post 		 = JRequest::get( 'post' );
+
+        echo json_encode($model->AjaxGetAbHibeBelgeNo($post['bNo']),$user_id);
+    }
+
+    function ABHibeKurulusAdayKaydet(){
+        $user		 = &JFactory::getUser ();
+        $user_id = $user->getOracleUserId();
+        $model 		 = $this->getModel('belgelendirme_abhibe');
+        $post 		 = JRequest::get( 'post' );
+        $files 		 = JRequest::get( 'files' );
+        $return = $model->ABHibeYoneticiAdayKaydet($post,$files,$user_id);
+
+        $redirect = "index.php?option=com_belgelendirme_abhibe&view=yonetici&layout=abaday";
+        if($return['hata']){
+            $type = "error";
+            $message = $return['message'];
+            $redirect .= "&bNo=".$post['bNo'];
+        }else{
+            $message = $return['message'];
+        }
+
+        $this->setRedirect($redirect, $message, $type);
+    }
+
 	// Yonetici ********************************************************************************//
 	public function TesvikAdayKaydet(){
 		$session	 = &JFactory::getSession();
