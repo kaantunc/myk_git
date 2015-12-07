@@ -139,9 +139,9 @@ $TesvikImzaUserName = $this->TesvikImzaUserName;
 				echo '<td></td>';
 			}
 		if($row['DURUM'] < 1){
-			echo '<td><a target="_blank" href="index.php?option=com_tesvik&view=tesvik&layout=tesvikhtml&tesvikId=' . $row['ID'] . '" class="btn btn-xs btn-danger">PDF</a></td>';
+			echo '<td><a target="_blank" href="index.php?option=com_tesvik&view=tesvik&layout=tesvikhtml&tmpl=component&tesvikId=' . $row['ID'] . '" class="btn btn-xs btn-danger">PDF</a></td>';
 		} else {
-			echo '<td><a target="_blank" href="index.php?option=com_tesvik&view=tesvik&layout=tesvikpdf&tesvikId=' . $row['ID'] . '" class="btn btn-xs btn-danger">PDF</a></td>';
+			echo '<td><a target="_blank" href="index.php?option=com_tesvik&view=tesvik&layout=tesvikpdf&tesvikId=' . $row['ID'] . '" class="btn btn-xs btn-danger">PDF</a><a target="_blank" href="index.php?option=com_tesvik&view=tesvik&layout=tesvikhtml&tmpl=component&tesvikId=' . $row['ID'] . '" class="btn btn-xs btn-danger">WEB</a></td>';
 		}
 			echo '</tr>';
 			$say++;

@@ -216,7 +216,7 @@ class TesvikModelTesvik extends JModel
         $data = $db->prep_exec($sql,array($tesvikId));
 
         if($data){
-            $sql = "UPDATE M_BELGE_TESVIK_ADAY SET ODENDI = -1, ACIKLAMA = 'IBAN HATALI' WHERE ODENDI = 0 AND TESVIK_ID = ?
+            $sql = "UPDATE M_BELGE_TESVIK_ADAY SET ODENDI = -3, ACIKLAMA = 'IBAN 26 HANE OLMALI' WHERE ODENDI = 0 AND TESVIK_ID = ?
                 AND BELGE_NO IN (
                   SELECT BELGENO FROM M_BELGE_SORGU MBS
                     INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBS.TCKIMLIKNO = MBO.TC_KIMLIK
@@ -236,7 +236,7 @@ class TesvikModelTesvik extends JModel
             }
         }else{
             $filepath = "tesvikpdf/" . $tesvikId . "_4447_Ek_3_Yaranlanici_Listesi.pdf";
-            if (is_file(EK_FOLDER . $filepath)) {
+            if (is_file(EK_FOLDER . $filepath) and $_GET['layout']=="tesvikpdf") {
                 header("location: index.php?dl=" . $filepath);
                 exit;
             } else {
@@ -1457,18 +1457,21 @@ ORDER BY MHK.SINAV_TARIHI DESC";
 
         $sql = "SELECT MBS.BELGENO, MBS.AD, MBS.SOYAD, MBS.TCKIMLIKNO, MBS.KURULUS_ADI, MBS.BELGE_DUZENLEME_TARIHI,
     			MBS.YETERLILIK_ADI, MBS.YETERLILIK_SEVIYESI, MBS.YETERLILIK_ID, 
-    			MBO.ADI, MBO.SOYADI, MBO.TC_KIMLIK, MBO.TELEFON, MBO.IBAN, MAT.*	
+    			MBO.ADI, MBO.SOYADI, MBO.TC_KIMLIK, MBO.TELEFON, MBO.IBAN, MAT.*,
+case when (SELECT count(*) from m_belge_tesvik_aday where belge_no=MBS.BELGENO and odendi<>-3)>1 then 0 else MAT.BELGE_MASRAF_UCRET end as BELGE_UCRET
     			FROM M_BELGE_SORGU MBS
 				INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON(MBS.TCKIMLIKNO = MBO.TC_KIMLIK)
 				INNER JOIN M_BELGE_TESVIK_ADAY MAT ON(MBS.BELGENO = MAT.BELGE_NO)
 				WHERE MBS.TESVIK = 2 AND MAT.TESVIK_ID = ? AND MAT.ODENDI = 0
-				ORDER BY MBS.BELGE_DUZENLEME_TARIHI ASC, ADI ASC, SOYADI ASC, MBS.BELGE_MASRAF DESC
+				ORDER BY BELGE_UCRET desc, ADI ASC, SOYADI ASC, MBS.BELGE_MASRAF DESC
 				";
 
         $tesvikAday = $db->prep_exec($sql, array($tId));
 
+
         return array('AdayBilgi' => $tesvikAday);
     }
+
 
     function testDuzeltme()
     {

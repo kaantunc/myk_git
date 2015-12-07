@@ -560,7 +560,7 @@ ORDER BY M_KURULUS_TESVIK_ISTEK.BIT_TARIH DESC";
         $db = JFactory::getOracleDBO();
         $sql = "select s.TCKIMLIKNO,s.AD,s.SOYAD,s.BELGENO,o.IBAN,AD.ODENDI,AD.ACIKLAMA,o.IBAN from M_BELGE_TESVIK_ADAY ad, M_BELGE_SORGU s,M_BELGELENDIRME_OGRENCI o
 			where s.BELGENO=ad.BELGE_NO and s.TCKIMLIKNO=o.TC_KIMLIK
-			and (ad.ODENDI=-1 or ad.ODENDI=-2)
+			and (ad.ODENDI=-1 or ad.ODENDI=-2 or ad.ODENDI=-3)
 			and ad.BELGE_NO NOT IN (select BELGE_NO from M_BELGE_TESVIK_ADAY where ODENDI=1 or ODENDI=0)
 			and s.KURULUS_ID=?
 			order by s.AD,s.SOYAD";

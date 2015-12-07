@@ -59,6 +59,7 @@ $FonNet = 0;
 $TopBelgeMasraf = 0;
 $temmuzOncesi = 0;
 $temSay = 0;
+
 foreach ($AdayBilgi as $row) {
     $say++;
     $html .= '<tr nobr="true">';
@@ -83,12 +84,13 @@ foreach ($AdayBilgi as $row) {
 
     if ($row['BELGE_MASRAF'] == 1) {
         $html .= '<td width="6%" align="center">0,00</td>';
-        $temmuzOncesi += UcretDuzenle($row['BELGE_MASRAF_UCRET']);
+        $temmuzOncesi += UcretDuzenle($row['BELGE_UCRET']);
         $temSay++;
     } else {
-        $html .= '<td width="6%" align="center">' . number_format(UcretDuzenle($row['BELGE_MASRAF_UCRET']), 2, ',', '.') . '</td>';
-        $TopBelgeMasraf += UcretDuzenle($row['BELGE_MASRAF_UCRET']);
+        $html .= '<td width="6%" align="center">' . number_format(UcretDuzenle($row['BELGE_UCRET']), 2, ',', '.') . '</td>';
+        $TopBelgeMasraf += UcretDuzenle($row['BELGE_UCRET']);
     }
+
 
     $html .= '<td width="13%">' . trim(str_replace(' ', '', $row['IBAN'])) . '</td>';
 // $html .= '<td width="13%" align="center">TR888888888889999999999999999999</td>';

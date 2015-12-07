@@ -1255,6 +1255,8 @@ class Meslek_Std_TaslakModelTaslak_Kaydet extends JModel
 
     function taslakKaydetYeni($post, $evrak_id)
     {
+    	$error['ERROR_STATUS'] = false;
+    	$error['ERROR_MESSAGE'] = "";
         $_db = &JFactory::getOracleDBO();
         $section = $_GET['section'];
         $standart_id = $post['standart_id'];
@@ -1399,7 +1401,7 @@ class Meslek_Std_TaslakModelTaslak_Kaydet extends JModel
                     break;
             }
         }
-        return true;
+        return $error;
     }
 
     function basvuruKurulusaGonder($evrak_id, $standart_id)
