@@ -179,7 +179,7 @@ class TesvikModelTesvik extends JModel
         $db = JFactory::getOracleDBO();
 
         $sql = "SELECT COUNT(*) AS SAY FROM M_BELGE_TESVIK_ADAY
-				WHERE TESVIK_ID = ?";
+				WHERE TESVIK_ID = ? AND ODENDI != -3";
 
         $tesvikUser = array();
         foreach ($tesvik as $row) {

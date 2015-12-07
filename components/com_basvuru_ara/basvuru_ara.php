@@ -277,7 +277,7 @@ function listele ($sonuclar, $itemIdStrOrj, $user){
 								<tr><td>Ekler<a '.$clickHTML2.'><img alt="PDF" src="'.SITE_URL.'/templates/elegance/images/pdf_button.png"></a></td></tr></table></td>';
 			}
 			else{
-				$pdfLinkleri = '<td>Başvuru Eki<br><a href="index.php?dl=basvuruDosyalari/'.$satir['USER_ID'].'/'.$satir['EVRAK_ID'].'/'.$satir['BASVURU_EK_DOSYASI_PATH'].'" ><img alt="PDF" src="'.SITE_URL.'/templates/elegance/images/pdf_button.png"></a></td>';
+				$pdfLinkleri = '<td><a href="index.php?dl=basvuruDosyalari/'.$satir['USER_ID'].'/'.$satir['EVRAK_ID'].'/'.$satir['BASVURU_EK_DOSYASI_PATH'].'" ><img alt="PDF" src="'.SITE_URL.'/templates/elegance/images/pdf_button.png"></a></td>';
 				}
 				
 
