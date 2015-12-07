@@ -165,8 +165,8 @@ jQuery(document).ready(function(){
         		jQuery('#FormABHibe').append(jQuery('div#UcretDuzTalep input'));
         		jQuery('#FormABHibe').append(jQuery('div#UcretDuzTalep textarea'));
             }
-            //jQuery('#FormABHibe').submit();
-            jQuery.unblockUI();
+            jQuery('#FormABHibe').submit();
+            //jQuery.unblockUI();
         }
     });
 
