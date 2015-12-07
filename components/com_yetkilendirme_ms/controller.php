@@ -278,10 +278,10 @@ class Yetkilendirme_MsController extends JController {
 		echo json_encode($result);
 	}
 
-	function kurulusKaydetMSAjax(){
+	function kurulusKaydetAjax(){
 		$post  = JRequest::get( 'post' );
 		$model = &$this->getModel('yetkilendirme_ajax');
-		$result = $model->kurulusKaydetMSAjax($post);
+		$result = $model->kurulusKaydetAjax($post);
 		echo json_encode($result);
 	}
 

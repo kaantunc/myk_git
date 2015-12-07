@@ -1052,16 +1052,6 @@ jQuery(document).ready(function() {
 		kurulusKaydetMSAjax (protokol_id,kurulus_id,kurulusTuru,tip);
 	});
 
-	jQuery('.kurulusradioyardimci').live('click', function (e) {
-		jQuery(this).closest('tr').find('[type=checkbox]').prop('checked', true);
-		data=jQuery(this).closest('tr').find('[type=checkbox]').val().split("-");
-		kurulus_id=data[0];
-		protokol_id=data[1];
-		kurulusTuru=2;
-		tip="kaydet";
-		kurulusKaydetMSAjax (protokol_id,kurulus_id,kurulusTuru,tip);
-	});
-
 	jQuery('.kurulusCheckbox').live('click', function (e) {
 		if (jQuery(this).prop('checked')!=true) {
 			data = jQuery(this).val().split("-");
@@ -1076,7 +1066,7 @@ jQuery(document).ready(function() {
 	function kurulusKaydetMSAjax(protokol_id, kurulus_id, kurulusTuru, tip){
 		jQuery.blockUI();
 		jQuery.ajax({
-			url: "index.php?option=com_yetkilendirme_ms&task=kurulusKaydetMSAjax&format=raw",
+			url: "index.php?option=com_yetkilendirme_ms&task=kurulusKaydetAjax&format=raw",
 			data: "protokol_id="+protokol_id+"&kurulus_id="+kurulus_id+"&kurulusTuru="+kurulusTuru+"&tip="+tip,
 			type: "POST",
 			dataType: 'json',

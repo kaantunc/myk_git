@@ -16,7 +16,7 @@ $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/a
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/pagination.js' );
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/dosya_gonder.js' );
 $document->addScript( SITE_URL.'/templates/paradigm_shift/js/jquery.validate.min.js' );
-
+$document->addScript (SITE_URL.'/templates/elegance/js/jquery.blockUI.js');
 $document->addStyleSheet( SITE_URL.'components/com_yetkilendirme_yet/assets/yetkilendirme_yet.css' );
 $document->addScript( SITE_URL.'components/com_yetkilendirme_yet/assets/yetkilendirme_yet.js' );
 
@@ -284,7 +284,14 @@ class Yetkilendirme_YetController extends JController {
 		$result = $model->updateYeterlilikStatus($post);
 		echo json_encode($result);
 	}
-	
+
+	function kurulusKaydetAjax(){
+		$post  = JRequest::get( 'post' );
+		$model = &$this->getModel('yetkilendirme_yet_ajax');
+		$result = $model->kurulusKaydetAjax($post);
+		echo json_encode($result);
+	}
+
 }
 
 ?>

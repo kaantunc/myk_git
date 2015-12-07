@@ -689,6 +689,33 @@ class Yetkilendirme_OrtakModelYetkilendirme_Ortak_Ajax extends JModel {
 			ajax_error_response('Hata Oluştu');
 		}
 	}
-	
+
+	function kurulusKaydetAjax($post)
+	{
+		$protokol_id = $post['protokol_id'];
+		$kurulus_id = $post['kurulus_id'];
+		$kurulusTuru = $post['kurulusTuru'];
+		$tip = $post['tip'];
+		if ($protokol_id == '' or $kurulus_id == '' or $kurulusTuru == '') {
+			return "Hata";
+		}
+
+
+		$db = &JFactory::getOracleDBO();
+
+		$sql = "delete from m_kurulus_yetki where user_id=? and YETKI_ID=?";
+		$params = array($kurulus_id, $protokol_id);
+		$db->prep_exec_insert($sql, $params);
+		$mesaj = "Kuruluş, protokolden silindi.";
+		if ($tip == "kaydet") {
+			$sql = "INSERT INTO m_kurulus_yetki (user_id, YETKI_ID, kurulus_turu) VALUES (?, ?, ?)";
+			$params = array($kurulus_id, $protokol_id, $kurulusTuru);
+			$db->prep_exec_insert($sql, $params);
+			$mesaj = "Kuruluş, protokole eklendi.";
+		}
+		return $mesaj;
+	}
+
+
 }
 ?>
