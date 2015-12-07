@@ -15,7 +15,7 @@ $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/a
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/pagination.js' );
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/dosya_gonder.js' );
 $document->addScript( SITE_URL.'/templates/paradigm_shift/js/jquery.validate.min.js' );
-
+$document->addScript (SITE_URL.'/templates/elegance/js/jquery.blockUI.js');
 $document->addStyleSheet( SITE_URL.'components/com_yetkilendirme_ms/assets/yetkilendirme_ms.css' );
 $document->addScript( SITE_URL.'components/com_yetkilendirme_ms/assets/yetkilendirme_ms.js' );
 
@@ -270,14 +270,21 @@ class Yetkilendirme_MsController extends JController {
 		$result = $model->revizyonOlustur ($datas);
 		echo json_encode($result);
 	}
-	
+
 	function updateStandartStatus(){
 		$post  = JRequest::get( 'post' );
 		$model = &$this->getModel('yetkilendirme_ms');
 		$result = $model->updateStandartStatus($post);
 		echo json_encode($result);
 	}
-	
+
+	function kurulusKaydetMSAjax(){
+		$post  = JRequest::get( 'post' );
+		$model = &$this->getModel('yetkilendirme_ajax');
+		$result = $model->kurulusKaydetMSAjax($post);
+		echo json_encode($result);
+	}
+
 }
 
 ?>

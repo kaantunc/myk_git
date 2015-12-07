@@ -340,11 +340,11 @@ foreach($yetkilendirmeTurleri as $yTuru){
 							}
 						
 							$allTheRowContents .= '<tr class=" '.$class.' ">';
-							$allTheRowContents .= '<td><input type="checkbox" value="'.$kuruluslar[$i]["USER_ID"].'" name="kurulusCheckbox[]" class="kurulusCheckbox" '.$checked.' ></td>';
+							$allTheRowContents .= '<td><input type="checkbox" value="'.$kuruluslar[$i]["USER_ID"].'-'.$yetkilendirmeID.'" name="kurulusCheckbox[]" class="kurulusCheckbox" '.$checked.' ></td>';
 							
 							$allTheRowContents .= '<td>';
-							$allTheRowContents .= '<input type="radio" class="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'"  name="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'" value="'.PM_YETKILENDIRME_KURULUS_TURU__ASIL.'" '.$yetkilendirmeKurulusTuru_AsilChecked.'>Asıl<br>';
-							$allTheRowContents .= '<input type="radio" class="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'"  name="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'" value="'.PM_YETKILENDIRME_KURULUS_TURU__YARDIMCI.'" '.$yetkilendirmeKurulusTuru_YardimciChecked.'>Yardımcı';
+							$allTheRowContents .= '<input type="radio" class="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].' kurulusradioasil"  name="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'" value="'.PM_YETKILENDIRME_KURULUS_TURU__ASIL.'" '.$yetkilendirmeKurulusTuru_AsilChecked.'>Asıl<br>';
+							$allTheRowContents .= '<input type="radio" class="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].' kurulusradioyardimci"  name="kurulusTuruRadioButtons-'.$kuruluslar[$i]["USER_ID"].'" value="'.PM_YETKILENDIRME_KURULUS_TURU__YARDIMCI.'" '.$yetkilendirmeKurulusTuru_YardimciChecked.'>Yardımcı';
 							$allTheRowContents .= '</td>';
 							
 							$allTheRowContents .= '<td> '.$kuruluslar[$i]["KURULUS_ADI"].'</td>';
@@ -374,14 +374,14 @@ foreach($yetkilendirmeTurleri as $yTuru){
 				</div>
 				
 				<?php 
-				if(isset($yetkilendirmeID))
-				{
-					echo '<br><br><div class="submit_button">
-					<input style="padding:0px; float:left;" type="submit" value="'.$kaydetButtonTexti.'"
-					name="kaydetButton" class="kaydetButtonx" id="kaydetButton" />
-						<br></div>';
-						
-				}
+//				if(isset($yetkilendirmeID))
+//				{
+//					echo '<br><br><div class="submit_button">
+//					<input style="padding:0px; float:left;" type="submit" value="'.$kaydetButtonTexti.'"
+//					name="kaydetButton" class="kaydetButtonx" id="kaydetButton" />
+//						<br></div>';
+//
+//				}
 					
 			?>
 				
@@ -389,13 +389,14 @@ foreach($yetkilendirmeTurleri as $yTuru){
 			<div style="clear: both;"></div>
 		</div>
 
-		<?php 	if(!isset($yetkilendirmeID))
+		<?php
+		if(!isset($yetkilendirmeID))
 				{
 					echo '<div class="submit_button">
 					<input type="submit" value="'.$kaydetButtonTexti.'"
 					name="kaydetButton" class="kaydetButton" id="kaydetButton" />
 					</div>';
-						
+
 				}
 		?>
 				
@@ -1029,6 +1030,65 @@ jQuery(document).ready(function() {
     } );
   	//
 
+	<?php
+		if(isset($yetkilendirmeID)){
+		?>
+	jQuery('.kurulusradioasil').live('click', function (e) {
+		jQuery(this).closest('tr').find('[type=checkbox]').prop('checked', true);
+		data=jQuery(this).closest('tr').find('[type=checkbox]').val().split("-");
+		kurulus_id=data[0];
+		protokol_id=data[1];
+		kurulusTuru=1;
+		tip="kaydet";
+		kurulusKaydetMSAjax (protokol_id,kurulus_id,kurulusTuru,tip);
+	});
+	jQuery('.kurulusradioyardimci').live('click', function (e) {
+		jQuery(this).closest('tr').find('[type=checkbox]').prop('checked', true);
+		data=jQuery(this).closest('tr').find('[type=checkbox]').val().split("-");
+		kurulus_id=data[0];
+		protokol_id=data[1];
+		kurulusTuru=2;
+		tip="kaydet";
+		kurulusKaydetMSAjax (protokol_id,kurulus_id,kurulusTuru,tip);
+	});
+
+	jQuery('.kurulusradioyardimci').live('click', function (e) {
+		jQuery(this).closest('tr').find('[type=checkbox]').prop('checked', true);
+		data=jQuery(this).closest('tr').find('[type=checkbox]').val().split("-");
+		kurulus_id=data[0];
+		protokol_id=data[1];
+		kurulusTuru=2;
+		tip="kaydet";
+		kurulusKaydetMSAjax (protokol_id,kurulus_id,kurulusTuru,tip);
+	});
+
+	jQuery('.kurulusCheckbox').live('click', function (e) {
+		if (jQuery(this).prop('checked')!=true) {
+			data = jQuery(this).val().split("-");
+			kurulus_id = data[0];
+			protokol_id = data[1];
+			kurulusTuru = 0;
+			tip = "sil";
+			kurulusKaydetMSAjax(protokol_id, kurulus_id, kurulusTuru, tip);
+		}
+	});
+
+	function kurulusKaydetMSAjax(protokol_id, kurulus_id, kurulusTuru, tip){
+		jQuery.blockUI();
+		jQuery.ajax({
+			url: "index.php?option=com_yetkilendirme_ms&task=kurulusKaydetMSAjax&format=raw",
+			data: "protokol_id="+protokol_id+"&kurulus_id="+kurulus_id+"&kurulusTuru="+kurulusTuru+"&tip="+tip,
+			type: "POST",
+			dataType: 'json',
+			success: function(data) {
+				jQuery.unblockUI();
+				alert (data);
+			}
+		});
+	}
+	<?php
+	}
+	?>
 
 	
 } );

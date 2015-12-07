@@ -150,8 +150,13 @@ if($basvuru['BASVURU_DURUM_ID'] == "" || $basvuru['BASVURU_DURUM_ID'] == "-1" ||
 <div class="form_element cf_button">
 	<input type="button" value="Yeni Döküman + " id="NewDocs" style="margin-right:10px;" />
 </div>
-<?php } ?>
+	<div class="cfclear">&nbsp;</div>
+<?php }
 
+	if($basvuru['BASVURU_DURUM_ID'] == "" || $basvuru['BASVURU_DURUM_ID'] == "-1" || $basvuru['BASVURU_DURUM_ID'] == "-2" || $basvuru['BASVURU_DURUM_ID'] == "2" || $this->ssyetkili == "1" ){?>
+	<input style="padding:5px; margin: 10px 0 25px 29px;" value="Kaydet" name="kaydet" type="submit" />
+	<?php }
+?>
 <div id="loaderGif" style=" min-width: 10px; min-height:10px; background-color: white; border:1px solid #00A7DE; display: none; padding:20px">
     <img src="media/system/images/ajax-loader.gif">
 </div>
