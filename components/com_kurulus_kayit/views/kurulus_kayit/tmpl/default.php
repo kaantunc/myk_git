@@ -137,7 +137,7 @@ $il = $this->il;
 	<div class="form_item">
 	  <div class="form_element cf_textbox">
 	    <label class="cf_label" style="width: 150px;" name="web_title">Web</label>
-	    <input class="cf_inputbox url required" maxlength="150" size="30" title="" id="text_12" name="web" type="text" />
+	    <input class="cf_inputbox required" maxlength="150" size="30" title="" id="text_12" name="web" type="text" />
 	  
 	  </div>
 	  <div class="cfclear">&nbsp;</div>

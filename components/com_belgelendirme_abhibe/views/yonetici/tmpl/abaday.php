@@ -1,6 +1,9 @@
 <?php
 $bNo = $this->bNo;
 ?>
+<div class="anaDiv text-center font18 fontBold hColor">
+	AB Hibe Aday Kayıt İşlemleri
+</div>
 <div class="anaDiv">
     <div class="div30 fontBold hColor font18">
         Aday Belge No:

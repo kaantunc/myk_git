@@ -902,9 +902,10 @@ public function AdayBasvuruFile($IstekId){
         $db = JFactory::getOracleDBO ();
 
         $return = array();
-        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
-                  WHERE BELGE_NO != ? AND TESVIK = 2
-                   AND TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)";
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO != ? AND MBH.TESVIK = 2
+                   AND MBH.TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)";
         $data = $db->prep_exec($sql,array($bNo,$bNo));
         if($data){
             $return['hata'] = true;
@@ -912,8 +913,9 @@ public function AdayBasvuruFile($IstekId){
             return $return;
         }
 
-        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
-                  WHERE BELGE_NO = ? AND TESVIK = 1";
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO = ? AND MBH.TESVIK = 1";
         $data = $db->prep_exec($sql,array($bNo));
         if($data){
             $return['hata'] = true;
@@ -921,8 +923,9 @@ public function AdayBasvuruFile($IstekId){
             return $return;
         }
 
-        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR
-                  WHERE BELGE_NO = ? AND TESVIK = 2";
+        $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBH
+        		INNER JOIN M_BELGE_SORGU MBS ON MBH.BELGE_NO = MBS.BELGENO
+                  WHERE MBH.BELGE_NO = ? AND MBH.TESVIK = 2";
         $data = $db->prep_exec($sql,array($bNo));
         if($data){
             $return['hata'] = true;
@@ -935,7 +938,7 @@ public function AdayBasvuruFile($IstekId){
 					WHERE MBS.BASLANGIC_TARIHI > TO_DATE((SELECT PRO_TARIH FROM M_BELGELENDIRME_HAK_KAZANANLAR INNER JOIN AB_KURULUS_PROTOKOL USING(KURULUS_ID) WHERE BELGE_NO = ?))
 					AND MBS.KURULUS_ID = (SELECT KURULUS_ID FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)
 					AND MBA.TC_KIMLIK = (SELECT TC_KIMLIK FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?)";
-        $dat = $db->prep_exec($sql, array());
+        $dat = $db->prep_exec($sql, array($bNo,$bNo,$bNo));
 
         if(!$dat){
             $return['hata'] = true;
@@ -943,17 +946,8 @@ public function AdayBasvuruFile($IstekId){
             return $return;
         }
 
-        /*$sql = "SELECT * FROM AB_HIBE_KURULUS_ADAY ABKA
-                  INNER JOIN AB_HIBE_KURULUS_ISTEK ABKI ON ABKA.ISTEK_ID = ABKI.ID
-                  WHERE ABKA.BELGE_NO = ?";
-        $data = $db->prep_exec($sql,array($bNo));
-        if($data){
-            $return['hata'] = true;
-            $return['message'] = $bNo." Belge Numaralı aday AB Hibesinden ödeme aşamasında olduğu için değiştiremezsiniz.";
-            return $return;
-        }*/
-
         $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR MBHK
+        		INNER JOIN M_BELGE_SORGU MBS ON MBHK.BELGE_NO = MBS.BELGENO
                   INNER JOIN M_BELGELENDIRME_OGRENCI MBO ON MBHK.TC_KIMLIK = MBO.TC_KIMLIK
                   WHERE MBHK.BELGE_NO = ?";
         $data = $db->prep_exec($sql,array($bNo));
@@ -962,7 +956,7 @@ public function AdayBasvuruFile($IstekId){
             $birimUcretiHesabi = FormABHibeUcretHesabi::BasariliBirimUcretiHesabi($data[0]['TC_KIMLIK'],$data[0]['YETERLILIK_ID'], $data[0]['SINAV_TARIHI'],$data[0]['KURULUS_ID']);
             return array('hata' => false, 'AdayBilgi'=>$data[0], 'UcretBilgi'=>$birimUcretiHesabi);
         }else{
-            return array('hata'=>true, 'message'=>'Böyle bir Belge Numarası sistemde kayıtlı değildir.');
+            return array('hata'=>true, 'message'=>'Böyle bir Belge Numarası henüz sistemde kayıtlı değildir.');
         }
     }
 
@@ -974,6 +968,9 @@ public function AdayBasvuruFile($IstekId){
         $basFile = $files['basForm'];
         $dezFile = $files['adayDez'];
         $itDurum = $post['itirazdurum'];
+        $pathItiraz = '';
+        $pathDez = '';
+        $pathBas = '';
         $return = array();
 
         $sql = "SELECT * FROM M_BELGELENDIRME_HAK_KAZANANLAR WHERE BELGE_NO = ?";
@@ -1013,7 +1010,7 @@ public function AdayBasvuruFile($IstekId){
         }
 
         //Dezavantaj Bilgisi Varsa Ekle
-        if(count($dezFile)>0){
+        if($dezFile['size'] > 0){
 
             if($dezFile['error'] == 0 && $dezFile['type'] == "application/pdf")
             {
@@ -1081,6 +1078,7 @@ public function AdayBasvuruFile($IstekId){
             return $return;
         }
 
+        $nextId = $db->getNextVal('SEQ_AB_HIBE_ADAY_BASVURU');
         $sql = "INSERT INTO AB_HIBE_ADAY_BASVURU (ID,TC_KIMLIK,SINAV_ID,DOKUMAN,BELGE_NO,TARIH)
 				VALUES(?,?,?,?,?,SYSDATE)";
 
@@ -1111,7 +1109,7 @@ public function AdayBasvuruFile($IstekId){
             return $return;
         }
         // Durumunu Hibeden yararlanacak yap
-        $sqlUp = "UPDATE M_BELGE_SORGU SET AHBIBE = 1 WHERE BELGENO = ? AND TCKIMLIKNO = ?";
+        $sqlUp = "UPDATE M_BELGE_SORGU SET ABHIBE = 1 WHERE BELGENO = ? AND TCKIMLIKNO = ?";
         if(!$db->prep_exec_insert($sqlUp,array($bNo,$tc))){
             $this->AbHibeAdayBilgiSil($bNo);
             $return['hata'] = true;
@@ -1142,7 +1140,7 @@ public function AdayBasvuruFile($IstekId){
         $sqlUp = "UPDATE M_BELGELENDIRME_HAK_KAZANANLAR SET TESVIK = 0 WHERE BELGE_NO = ?";
         $db->prep_exec_insert($sqlUp,array($bNo));
 
-        $sqlUp = "UPDATE M_BELGE_SORGU SET AHBIBE = 0 WHERE BELGENO = ?";
+        $sqlUp = "UPDATE M_BELGE_SORGU SET ABHIBE = 0 WHERE BELGENO = ?";
         $db->prep_exec_insert($sqlUp,array($bNo));
 
         return true;

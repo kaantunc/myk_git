@@ -182,7 +182,7 @@ class Yetkilendirme_MsController extends JController {
 	{
 		$model 		 = $this->getModel('yetkilendirme_kaydet');
 		$yetkilendirmeArr = JRequest::getVar('yetkilendirmelerCheckbox');
-		$message	 = $model->yetkilendirmeleriSil($yetkilendirmeArr, &$messageType);
+		$message	 = $model->yetkilendirmeleriSil($yetkilendirmeArr, @$messageType);
 		$this->setRedirect('index.php?option=com_yetkilendirme_ms', $message, $messageType);
 	}
 	
