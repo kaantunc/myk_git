@@ -2,7 +2,7 @@
 $bNo = $this->bNo;
 ?>
 <div class="anaDiv text-center font18 fontBold hColor">
-	AB Hibe Aday Kayıt İşlemleri
+	AB Hibesi Aday Bildiriminde Bulunma (Belgesi Basılmış Adaylar İçin)
 </div>
 <div class="anaDiv">
     <div class="div30 fontBold hColor font18">
