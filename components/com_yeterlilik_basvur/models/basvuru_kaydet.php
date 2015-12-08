@@ -819,17 +819,17 @@ class Yeterlilik_BasvurModelBasvuru_Kaydet extends JModel {
 			case "dosya":
 			case "basvuru_dokumani":
 			
-				$sql = "SELECT BASVURU_EK_DOSYASI_PATH FROM m_basvuru WHERE EVRAK_ID = ?";
+				$sql = "SELECT BASVURU_EK_DOSYASI_PATH, USER_ID FROM m_basvuru WHERE EVRAK_ID = ?";
 				$data = $db->prep_exec($sql, array($evrak_id));
 				$previouslySavedRaporPath = $data[0]['BASVURU_EK_DOSYASI_PATH'];
-				$directory = EK_FOLDER."basvuruDosyalari/".$user_id."/".$evrak_id."/";
+				$directory = EK_FOLDER."basvuruDosyalari/".$data[0]['USER_ID']."/".$evrak_id."/";
 				//if(strlen($previouslySavedRaporPath)==0)
 				//{
 				//RAPOR UPDATE
 				if ($_POST['raporSilCheckbox']=='1' && strlen($previouslySavedRaporPath)>0){
 					global $mainframe;
 					
-					$sildir=EK_FOLDER."basvuruDosyalari/".$user_id."/".$evrak_id."/".$previouslySavedRaporPath;
+					$sildir=EK_FOLDER."basvuruDosyalari/".$data[0]['USER_ID']."/".$evrak_id."/".$previouslySavedRaporPath;
 					//			foreach(glob($sildir . '/*') as $file) {
 					if(is_dir($sildir))
 						rrmdir($sildir);
@@ -844,8 +844,8 @@ class Yeterlilik_BasvurModelBasvuru_Kaydet extends JModel {
 					if(strlen($previouslySavedRaporPath)>0 && $_POST['degistirFieldSelected']=='1')
 					{
 						global $mainframe;
-						$directory = EK_FOLDER."basvuruDosyalari/".$_POST["kurulus_id"]."/".$evrak_id."/";
-						$sildir=EK_FOLDER."basvuruDosyalari/".$user_id."/".$evrak_id."/".$previouslySavedRaporPath;
+						$directory = EK_FOLDER."basvuruDosyalari/".$data[0]['USER_ID']."/".$evrak_id."/";
+						$sildir=EK_FOLDER."basvuruDosyalari/".$data[0]['USER_ID']."/".$evrak_id."/".$previouslySavedRaporPath;
 						//				foreach(glob($sildir . '/*') as $file) {
 						if(is_dir($sildir))
 							rrmdir($sildir);
@@ -864,16 +864,16 @@ class Yeterlilik_BasvurModelBasvuru_Kaydet extends JModel {
 								mkdir($directory, 0700,true);
 							}
 							$normalFile = FormFactory::formatFilename ($_FILES[$dosya][name][0]);
-							$_FILES[$dosya][name]=	$directory . $normalFile;
-							
-							$content = $this->readDocument($_FILES[$dosya][tmp_name][0]);
-							
-							move_uploaded_file($_FILES[$dosya][tmp_name],$_FILES[$dosya][name][0]);
-						
+							$_FILES[$dosya][name][0]=	$directory . $normalFile;
+
+							if(!move_uploaded_file($_FILES[$dosya][tmp_name][0],$_FILES[$dosya][name][0])){
+								return false;
+							}
+							$content = $this->readDocument($_FILES[$dosya][name][0]);
 							$sql = "UPDATE m_basvuru SET BASVURU_EK_DOSYASI_PATH = ?,BASVURU_EK_DOSYASI_CONTENT = ? WHERE EVRAK_ID = ?";
 							return $db->prep_exec_insert($sql, array($normalFile, $content, $evrak_id));
 						}
-					}else if(strlen($previouslySavedRaporPath)==0 && strlen($_FILES[$dosya][name])>0){ 
+					}else if(strlen($previouslySavedRaporPath)==0 && strlen($_FILES[$dosya][name][0])>0){
 						if($_FILES[$dosya][size][0]>5500000){
 							array_push($error, array("file_type"     => $dosya,
 													"file_name"     => $_FILES[$dosya][name],
@@ -882,12 +882,12 @@ class Yeterlilik_BasvurModelBasvuru_Kaydet extends JModel {
 							if (!file_exists($directory)){
 								mkdir($directory, 0700,true);
 							}
-							$normalFile = FormFactory::formatFilename ($_FILES[$dosya][name]);
-							$_FILES[$dosya][name]=	$directory . $normalFile;
+							$normalFile = FormFactory::formatFilename ($_FILES[$dosya][name][0]);
+							$_FILES[$dosya][name][0]=	$directory . $normalFile;
 							
-							$content = $this->readDocument($_FILES[$dosya][tmp_name]);
+							$content = $this->readDocument($_FILES[$dosya][tmp_name][0]);
 							
-							move_uploaded_file($_FILES[$dosya][tmp_name],$_FILES[$dosya][name]);
+							move_uploaded_file($_FILES[$dosya][tmp_name][0],$_FILES[$dosya][name][0]);
 							
 							$sql = "UPDATE m_basvuru SET BASVURU_EK_DOSYASI_PATH = ?,BASVURU_EK_DOSYASI_CONTENT = ? WHERE EVRAK_ID = ?";
 							$db->prep_exec_insert($sql, array($normalFile, $content, $evrak_id));

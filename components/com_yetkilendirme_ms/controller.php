@@ -88,7 +88,7 @@ class Yetkilendirme_MsController extends JController {
 			}
 			
 			$message = $this->yetkilendirmeKaydet_VarolanYetkilendirmeyiDuzenle($yetkilendirmeID, $yetkilendirmeAdi, $yetkiBaslangici, $yetkiBitisi, $kuruluslar, $yetkilendirmeSuresi, $yetkilendirme_turu, $file_path, $ilgili_protokol_id, $protokolMu[0]);
-			$message = " ".$this->yetkilendirmeKaydet_VarolanYetkilendirmeKuruluslariniDuzenle($yetkilendirmeID, $seciliKurulusIDleri, $seciliKurulusRolleri);
+// 			$message = " ".$this->yetkilendirmeKaydet_VarolanYetkilendirmeKuruluslariniDuzenle($yetkilendirmeID, $seciliKurulusIDleri, $seciliKurulusRolleri);
 			if($message)
 				$message = "Başarıyla kaydedildi";
 			

@@ -1715,7 +1715,7 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
 		
 		$sql = "UPDATE M_BELGELENDIRME_OGRENCI 
 				SET ADI=?, SOYADI=?, DOGUM_TARIHI=TO_DATE(?, 'dd.mm.yyyy'), CINSIYETI=?, EGITIMI=?, CALISMA_DURUMU=?, 
-				SON_DUZENLEYEN_KURULUS_ID=?,TELEFON=?,IBAN=?,EMAIL=?
+				SON_DUZENLEYEN_KURULUS_ID=?,TELEFON=?,IBAN=?,EMAIL=?,SON_DUZENLEME_TARIHI=SYSDATE
 				WHERE TC_KIMLIK=?";
 		
 		$param = array(

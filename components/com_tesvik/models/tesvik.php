@@ -1386,7 +1386,7 @@ ORDER BY MHK.SINAV_TARIHI DESC";
                 $sqlOdendi = $sql . " AND ODENDI = 1";
                 $datOdendi = $db->prep_exec($sqlOdendi, array($row['ID']));
 
-                $sqlOdenmedi = $sql . " AND ODENDI = -1";
+                $sqlOdenmedi = $sql . " AND (ODENDI = -1 OR ODENDI = -2)";
                 $datOdenmedi = $db->prep_exec($sqlOdenmedi, array($row['ID']));
 
                 $TesvikOdemesi[$row['ID']] = array('odendi' => $datOdendi[0]['SAY'], 'odenmedi' => $datOdenmedi[0]['SAY']);
@@ -1401,7 +1401,7 @@ ORDER BY MHK.SINAV_TARIHI DESC";
 
         $sql = "SELECT * FROM M_BELGE_TESVIK_ADAY MTA
 				INNER JOIN M_BELGE_SORGU MBS ON(MTA.BELGE_NO = MBS.BELGENO) 
-				WHERE MTA.TESVIK_ID = ? AND MTA.ODENDI = -1";
+				WHERE MTA.TESVIK_ID = ? AND (MTA.ODENDI = -1 OR MTA.ODENDI = -2)";
 
         return $db->prep_exec($sql, array($tId));
     }

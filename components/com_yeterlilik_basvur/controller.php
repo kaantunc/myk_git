@@ -6,7 +6,7 @@ jimport('joomla.application.component.controller');
 
 $document = &JFactory::getDocument();
 
-$document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/addrow.js' );
+
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/pagination.js' );
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/dosya_gonder.js' );
 $document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/panel.js' );
@@ -22,7 +22,7 @@ $document->addStyleSheet( SITE_URL.'/templates/elegance/css/border-radius.css' )
 $document->addStyleSheet( SITE_URL.'/components/com_chronocontact/themes/default/css/style1.css' );
 
 $document->addScript (SITE_URL.'includes/js/jquery-ui-1.8.18.custom/js/jquery.ui.monthpicker.js');
-
+$document->addScript( SITE_URL.'/administrator/components/com_chronocontact/js/addrow.js' );
 /**
  * Rate Component Controller
  */
@@ -74,6 +74,7 @@ class Yeterlilik_BasvurController extends JController {
 		$model 		 = $this->getModel('basvuru_kaydet');
 		$session	 = &JFactory::getSession();
 		$post 		 = JRequest::get( 'post' );
+		$files 		 = JRequest::get( 'files' );
 		$layout		 = JRequest::getVar("layout");
 		$data = $model->yeterlilikKaydetYeni($post,$files);
 		

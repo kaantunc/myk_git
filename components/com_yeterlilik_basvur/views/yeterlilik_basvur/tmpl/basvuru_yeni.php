@@ -320,13 +320,13 @@ if($basvuru['BASVURU_DURUM_ID'] == "" || $basvuru['BASVURU_DURUM_ID'] == "-1" ||
 //	createTable(tableName, new Array ('Faaliyet Alanları'));
 //	addFaaliyetValues (dTables.faaliyet, tableName);
 
-	tableName = "yetkiTalep";
+	/*tableName = "yetkiTalep";
 	createTable(tableName , new Array('Yeterliliğin Adı',
                                 	  
  									  'Başvuru tarihine kadar<br />verilmiş belge sayısı',
 									  'Başvuru tarihine kadar<br />gerçekleştirilmiş sınav sayısı'));
 
-	addYetkiTalepValues (dTables.yetkiTalep, tableName);
+	addYetkiTalepValues (dTables.yetkiTalep, tableName);*/
 }
 
 function addSektorValues (sektor, name){
@@ -355,7 +355,7 @@ function addSektorValues (sektor, name){
 	?>
 
 	if (isset (arr))
- 		addTableValues (arr,arrId, params, name);
+ 		addTableValues (arr,arrId, params, name,"");
 }
 
 jQuery('#formGosterButton').live('click',function(e){
