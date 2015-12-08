@@ -77,6 +77,11 @@ if(($yeterlilikBilgi['YETERLILIK_DURUM_ID'] == PM_YETERLILIK_DURUMU__ULUSAL_YETE
 }else{
 	$edit = true;
 }
+
+if ($this->canEdit){
+	$edit = true;
+}
+
 ?>
 <style>
 @CHARSET "UTF-8";

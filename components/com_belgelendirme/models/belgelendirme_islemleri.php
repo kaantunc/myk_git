@@ -1461,6 +1461,7 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
 				
 				$telefon = trim(str_replace(array(' ','(',')','-','+90'), array('','','','',''),(isset($satir['telefon']) ? $satir['telefon'] : "")));
 				$iban = trim(str_replace(' ', '',(isset($satir['iban']) ? $satir['iban'] : "")));
+				$iban = str_replace(array(' ',chr(0xC2) . chr(0xA0)), array('',''), $iban);
 				$eposta = trim(str_replace(' ', '',(isset($satir['eposta']) ? $satir['eposta'] : "")));
 				
 // 				if(strlen($iban) <> 26){
@@ -2499,6 +2500,7 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
             	}else{
             		$kayitliaday[$key]['BIRIM_KODU'] = trim($yeterlilik[0]['YETERLILIK_KODU']).'/'.trim($kayitliaday[$key]['BIRIM_KODU']);
             	}
+				$kayitliaday[$key]['BIRIM_KODU'] = str_replace(" ","",$kayitliaday[$key]['BIRIM_KODU']);
             	$kayitliaday[$key]['SINAV_YERI_ID'] = (int)$kayitliaday[$key]['SINAV_YERI_ID'];
             	
             	if(!in_array($kayitliaday[$key]['TC_KIMLIK'], $tcArray)){
@@ -2518,21 +2520,26 @@ class BelgelendirmeModelBelgelendirme_Islemleri extends JModel {
             	
             	$adaylar[$keyArray[$key]] = $kayitliaday[$key];
             }
-
         $hataArray = array(); 
         for($i=4;$i<(count($dataTest)+4);$i++){
         	if($adaylar[$i] != $dataTest[$i]){
                 $hatalikolonlar="";
                 for ($j = 0; $j < count($keySql); $j++) {
                     if ($adaylar[$i][$keySql[$j]] != $dataTest[$i][$keySql[$j]]) {
-                        $hatalikolonlar.=$keySql[$j]." ";
+						if (($keySql[$j]=="EMAIL" and $dataTest[$i][$keySql[$j]]=="") or ($keySql[$j]=="TELEFON" and $dataTest[$i][$keySql[$j]]=="") or ($keySql[$j]=="IBAN" and $dataTest[$i][$keySql[$j]]=="")){
+
+						}else {
+							$hatalikolonlar .= $keySql[$j] . " ";
+						}
                     }
                 }
-                $return["adayBilgisi"][] = $i." (".$hatalikolonlar.") " ;
+				if ($hatalikolonlar!="") {
+					$return["adayBilgisi"][] = $i . " (" . $hatalikolonlar . ") ";
+				}
         	}
         }    
             
-        if($adaylar == $dataTest){
+        if(count($return["adayBilgisi"])==0){
                 $sinavTarihi = $this->getSinavTarihi($get['sinav']);
                 $sinavYerleri= $this->sinavYeriKontrol($user_id,$yeterlilik_id);
                 $degerlendiriciler=$this->sinavDegerlendiriciKontrol($user_id, $yeterlilik_id);
